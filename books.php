@@ -25,18 +25,28 @@
           	var entry = result.feed.entries[i];
           	var div = document.createElement("div");
 		  	div.className = 'books-index';
-			
-			for (var l = 0; l < entry.links.length; i++) {
-				var link = entry.links[l];
-				var type = link.type;
-				var rel = link.rel;
-				var book_cover;
-				if(rel.toLowerCase().search(/thumbnail/i) > 0){
-					book_cover = rel;
+			var links = entry.xmlNode.getElementsByTagName('link');			
+			for (var l = 0; l < links.length; l++) {
+				var href = links[l].attributes.getNamedItem('href');
+				if(href != null){
+					console.log(href.value);
 				}
-				console.log('type = ' + type);
-				console.log('rel = ' + rel);
-				console.log('cover = ' + book_cover);
+				
+				var type = links[l].attributes.getNamedItem('type');
+				if(type != null){
+					console.log(type.value);
+				
+					var book_cover;
+					if(type.value.toLowerCase() == "image/jpeg"){
+						var rel = links[l].attributes.getNamedItem('rel');
+						if(rel != null){
+							if(rel.value.toLowerCase().search(/thumbnail/i) > 0){
+								book_cover = href.value;
+								console.log('cover = ' + book_cover);
+							}												
+						}
+					}
+				}
 			}
 						
          	// div.appendChild(document.createTextNode(i + ': ' + entry.title));
@@ -48,7 +58,8 @@
     function OnLoad() {
       // Create a feed instance that will grab Digg's feed.
       var feed = new google.feeds.Feed("http://bookserver.archive.org/catalog/opensearch?q=alice");
-    
+    feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
+
       feed.includeHistoricalEntries(); // tell the API we want to have old entries too
       feed.setNumEntries(250); // we want a maximum of 250 entries, if they exist
     
