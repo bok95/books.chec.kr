@@ -1,0 +1,651 @@
+/**
+ * @author     Michael Cook | epubBooks (http://www.epubbooks.com)
+ * @copyright  Copyright (c)2009 epubBooks
+ * @created    02 May 2009
+ * @version    $Id: epubbooks.css 242 2010-10-04 20:41:26Z Mike $
+ */
+
+/* -------------------- */
+/* CORE LAYOUT TEMPLATE */
+/* -------------------- */
+
+/* CORE DEFAULTS */
+*, html, body { margin: 0; padding: 0; }
+html { height: 100%; margin-bottom: 1px; }
+
+
+h1, h2, h3, h4, h5 { margin-bottom: 5px; }
+p  { margin: 10px 0;}
+
+img { 
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+
+/* CORE LAYOUT SETTINGS */
+
+#content, #featured-book-content, #homepage-content, #main-menu, #pages-content {
+  width: 710px;
+  margin: 0 auto;
+}
+#content, #pages-content {
+  overflow: auto;
+  margin: 10px auto;
+  padding: 10px;
+  padding-right: 12px;
+  border: 1px solid black;
+}
+#content-left-panel {
+  width: 710px;
+  float: left;
+  border: 1px solid black;
+}
+#book-page, #author-page, #genre-page, #pages-content, #search-index-page, 
+#books-index-page, #authors-index-page, #genres-index-page, 
+#ereader-page, #ereaders-index-page, #tag-page, #tags-index-page,
+#donations {
+  padding: 12px;
+}
+#content-sidebar {
+  width: 250px;
+  float: right;
+}
+
+
+#books-index-page h1, #authors-index-page h1, #genres-index-page h1 , 
+#ereaders-index-page h1, #tags-index-page h1, #tag-page h1,
+#donations h1 {
+  margin-bottom: 24px;
+}
+#genre-page h1  {
+  margin-bottom: 0;
+}
+
+
+/* Image Sizes */
+#ebook-readers img { width: 120px; }
+#ereader-index-image img { height: 180px; }
+
+.featured-book-image img { width: 135px; height: 200px; }
+
+.books-index-image img { width: 75px; height: 112px; }
+
+#book-page-image img { width: 150px; height: 240px; }
+#author-page-photo img { width: 150px; }
+
+#content-sidebar img { width: 47px; height: 70px; }
+
+#book-page-image, #author-page-photo, .featured-book-image {
+  float: left;
+  margin-right: 14px;
+  padding: 8px 7px 3px 7px;
+  border: 1px solid black;
+}
+#book-page-image {
+  margin-bottom: 20px;
+}
+
+/* Set various lists to inline <li> */
+#top-menu ul li , #bottom-menu ul li { display: inline; }
+
+
+/* HEADER & MENU SYSTEMS */
+
+/* Top Menu */
+#topbar {
+  position: relative;
+  z-index: 500;
+  overflow: auto;
+  height: 30px;
+}
+#top-menu {
+  max-width: 1156px;
+  margin: 0 auto;
+}
+#top-menu ul {
+  float: left;
+}
+#top-menu a {
+  padding: 5px 14px 4px 14px;
+  line-height: 30px;
+}
+
+/* Seach Box */
+#search_box {
+  float: right;
+}
+#search_box form fieldset, #search_box form input, #search_box form label {
+  float: left;
+  border: 0;
+}
+#search_box input {
+  height: 22px;
+  margin: 4px 1px;
+}
+input#SearchQuery, input#search_submit_btn {
+  border: 1px solid black;
+}
+input#SearchQuery {
+  width: 180px;
+  height: 20px;
+  padding: 2px 2px 0 2px;
+}
+#search_box form label {
+  margin: 1px 3px;
+}
+
+/* Header & Main Menu */
+#header {
+  overflow: auto;
+  height: 106px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+/*
+#main-menu {
+  overflow: auto;
+  height: 106px;
+}
+*/
+
+#main-menu h1, #main-menu p {
+  float: left;
+  margin: 0;
+  margin-top: 23px;
+  padding: 0;
+  background: url('/images/epubbooks-logo.png') transparent no-repeat left;
+}
+#main-menu h1 a span, #main-menu p a span {
+  width: 236px;
+  height: 60px;
+  visibility: hidden;
+}
+/*
+#main-menu h1, #main-menu p {
+  position: absolute;
+  top: -2000px;
+  display: none;
+}
+*/
+#main-menu ul {
+  float: right;
+  margin: 28px 0 0 0;
+}
+#main-menu ul li {
+  display: block;
+  float: left;
+  margin: 0;
+  padding: 8px 18px;
+  border-right: 1px dotted black;
+}
+#main-menu ul li.last {
+  border-right: none;
+}
+#main-menu span {
+  display: block;
+}
+
+
+
+/* Bottom Menu */
+#bottom-menu {
+  height: 45px;
+  margin: 0 auto;
+  text-align: center;
+}
+#bottom-menu a {
+  margin: 0 14px;
+}
+/*
+#bottom-shadow { height: 25px; position: relative; z-index: 2; }
+*/
+
+
+/* SIDEBAR PANELS */
+#content-sidebar h2 {
+  margin: 0;
+  padding: 8px 12px;
+  }
+#sidebar-ebook-readers p {
+  padding: 0 8px;
+}
+.sidebar-index, .sidebar-index-first {
+  overflow: auto;
+  clear: both;
+  margin: 0 10px;
+  padding: 8px 0;
+  border-top: 1px dotted black;
+}
+#sidebar-new-authors .sidebar-index, #sidebar-new-authors .sidebar-index-first {
+  height: 46px;
+}
+#sidebar-ebook-readers .sidebar-index p {
+  margin: 0;
+  padding: 0;
+}
+#content-sidebar .first{
+  border-top: none;
+}
+#content-sidebar img {
+  float: left;
+  margin-right: 10px;
+}
+#sidebar-ebook-readers img {
+  float: right;
+  margin: 0;
+}
+
+#content-sidebar .sidebar-relatedmedia {
+  padding-bottom: 1em;
+}
+#content-sidebar .sidebar-relatedmedia-dvd {
+  padding: 0.5em 1em 0 1em;
+}
+#content-sidebar .sidebar-relatedmedia-book, #content-sidebar .sidebar-relatedmedia-audiobook {
+  padding: 1em 1em 0 1em;
+}
+#content-sidebar .sidebar-relatedmedia h2 {
+  padding: 5px 12px;
+  border-bottom: 1px solid black;
+}
+#content-sidebar .sidebar-relatedmedia ul {
+  margin: 0 1em;
+}
+
+#sidebar-recommended-books, #sidebar-new-books, #sidebar-similar-books,
+#sidebar-new-authors, #sidebar-similar-authors, #sidebar-ebook-readers,
+.sidebar-relatedmedia {
+  margin-bottom: 10px;
+  border: 1px solid black;
+}
+
+
+/* HOME PAGE/DASHBOARD */
+
+#featured-book-content, #homepage-content, #ebook-readers, #book-request, #blog-headlines
+.featured-book {
+  border: 1px solid black;
+}
+.featured-book {
+  overflow: auto;
+  margin: 10px;
+  padding: 10px;
+}
+h3.featured-book-title { margin-top: 10px; }
+h4.featured-book-author { margin: 10px 0; }
+#featured-book-content h2 { padding: 9px 18px; }
+.featured-book-meta { margin: 15px 0 15px 175px; }
+.featured-book-summary p { margin-bottom: 0; }
+
+
+#homepage-content { margin: 10px auto; margin-bottom: 0; }
+#homepage-content-top, #homepage-content-bottom {
+  overflow: auto;
+  padding: 10px;
+}
+#homepage-content-top { padding-bottom: 0; }
+#homepage { padding-bottom: 10px; }
+
+
+#ebook-readers {
+  float: left;
+  width: 630px;
+  height: 300px;
+  padding: 15px 20px;
+  text-align: center;
+}
+#book-request, #blog-headlines {
+  float: right;
+  width: 265px;
+  height: 280px;
+}
+
+#ebook-readers h2 {
+  margin-bottom: 1em;
+}
+.dashboard-ereader {
+  float: left;
+  width: 120px;
+  margin: 0 0 0 25px;
+  padding: 0;
+}
+.dashboard-ereader a span {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+#ebook-readers p {
+
+}
+
+#dashboard-book-listings {
+  float: left;
+  width: 650px;
+  height: 260px;
+  padding: 10px;
+  border: 1px solid black;
+}
+#buy-epub-books {
+  float: right;
+  width: 265px;
+  height: 330px;
+  border: 1px solid black;
+}
+
+#book-request h2, #blog-headlines h2, #buy-epub-books h2 { padding: 8px 10px; }
+#book-request p { margin: 5px 10px; padding: 0; }
+#buy-epub-books p { margin: 10px; padding: 0; }
+#book-request h3, #buy-epub-books h3 { padding: 12px 5px; }
+#book-request h3 a, #buy-epub-books h3 a { padding: 4px 10px; }
+
+#ebook-readers, #blog-headlines, #book-request, #buy-epub-books,
+#dashboard-book-listings {
+  overflow: hidden;
+}
+
+#blog-headlines ul { margin: 1em 0.75em; }
+#blog-headlines li { margin: 0.75em 0; }
+
+#new-books, #hot-books, #recommended-books {
+  float: left;
+  width: 200px;
+  height: 260px;
+  margin: 0 0 0 9px;
+  padding: 0;
+}
+
+#dashboard-book-listings h2 { margin-bottom: 14px; }
+
+#new-books h3, #hot-books h3, #recommended-books h3, 
+#new-books h4, #hot-books h4, #recommended-books h4 {
+  margin: 0 6px;
+  padding: 0;
+}
+
+#new-books h4, #hot-books h4, #recommended-books h4 {
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px dotted black;
+}
+#new-books h4.last, #hot-books h4.last, #recommended-books h4.last {
+  border-bottom: none;
+}
+
+
+
+/* INDEX PAGES (BOOKS AUTHOR, etc) */
+.books-index, .general-index, .search-index {
+  overflow: auto;
+  clear: both;
+  padding: 10px 0 7px 0;
+  border-top: 1px dotted black;
+}
+.books-index h2 { margin-bottom: 2px; }
+.books-index p { margin: 6px 0; }
+.books-index-genres { margin: 0; }
+.books-index-image {
+  width: 90px;
+  float: left;
+  margin: 0;
+  padding: 0;
+}
+.books-index-image a { margin: 0; padding: 0; }
+.books-index-title img { margin-left: 4px; }
+.general-index { padding: 10px 12px; }
+.general-index h2, .general-index h4, .general-index p { margin: 0; padding: 0; }
+
+#genre-page p { margin: 5px 0 16px 0; }
+
+#general-index-sort {
+  overflow: auto;
+  margin: 2px 3px;
+}
+#general-index-sort li { float: left; }
+#general-index-sort li a { padding: 2px 19px 2px 8px; }
+
+#pagenator { margin: 0; }
+
+#author-book-count {
+  margin: 0;
+  padding: 0 1em;
+}
+
+.paging {
+  margin-top: 2em;
+}
+.paging a {
+  padding: 2px 4px;
+  border: 1px solid black;
+}
+a.paging-numbers {
+  padding: 2px 6px;
+}
+
+#tags-index-page a {
+  padding: 0 9px 0 5px;
+  border-right: 1px solid #cccccc;
+}
+
+
+/* ENTRY PAGE (BOOK, AUTHOR, etc) */
+#content-left-panel h3 {
+  clear: both;
+}
+#book-page-meta-core {
+  padding: 0;
+}
+#book-page-meta-core p {
+  margin: 0;
+  padding: 4px 0;
+  line-height: 120%;
+}
+#book-page-meta, #book-page-extras {
+  border: 1px solid black; 
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 5px 7px;
+}
+#book-page-meta p {
+  margin: 0;
+  line-height: 175%;
+}
+#book-page-meta-float {
+  float: right;
+  width: 150px;
+  padding: 0;
+  margin: 0;
+  margin-left: 1em;
+}
+#book-page-downloads {
+  width: 350px;
+}
+#book-page-downloads a {
+  clear: both;
+}
+
+#author-page-biog h3 {
+  clear: none;
+}
+
+/* Related Media Book Page "inline" */
+#book-relatedmedia {
+  margin-bottom: 3em;
+}
+#book-relatedmedia h3 {
+  margin-bottom: 1.5em;
+}
+#book-relatedmedia p {
+  margin-left: 2.5em;
+}
+#book-relatedmedia p span {
+  width: 6em;
+  display: block;
+  float: left;
+  margin-right: 1em;
+  padding: 1px 4px;
+}
+#book-relatedmedia p a span {
+  float: none;
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* EREADERS INDEX & PAGES */
+#ereaders-index-page .review-date {
+  margin-bottom: 10px;
+}
+.ereader-index-image  {
+  float: left;
+  margin: 0 10px;
+}
+#ereaders-index-page .general-index h2 {
+  margin-bottom: 10px;
+}
+#ebook-readers-list {
+  overflow: auto;
+}
+#ebook-readers-list h2 {
+  clear: both;
+}
+#ebook-readers-list img {
+  float: left;
+  margin: 5px 14px 16px 30px;
+  padding: 0;
+}
+
+
+#ereader-page h3 {
+  margin-top: 2em;
+  padding: 5px 10px;
+}
+#ereader-page h4 { margin-top: 1.5em; }
+#ereader-page h5 { margin-top: 1em; }
+
+#ereader-page-image {
+  float: left;
+  margin-right: 14px;
+  padding: 0;
+}
+#ereader-page-image img {
+  width: 180px;
+}
+#ereader-page-review ul {
+  margin: 2em 3em;
+}
+
+#ereader-links {
+  margin-top: 2em;
+  padding-bottom: 1.5em;
+  border-top: 1px dotted #e0e0e0;
+}
+#ereader-links h4 {
+  margin: 2em 0 0.25em 1em;
+}
+#ereader-links ul {
+  margin: 0 1em;
+  padding: 0;
+}
+#ereader-links ul li {
+  padding: 1px;
+}
+#ereader-links ul li span.iphone-s {
+  margin: 0 0 0 2px;
+  padding: 0 4px;
+  border: 1px solid #666666;
+}
+
+
+/* MISC */
+#contact-form {
+  float: left;
+  width: 581px;
+}
+#contact-form label, #contact-form input {
+  display: block;
+}
+#contact-form label {
+  margin: 15px 0 3px 0;
+}
+#contact-form input {
+  width: 300px;
+}
+#contact-form input, #contact-form textarea {
+  padding: 2px;
+}
+#contact-form textarea {
+  width: 579px;
+}
+#contact-form input#send-button {
+  float: right;
+  width: auto;
+  margin: 10px 6px;
+  padding: 4px 6px;
+  border: none;
+}
+#contact-details{
+  float: right;
+  width: 30%;
+  margin-top: 20px;
+}
+#contact-details h3 {
+  margin-bottom: 20px;
+}
+#contact-details p {
+  margin-bottom: 20px;
+}
+#contact-details address {
+  margin: 2px 0;
+}
+
+.error-message {
+  color: #ff3300;
+  font-weight: bold;
+}
+
+#email-fail a {
+  margin: 0;
+  padding: 0;
+}
+p#email-success, p#email-fail {
+  margin: 5px 5%;
+  padding: 10px;
+}
+
+.search-index img {
+  float: left;
+  margin-right: 10px;
+}
+
+#error-page {
+  padding: 2em;
+}
+
+#twitter-widget {
+  float: right;
+  margin-left: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+
+.alignRight {
+  float: right;
+  margin-left: 1em;
+}
+.alignLeft {
+  float: left;
+  margin-right: 1em;
+}
+.image-border {
+  border: 1px solid #333333;
+}
+
+
+/* FOOTER */
+#footer { 
+  padding: 2px;
+}

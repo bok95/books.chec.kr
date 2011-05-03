@@ -1,0 +1,508 @@
+/**
+ * @author     Michael Cook | epubBooks (http://www.epubbooks.com)
+ * @copyright  Copyright (c)2009 epubBooks
+ * @created    02 May 2009
+ * @version    $Id: epubbooks-typography.css 232 2010-09-12 23:09:40Z Mike $
+ */
+
+/* ----------------------------- */
+/* TYPOGRAPHY, BORDERS & COLOURS */
+/* ------------------------------*/
+
+/* CORE DEFAULTS */
+body { 
+  background-color: #ededed;
+  color: #000000;
+  font-weight: normal;
+  font-size: 82%;
+  line-height: 135%;
+}
+h1, h2, h3, h4, h5, #content a, #main-menu span {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, "Times New Roman", Times, serif;
+  font-weight: normal;
+}
+body, #book-page h3, #content-sidebar h2, #general-index-sort a, #author-index-sort a,
+form, input, textarea, #featured-book-content h2, #main-menu, #buy-epub-books h3 {
+  font-family: "Trebuchet MS", Geneva, Tahoma;
+}
+
+h1 { font-size: 200%; line-height: 100%; }
+h2 { font-size: 175%; line-height: 100%; }
+h3 { font-size: 120%; }
+h4 { font-size: 110%; }
+h5 { font-size: 120%; text-transform: uppercase; }
+
+a { text-decoration: none; }
+a:link , a:visited , a:active {
+  color: #cc7000;
+  text-decoration: none;
+}
+a:hover, #content-sidebar a:hover , #general-index-sort li a:hover, #author-index-sort li a:hover, .paging a:hover {
+  color: #cc7000;
+}
+ 
+#content h3 a { color: #000000; }
+
+#content h4 a, #content .books-index h4 a, #content p.books-index-genres a, 
+.featured-book-author a, #new-books h4 a, #hot-books h4 a, #recommended-books h4 a,
+#new-books h4, #hot-books h4, #recommended-books h4, .featured-book-meta p a {
+  color: #666666;
+}
+
+#general-index-sort li a, #author-index-sort li a, .paging a, #main-menu ul li a { color: #222222; }
+
+
+/* Lists that don't need bullets */
+/*
+ul { list-style: none; }
+/*
+
+/* CORE LAYOUT COLOURS */
+#topbar, #bottom-menu, #top-menu a, #bottom-menu a, #content-sidebar h2, 
+#featured-book-content h2, #general-index-sort li.active-link a, #author-index-sort li.active-link a, 
+#contact-form input#send-button, #book-request h2, #buy-epub-books h2, #blog-headlines h2 {
+  background-color: #222222;
+  color: #ffffff;
+}
+
+#content {
+  background-color: #dddddd;
+}
+#content-left-panel, #pages-content, 
+#sidebar-new-books, #sidebar-new-authors, #sidebar-recommended-books, 
+#sidebar-similar-books, #sidebar-similar-authors, #sidebar-ebook-readers, 
+#featured-book-content, .featured-book, #ebook-readers, #book-request, 
+#blog-headlines, #dashboard-book-listings, #buy-epub-books, .sidebar-relatedmedia {
+  background-color: #ffffff;
+}
+#books-index-page h1, #authors-index-page h1, #genres-index-page h1 , #genre-page h1 , 
+#ereaders-index-page h1, #tags-index-page h1, #tag-page h1 {
+  font-size: 175%;
+}
+
+/* Book Images */
+#book-page-image, #author-page-photo, .featured-book-image {
+  background-color: #ffffff;
+}
+
+/* Background Images */
+body {
+  background-color: #ededed;
+  background-image: url(/images/background.jpg);
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: 50% 0;
+}
+#header {
+  background-color: transparent;
+  background-image: url(/images/header-bar.png);
+  background-repeat: repeat-x;
+  background-attachment: scroll;
+  background-position: 0 0;
+}
+
+#homepage {
+  background-color: transparent;
+  background-image: url(/images/background.png);
+  background-repeat: repeat-x;
+  background-attachment: scroll;
+  background-position: 0pt 100%;
+}
+
+
+/* HEADER & MENU SYSTEMS */
+
+/* Top Menu */
+#topbar {
+  border-bottom: 2px solid #000000;
+}
+#top-menu a {
+  font-size: 110%;
+  font-weight: normal;
+  letter-spacing: 0.1em;
+}
+
+/* Seach Box */
+input#SearchQuery, input#search_submit_btn {
+  background-color: #5a5a5a;
+  color: white;
+}
+#search_box form label, input#search_submit_btn {
+  text-transform: uppercase;
+}
+#search_box form label {
+  line-height: 200%;
+}
+
+/* Header & Main Menu */
+#main-menu ul {
+  font-size: 100%;
+  text-align: right;
+}
+#main-menu ul li {
+  font-size: 175%;
+  text-align: center;
+}
+#main-menu span {
+  color: #666666;
+  font-size: 65%;
+  font-style: italic;
+  line-height: 150%;
+}
+
+
+/* Bottom Menu */
+#bottom-menu a {
+  font-size: 110%;
+  font-weight: normal;
+  line-height: 45px;
+  letter-spacing: 0.1em;
+}
+
+
+/* SIDEBAR PANELS */
+#content-sidebar h2 {
+  color: #ffc000;
+  font-size: 150%;
+  letter-spacing: 0;
+}
+#sidebar-ebook-readers p {
+  font-size: 100%;
+  line-height: 120%;
+}
+
+#sidebar-ebook-readers h3 a {
+  color: #cc7000;
+  font-size: 100%;
+}
+#sidebar-ebook-readers .sidebar-index p {
+  color: #777;
+  font-size: 90%;
+  font-style: italic;
+  line-height: 120%;
+}
+.sidebar-index-meta {
+  font-size: 90%;
+  font-style: italic;
+}
+
+#content-sidebar .sidebar-relatedmedia {
+ background-color: #fdfdfd;
+}
+#content-sidebar .sidebar-relatedmedia h2 {
+  font-weight: bold;
+}
+#content-sidebar .sidebar-relatedmedia h2 {
+  background-color: #ffc000;
+  color: #222222;
+}
+#content-sidebar .sidebar-relatedmedia-dvd h3, #content-sidebar .sidebar-relatedmedia-book h3,
+#content-sidebar .sidebar-relatedmedia-audiobook h3 {
+  font-size: 95%;
+  font-weight: bold;
+  font-variant: small-caps;
+}
+#content-sidebar .sidebar-relatedmedia-dvd h3 span, #content-sidebar .sidebar-relatedmedia-book h3 span,
+#content-sidebar .sidebar-relatedmedia-audiobook h3 span{
+  font-size: 110%;
+  text-transform: uppercase;
+}
+#content-sidebar .sidebar-relatedmedia ul {
+  font-size: 135%;
+  line-height: 135%;
+  list-style: none;
+}
+#content-sidebar .sidebar-relatedmedia ul li a {
+  color: #000088;
+  font-weight: bold;
+  border-bottom: 1px dotted #000088;
+}
+#content-sidebar .sidebar-relatedmedia ul li a span {
+  font-weight: normal;
+}
+#content-sidebar .sidebar-relatedmedia ul li a:hover {
+  border-bottom: 1px solid #000088;
+}
+
+#content-sidebar .sidebar-relatedmedia-book ul li a span {
+  font-size: 10px;
+}
+
+
+/* HOME PAGE/DASHBOARD */
+#featured-book-content { background-color: #f6f6f6; color: #000; }
+#homepage-content { background-color: #e0e0e0; color: #000; }
+
+#featured-book-content h2 { font-size: 120%; }
+.featured-book-meta p { line-height: 90%; }
+h3.featured-book-title a { color: #000000; font-size: 160%; }
+
+.dashboard-ereader { text-align: center; }
+.dashboard-ereader a span { color: #666; font-size: 10px; line-height: 100%; }
+#ebook-readers h2, #ebook-readers p { text-align: left; }
+
+#dashboard-book-listings h2 { font-size: 150%; }
+
+#book-request h2, #blog-headlines h2, #buy-epub-books h2 { font-size: 135%; }
+#book-request h3, #buy-epub-books h3 { text-align: center; }
+#book-request h3 a {
+  background-color: #222222;
+  color: #ffc000;
+}
+#buy-epub-books h3 a {
+  color: #cc7000;
+  font-size: 150%;
+  text-decoration: underline;
+}
+#book-request  p, #buy-epub-books p { text-align: justify; }
+
+#blog-headlines ul { list-style: none; }
+#blog-headlines li a {
+  font-size: 125%;
+}
+
+#new-books h3, #hot-books h3, #recommended-books h3 { font-size: 120%; }
+#new-books h4, #hot-books h4, #recommended-books h4 { font-size: 100%; }
+
+p.dashboard-notice {
+  font-size: 90%;
+  font-style: italic;
+  line-height: 125%;
+}
+
+
+/* INDEX PAGES (BOOKS AUTHOR, etc) */
+.books-index p { font-size: 90%; line-height: 125%; }
+.books-index-image { text-align: center; }
+.books-index h2 { font-size: 130%; }
+.books-index h4 { font-size: 100%; }
+.books-index-title span { font-size: 75%; font-variant: small-caps; }
+.general-index h2 { font-size: 140%; }
+.general-index h2 span { color: #666666; font-size: 65%; }
+.general-index span { font-size: 90%; }
+.general-index h4 { color: #444444; font-style: italic; }
+.general-index p { color: #444444; font-style: italic; }
+
+#genre-page p { font-size: 90%; }
+
+#general-index-sort {
+  font-weight: normal;
+  font-size: 110%;
+}
+#author-index-sort {
+  font-weight: bold;
+  font-size: 125%;
+}
+#general-index-sort li { list-style: none; }
+#author-index-sort li { display: inline; list-style: none; }
+#general-index-sort li a, #author-index-sort li  {
+  line-height: 150%;
+}
+#author-index-sort li a, #author-index-sort li.nosort span {
+  padding: 2px 4px;
+}
+#author-index-sort li.nosort span {
+  color: #cccccc;
+  font-weight: normal;
+}
+#author-index-sort li.active-link  a {
+  padding: 2px 12px;
+  font-weight: bold;
+}
+div.bottom-sort-menu {
+  margin-top: 1em;
+  border-top: 1px dotted #000088;
+}
+div.bottom-sort-menu ul {
+  font-size: 85%;
+}
+
+#general-index-sort li.active-link a.asc {
+  background-image: url(/images/arrow-down.gif);
+  background-repeat: no-repeat;
+  background-position: right;
+}
+#general-index-sort li.active-link a.desc {
+  background-image: url(/images/arrow-up.gif);
+  background-repeat: no-repeat;
+  background-position: right;
+}
+#pagenator {
+  color: #999999;
+  text-align: right;
+}
+
+#author-book-count {
+  color: #666666;
+  font-size: 90%;
+  text-align: right;
+}
+
+.disabled { display: none; }
+
+#tags-index-page a {
+  font-size: 125%;
+  line-height: 175%;
+}
+
+
+/* ENTRY PAGE (BOOK, AUTHOR, etc) */
+h1#book-page-title-long { font-size: 180%; }
+h1#book-page-title-very-long { font-size: 156%; }
+h2#book-page-subtitle {
+  margin-bottom: 6px;
+  font-size: 130%;
+  font-weight: normal;
+  font-style: italic;
+}
+
+#content-left-panel h3 {
+  margin-top: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+#content-left-panel h4 a { color: #dd9000; }
+
+#book-page-meta-core p span.copyright-status {
+  display: block;
+  font-size: 75%;
+  font-style: italic;
+}
+
+/* Related Media Book Page "inline" */
+#book-relatedmedia h3 {
+  font-weight: bold;
+}
+#book-relatedmedia p {
+  font-weight: bold;
+}
+#book-relatedmedia p span {
+  background-color: #333;
+  color: #fff;
+  text-align: right;
+}
+#book-relatedmedia p a {
+  font-weight: bold;
+  font-size: 130%;
+}
+#book-relatedmedia p a span {
+  background-color: transparent;
+  color: #333;
+  font-weight: normal;
+  font-size: 65%;
+}
+
+
+/* EREADERS INDEX & PAGES */
+#ebook-readers-list h2 {
+ margin-top: 1em;
+}
+
+#ereaders-index-page h2 { font-size: 200%; }
+#ebook-readers-list h3 { font-size: 135%; text-transform: none; }
+
+#ereaders-index-page p {
+  color: #000000;
+  font-style: normal;
+}
+#ereader-page .review-date, #ereaders-index-page .review-date { color: #666666; }
+
+#ereader-page h2 { font-size: 200%; }
+#ereader-page h3 {
+  color: #ffffff;
+  background-color: #333333;
+  font-size: 135%;
+}
+#ereader-page h4 { font-size: 130%; text-transform: uppercase; }
+#ereader-page h5 { font-size: 125%; text-transform: none; }
+
+#ereader-links ul {
+  list-style: none;
+  font-size: 110%;
+}
+#ereader-links ul li a {
+  font-weight: bold;
+  font-size: 125%;
+}
+#ereader-links ul li span.iphone-s {
+  font-size: 11px;
+}
+#ereader-links ul li small {
+  color: #999999;
+}
+
+.ereader-page-accessories {
+  overflow: auto;
+  text-align: center;
+}
+.ereader-page-accessories img {
+  margin: 1em 2em;
+}
+#ebook-readers-list p a {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+
+/* MISC */
+#pages-content h2, #pages-content h3 { margin-top: 1em; }
+#pages-content img { margin: 0 auto; text-align: center; }
+#contact-form label {
+  color: #666666;
+  font-style: italic;
+  font-size: 90%;
+}
+#contact-form input, #contact-form textarea {
+  font-size: 110%;
+  background-color: #f9f9ff;
+  border: 1px solid black;
+}
+#contact-form input:hover, #contact-form textarea:hover { background-color: #ffffff; }
+#contact-form input#send-button { color: #ffc000; font-size: 100%; }
+
+p#email-success, p#email-fail, p#email-fail a {
+  background-color: #222222;
+  color: #ffc000;
+  font-weight: bold;
+  text-align: center;
+}
+
+.search-index h2 {
+  font-size: 150%;
+}
+
+/* FOOTER */
+#footer { text-align: center; }
+
+/* ----------------------------- */
+/*        BORDER SETTINGS        */
+/* to enable easy visual changes */
+/* ----------------------------- */
+#content, #content-left-panel, #pages-content, #book-page-image, 
+#author-page-photo, .featured-book-image, .books-index, .general-index, 
+#sidebar-recommended-books, #sidebar-new-books, #sidebar-ebook-readers, 
+#sidebar-similar-books, #sidebar-new-authors, #sidebar-similar-authors, 
+#book-page-meta, #book-page-extras, #featured-book-content, .featured-book, 
+#ebook-readers, #book-request, #blog-headlines, #dashboard-book-listings, #buy-epub-books,
+.sidebar-relatedmedia, #contact-form input, #contact-form textarea, div.bottom-sort-menu   {
+  border-color: #cccccc;
+}
+
+#content, #featured-book-content, #homepage-content {
+  border-color: #ffffff;
+}
+#topbar {
+  border-color: #666666;
+}
+#top-menu a:hover {
+  border-bottom: 2px solid white;
+}
+.sidebar-index, #new-books h4, #hot-books h4, #recommended-books h4 {
+  border-color: #afafaf;
+}
+.sidebar-relatedmedia, #content-sidebar .sidebar-relatedmedia h2 {
+  border-color: #666666;
+}
+.paging a, #main-menu ul li {
+  border-color: #999999;
+}
