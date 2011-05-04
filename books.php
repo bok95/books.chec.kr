@@ -5,6 +5,8 @@
     <title>books.chec.kr</title>
 	<link href="css/epubbooks.css" type="text/css" rel="stylesheet" />
 	<link href="css/epubbooks-typography.css" type="text/css" rel="stylesheet" />
+	<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
+	<script src="publication.js"></script>
 	<script src="http://www.google.com/jsapi?key=ABQIAAAANh1OABxsMaSvl1OTck5I8RRL6ZglLh05n3dnEWnjIUmqeCfcGhRa7yfe_Pf1zInO6RCfBTBOMiWPLQ" type="text/javascript"></script>
     <script type="text/javascript">
 
@@ -21,34 +23,25 @@
         // Check out the result object for a list of properties returned in each entry.
         // http://code.google.com/apis/ajaxfeeds/documentation/reference.html#JSON
         for (var i = 0; i < result.feed.entries.length; i++) {
+			var entry = result.feed.entries[i];
 			
-          	var entry = result.feed.entries[i];
-          	var div = document.createElement("div");
-		  	div.className = 'books-index';
-			var links = entry.xmlNode.getElementsByTagName('link');			
-			for (var l = 0; l < links.length; l++) {
-				var href = links[l].attributes.getNamedItem('href');
-				if(href != null){
-					console.log(href.value);
-				}
-				
-				var type = links[l].attributes.getNamedItem('type');
-				if(type != null){
-					console.log(type.value);
-				
-					var book_cover;
-					if(type.value.toLowerCase() == "image/jpeg"){
-						var rel = links[l].attributes.getNamedItem('rel');
-						if(rel != null){
-							if(rel.value.toLowerCase().search(/thumbnail/i) > 0){
-								book_cover = href.value;
-								console.log('cover = ' + book_cover);
-							}												
-						}
-					}
-				}
+			var div = document.createElement("div");
+			div.className = 'books-index';
+          	
+			var book = new Publication(entry);
+			book.getEpub();
+			book.getCover();
+			categories = book.getCategories();
+			if(categories != null){
+				console.log(categories);
 			}
-						
+			authors = book.getAuthors();
+			console.log(authors);
+			title = book.getTitle();
+			console.log(title);
+			publisher = book.getPublisher();
+			console.log(publisher);
+							
          	// div.appendChild(document.createTextNode(i + ': ' + entry.title));
          	// container.appendChild(div);
         }
