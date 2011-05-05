@@ -46,8 +46,10 @@ var Publication = function (entry) {
 	}
 
 	this.getPublisher = function() {
-		return publisher = $(this.node).find("[*|publisher]").text();
+		return $(this.node).find('publisher').text();
 	}
 	
-	
+	this.getLanguage = function() {
+		return $(this.node).find('language').text();
+	}
 }

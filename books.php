@@ -10,6 +10,13 @@
 	<script src="http://www.google.com/jsapi?key=ABQIAAAANh1OABxsMaSvl1OTck5I8RRL6ZglLh05n3dnEWnjIUmqeCfcGhRa7yfe_Pf1zInO6RCfBTBOMiWPLQ" type="text/javascript"></script>
     <script type="text/javascript">
 
+	<?
+		if(!empty($_GET['q'])){
+			$q = $_GET['q'];
+		}else{
+			$q = -1;
+		}
+	?> 
     google.load("feeds", "1");
     
     // Our callback function, for when a feed is loaded.
@@ -32,15 +39,10 @@
 			book.getEpub();
 			book.getCover();
 			categories = book.getCategories();
-			if(categories != null){
-				console.log(categories);
-			}
 			authors = book.getAuthors();
-			console.log(authors);
 			title = book.getTitle();
-			console.log(title);
 			publisher = book.getPublisher();
-			console.log(publisher);
+			language = book.getLanguage();
 							
          	// div.appendChild(document.createTextNode(i + ': ' + entry.title));
          	// container.appendChild(div);
@@ -49,15 +51,21 @@
     }
     
     function OnLoad() {
+		
       // Create a feed instance that will grab Digg's feed.
-      var feed = new google.feeds.Feed("http://bookserver.archive.org/catalog/opensearch?q=alice");
-    feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
+		var q = "<? echo $q ?>";
+		if(q != -1){
+			
+		    var feed = new google.feeds.Feed("http://bookserver.archive.org/catalog/opensearch?q=" + q);
+		    feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
 
-      feed.includeHistoricalEntries(); // tell the API we want to have old entries too
-      feed.setNumEntries(250); // we want a maximum of 250 entries, if they exist
+		    feed.includeHistoricalEntries(); // tell the API we want to have old entries too
+		    feed.setNumEntries(250); // we want a maximum of 250 entries, if they exist
     
-      // Calling load sends the request off.  It requires a callback function.
-      feed.load(feedLoaded);
+		    // Calling load sends the request off.  It requires a callback function.
+		    feed.load(feedLoaded);
+			
+		}
     }
     
     google.setOnLoadCallback(OnLoad);
