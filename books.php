@@ -52,14 +52,25 @@
 									'</a>' +
 								'</div>' +
 				  				'<h2 class="books-index-title">' + 
+									'<div class="bok">' +
 									'<a>' + title + '</a>' +
+									'</div>' +
 								'</h2>' +
-				  				'<h4 class="books-index-author">' +
-					 				'<a>' + "H. G. Wells" + '</a>' +
-				  				'</h4>' +
 				  				'<p class="books-index-genres">' + 
-									'Genre:'  +
-									'<a>' + "Fantasy" + '</a>' +
+									'Author : '  +
+									'<a>' + authors + '</a>' +
+								'</p>' +
+				  				'<p class="books-index-genres">' + 
+									'Language : '  +
+									'<a>' + language + '</a>' +
+								'</p>' +
+				  				'<p class="books-index-genres">' + 
+									'Category : '  +
+									'<a>' + categories + '</a>' +
+								'</p>' +
+				  				'<p class="books-index-genres">' + 
+									'Publisher : '  +
+									'<a>' + publisher + '</a>' +
 								'</p>' +
 								'<p class="books-index-genres">' + 
 									'Downloads : '  +

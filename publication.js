@@ -25,10 +25,22 @@ var Publication = function (entry) {
 		return cover_url;
 	}
 	
-	this.getCategories = function () {
+	this.getCategoryArray = function () {
 		categories = new Array();
 	 	$(this.node).find('category').each(function() {
 			categories.push($(this).attr('term'));
+		});
+		return categories;
+	}
+	
+	this.getCategories = function () {
+		var categories = '';
+	 	$(this.node).find('category').each(function() {
+			if(categories != ''){
+				categories += ', ' + $(this).attr('term');
+			}else{
+				categories += $(this).attr('term');
+			}
 		});
 		return categories;
 	}
@@ -37,14 +49,26 @@ var Publication = function (entry) {
 		return $(this.node).find('title').text();
 	}
 	
-	this.getAuthors = function() {
+	this.getAuthorArray = function() {
 		authors = new Array();
 		$(this.node).find('author').each(function() {
 			authors.push($(this).text());
 		});
 		return authors;
 	}
-
+	
+	this.getAuthors = function() {
+		var authors = '';
+		$(this.node).find('author').each(function() {
+			if(authors != ''){
+				authors += ', ' + $(this).text();
+			}else{
+				authors += $(this).text();
+			}
+		});
+		return authors;
+	}
+	
 	this.getPublisher = function() {
 		return $(this.node).find('publisher').text();
 	}

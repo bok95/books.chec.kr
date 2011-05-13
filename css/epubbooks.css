@@ -385,7 +385,7 @@ h4.featured-book-author { margin: 10px 0; }
 }
 .books-index h2 { margin-bottom: 2px; }
 .books-index p { margin: 6px 0; }
-.books-index-genres { margin: 0; }
+.books-index-genres { margin-left: 90px !important; }
 .books-index-image {
   width: 90px;
   float: left;

@@ -1,0 +1,28 @@
+<fulfillmentToken fulfillmentType="free" auth="user" xmlns="http://ns.adobe.com/adept">
+  <distributor>urn:uuid:b4e1303f-630f-4769-9c82-4dea6d65a277</distributor>
+  <operatorURL>http://contentserver.adobe.com/fulfillment</operatorURL>
+  <transaction>44366721-265d-4e1c-af14-14b567b26d71-0007b880</transaction>
+  <expiration>2011-05-10T18:58:14-07:00</expiration>
+  <resourceItemInfo>
+    <resource>urn:uuid:3724a71d-18c2-4c29-b00e-6aa9b30cdbc7</resource>
+    <resourceItem>0</resourceItem>
+    <metadata>
+      <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Lena_number2</dc:title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/"></dc:creator>
+      <dc:publisher xmlns:dc="http://purl.org/dc/elements/1.1/"></dc:publisher>
+      <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">urn:uuid:151a904a-6bae-2065-5d91-bedf3315918b</dc:identifier>
+      <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">application/epub+zip</dc:format>
+      <dc:language xmlns:dc="http://purl.org/dc/elements/1.1/">en</dc:language>
+    </metadata>
+    <licenseToken>
+      <resource>urn:uuid:3724a71d-18c2-4c29-b00e-6aa9b30cdbc7</resource>
+      <permissions>
+        <display/>
+        <excerpt/>
+        <print/>
+        <play/>
+      </permissions>
+    </licenseToken>
+  </resourceItemInfo>
+  <hmac>mJ0IxzSPYhk3MUbWhFmDucgxYw4=</hmac>
+</fulfillmentToken>
