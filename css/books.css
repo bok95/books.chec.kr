@@ -1,0 +1,171 @@
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: 100%;
+    font-family: inherit;
+    vertical-align: baseline;
+}
+
+body {
+    font-size: 75%;
+    color: #333;
+    background: white;
+    font-family: "Helvetica Neue", Verdana, Helvetica, sans-serif;
+}
+
+body {
+    line-height: 1.5;
+}
+
+a:focus, a:hover {
+    color: black;
+    text-decoration: underline;
+}
+
+a {
+    color: #406EA1;
+    text-decoration: none;
+}
+
+a.selected {
+	font-style: italic;
+	color: #999;
+}
+
+h3, h4, h5, h6 {
+    font-family: Arial, serif;
+    color: #4D4D4D;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+}
+
+h3 {
+    font-size: 1.5em;
+    line-height: 1;
+    margin-bottom: 1em;
+}
+
+p {
+    margin: 0 0 1.5em;
+}
+
+hr {
+    background: #EEE;
+    color: #EEE;
+    clear: both;
+    float: none;
+    width: 100%;
+    height: .1em;
+    margin: 0 0 1.45em;
+    border: none;
+}
+
+.clearfix, .container {
+    display: block;
+}
+
+.container {
+    width: 950px;
+    margin: 0 auto;
+}
+
+.left_panel {
+    float: left;
+    margin-right: 10px;
+    margin-top: 1.5em;
+    width: 150px;
+    display: none;
+}
+
+.search_in {
+    font-weight: bold;
+}
+
+.server {
+    margin-left: 16px;
+    text-indent: -8px;
+}
+
+p + p {
+    margin-top: -1.5em;
+}
+
+/******** list **********/
+.center_list {
+    margin-right: 0;
+    float: left;
+    width: 755 px;
+    margin-top: 1.5em;
+}
+
+div.cover {
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 1.5em;
+    width: 75px;
+}
+
+img.thumb {
+    margin-top: 3px;
+    width: 75px;
+    height: 112px;
+    border: 1px solid #EEE;
+}
+
+a img {
+    border: none;
+}
+
+div.content {
+    float: left;
+    margin-right: 10px;
+    padding-left: 40px;
+    width: 470px;
+}
+
+.title {
+    margin-bottom: .3em;
+    font-size: 1.5em;
+    line-height: 1;
+}
+
+.title a {
+	color: #cc7204;
+}
+
+p.mata_tag {
+	color: #4D4D4D;
+}
+
+span.meta_data {
+	color: #999;
+}
+
+div.right_panel {
+    margin-right: 0;
+    float: left;
+    text-align: center;
+    margin-bottom: 1.5em;
+    padding-left: 40px;
+    width: 110px;
+    padding-right: 0;
+}
+
+.download_header {
+    margin-bottom: .3em;
+    color: #4D4D4D;
+    font-size: 1.2em;
+	font-weight: bold;
+    line-height: 1.25;
+}
+
+hr.space {
+    background: white;
+    color: white;
+}
+

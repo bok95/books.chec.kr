@@ -3,8 +3,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <title>books.chec.kr</title>
-	<link href="css/epubbooks.css" type="text/css" rel="stylesheet" />
-	<link href="css/epubbooks-typography.css" type="text/css" rel="stylesheet" />
+	<link href="css/books.css" type="text/css" rel="stylesheet" />
 	<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
 	<script src="publication.js"></script>
 	<script src="http://www.google.com/jsapi?key=ABQIAAAANh1OABxsMaSvl1OTck5I8RRL6ZglLh05n3dnEWnjIUmqeCfcGhRa7yfe_Pf1zInO6RCfBTBOMiWPLQ" type="text/javascript"></script>
@@ -23,18 +22,12 @@
     function feedLoaded(result) {
       if (!result.error) {
         // Grab the container we will put the results into
-        var container = document.getElementById("content-left-panel");
-        container.innerHTML = '';
     
         // Loop through the feeds, putting the titles onto the page.
         // Check out the result object for a list of properties returned in each entry.
         // http://code.google.com/apis/ajaxfeeds/documentation/reference.html#JSON
         for (var i = 0; i < result.feed.entries.length; i++) {
 			var entry = result.feed.entries[i];
-			
-			var div = document.createElement("div");
-			div.className = 'books-index';
-          	
 			var book = new Publication(entry);
 			epub = book.getEpub();
 			pdf = book.getPdf();
@@ -45,44 +38,50 @@
 			publisher = book.getPublisher();
 			language = book.getLanguage();
 			
-			var div_data = '<div class="books-index"> ' +
-								'<div class="books-index-image">' +
-									'<a >' + 
-										'<img src=' + cover + '/>' + 
-									'</a>' +
-								'</div>' +
-				  				'<h2 class="books-index-title">' + 
-									'<div class="bok">' +
+			var content_data ='<div class="cover">' +
+								'<a >' + 
+									'<img src=' + cover + ' class="thumb"/>' + 
+								'</a>' +
+							'</div>' +
+							'<div class="content">' +
+					  			'<h3 class="title">' + 
 									'<a>' + title + '</a>' +
-									'</div>' +
-								'</h2>' +
-				  				'<p class="books-index-genres">' + 
+								'</h3>' +
+					  			'<p class="mata_tag">' + 
 									'Author : '  +
-									'<a>' + authors + '</a>' +
+									'<span class="meta_data">' + authors + '</a>' +
 								'</p>' +
-				  				'<p class="books-index-genres">' + 
+						  		'<p class="mata_tag">' + 
 									'Language : '  +
-									'<a>' + language + '</a>' +
+									'<span class="meta_data">' + language + '</a>' +
 								'</p>' +
-				  				'<p class="books-index-genres">' + 
+				  				'<p class="mata_tag">' + 
 									'Category : '  +
-									'<a>' + categories + '</a>' +
+									'<span class="meta_data">' + categories + '</a>' +
 								'</p>' +
-				  				'<p class="books-index-genres">' + 
+						  		'<p class="mata_tag">' + 
 									'Publisher : '  +
-									'<a>' + publisher + '</a>' +
+									'<span class="meta_data">' + publisher + '</a>' +
 								'</p>' +
-								'<p class="books-index-genres">' + 
-									'Downloads : '  +
-									'<a href=' + epub + '>' + "epub" + '</a>' +
-									'<a href=' + pdf + '>' + ", pdf" + '</a>' +
-								'</p>' +
-				  				
-							'</div>';
-			
-			$('div#content-left-panel').append(div_data);
+							'</div>' +
+							'<div class="right_panel">' +
+								'<h4 class="download_header">Download</h4>' +
+								'<div class="format">' +
+									'<p>' +
+										'<a href=' + epub + '>' + "epub" + '</a>' +
+									'</p>' +
+									'<p>' +
+										'<a href=' + pdf + '>' + "pdf" + '</a>' +
+									'</p>' +
+								'</div>' +	
+							'</div>' +
+							'<hr class="split">';
+							
+			$('div#list_data').append(content_data);
          	// container.appendChild(div_data);
         }
+		$('div.left_panel').show();
+		$('a#ia').addClass("selected");
       }
     }
     
@@ -123,14 +122,15 @@
 
   <body style="font-family: Arial;border: 0 none;">
     <!-- <div id="content">Loading...</div> -->
-	<div id="content"> 
-	<div id="content-left-panel"> 
-
-
-	
-	
-	</div> <!--content -->
-	</div> <!-- content-left-panel -->
+	<div class="container">
+		<div class="left_panel">
+			<p class="search_in">Search in</p>
+				<p class="server">
+					<a id="ia" href="http://www.archive.org/">Internet Archive</a>
+				</p>
+		</div>
+		<div id=list_data class="center_list">
+		</div>
+	</div> <!--container -->
   </body>
 </html>
-​

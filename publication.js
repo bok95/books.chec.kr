@@ -1,4 +1,3 @@
-
 var Publication = function (entry) {
 	this.entry = entry;
 	this.node = entry.xmlNode;

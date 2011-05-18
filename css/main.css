@@ -1,0 +1,14 @@
+.search_box {
+	background: white;
+	border-width: 1 1 1 1px;
+	color: black;
+	font: bold 17px arial,dotum,sans-serif;
+	padding-left: 6px;
+	padding-right: 10px;
+	vertical-align: top;
+	width: 100%;
+}
+
+.search_btn {
+	font-size: 17px;
+}
