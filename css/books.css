@@ -31,8 +31,8 @@ a {
 }
 
 a.selected {
-	font-style: italic;
-	color: #999;
+    font-style: italic;
+    color: #999;
 }
 
 h3, h4, h5, h6 {
@@ -63,10 +63,6 @@ hr {
     height: .1em;
     margin: 0 0 1.45em;
     border: none;
-}
-
-.clearfix, .container {
-    display: block;
 }
 
 .container {
@@ -135,15 +131,15 @@ div.content {
 }
 
 .title a {
-	color: #cc7204;
+    color: #cc7204;
 }
 
 p.mata_tag {
-	color: #4D4D4D;
+    color: #4D4D4D;
 }
 
 span.meta_data {
-	color: #999;
+    color: #999;
 }
 
 div.right_panel {
@@ -160,12 +156,49 @@ div.right_panel {
     margin-bottom: .3em;
     color: #4D4D4D;
     font-size: 1.2em;
-	font-weight: bold;
+    font-weight: bold;
     line-height: 1.25;
 }
 
-hr.space {
+hr.split {
     background: white;
-    color: white;
+    color: #999;
 }
 
+.pages {
+    width: 950px;
+    margin: 0 auto;
+    text-align: center;
+    float: left;
+    margin-top: 1.5em;
+	margin-bottom: 1.5em;
+}
+
+.result_msg {
+    font-weight: bold;
+}
+
+.pages a, .pages a:visited {
+    padding: .2em .5em;
+    border: 1px solid #EEE;
+    text-decoration: none;
+    color: #406EA1;
+}
+
+.pages a:hover, .pages a:active {
+    border: 1px solid #406EA1;
+    color: black;
+}
+
+.pages .current {
+    padding: .2em .5em;
+    margin-right: .1em;
+    color: #406EA1;
+}
+
+.pages .disabled {
+    padding: .2em .5em;
+    margin-right: .1em;
+    border: 1px solid #EEE;
+    color: #929292;
+}

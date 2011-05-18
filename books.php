@@ -6,6 +6,7 @@
 	<link href="css/books.css" type="text/css" rel="stylesheet" />
 	<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
 	<script src="publication.js"></script>
+	<script src="ia.js"></script>
 	<script src="http://www.google.com/jsapi?key=ABQIAAAANh1OABxsMaSvl1OTck5I8RRL6ZglLh05n3dnEWnjIUmqeCfcGhRa7yfe_Pf1zInO6RCfBTBOMiWPLQ" type="text/javascript"></script>
     <script type="text/javascript">
 
@@ -15,17 +16,19 @@
 		}else{
 			$q = -1;
 		}
+		
+		if(!empty($_GET['page'])){
+			$page = $_GET['page'];
+		}else{
+			$page = -1;
+		}
 	?> 
     google.load("feeds", "1");
-    
+    var page;
+	
     // Our callback function, for when a feed is loaded.
     function feedLoaded(result) {
       if (!result.error) {
-        // Grab the container we will put the results into
-    
-        // Loop through the feeds, putting the titles onto the page.
-        // Check out the result object for a list of properties returned in each entry.
-        // http://code.google.com/apis/ajaxfeeds/documentation/reference.html#JSON
         for (var i = 0; i < result.feed.entries.length; i++) {
 			var entry = result.feed.entries[i];
 			var book = new Publication(entry);
@@ -82,16 +85,30 @@
         }
 		$('div.left_panel').show();
 		$('a#ia').addClass("selected");
+		$('h3.result_msg').text(result.feed.title);
+		$('div.pages span.current').text(page);
+		var provider = new IA(result.feed);
+		pageInfo = provider.getPageInfo();
+		console.log(pageInfo[0]);
+		console.log(pageInfo[1]);
+		console.log(pageInfo[2]);
       }
     }
     
     function OnLoad() {
 		
       // Create a feed instance that will grab Digg's feed.
-		var q = "<? echo $q ?>";
+		var q = "<?=$q?>";
+		page = "<?=$page?>";
 		if(q != -1){
 			
-		    var feed = new google.feeds.Feed("http://bookserver.archive.org/catalog/opensearch?q=" + q);
+			var args = 'q=' + q;
+			if(page != -1){
+				args += '&start=' + page;
+			}
+			var url = "http://bookserver.archive.org/catalog/opensearch" + '?' + args;
+			
+		    var feed = new google.feeds.Feed(url);
 		    feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
 
 		    feed.includeHistoricalEntries(); // tell the API we want to have old entries too
@@ -130,6 +147,12 @@
 				</p>
 		</div>
 		<div id=list_data class="center_list">
+		</div>
+		<div class="pages">
+			<h3 class="result_msg"></h3>
+			<a><<</a>
+			<span class="current"></span>
+			<a>>></a>
 		</div>
 	</div> <!--container -->
   </body>
