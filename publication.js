@@ -3,24 +3,24 @@ var Publication = function (entry) {
 	this.node = entry.xmlNode;
 	// getCover : function () {
 	// 	$(this.node).find('link[type*="image/jpeg"][rel*="thumbnail"]').each(function(){
-	// 		console.log($(this));
+	// 		//console.log($(this));
 	// 	});
 	// },
 	this.getEpub = function () {
 		epub_url = $(this.node).find('link[type*="application/epub+zip"]').attr('href');
-		console.log(epub_url);
+		//console.log(epub_url);
 		return epub_url;
 	};
 	
 	this.getPdf = function () {
 		epub_url = $(this.node).find('link[type*="application/pdf"]').attr('href');
-		console.log(epub_url);
+		////console.log(epub_url);
 		return epub_url;
 	};
 	
 	this.getCover = function () {
 		cover_url = $(this.node).find('link[type*="image/jpeg"][rel*="thumbnail"]').attr('href');
-		console.log(cover_url);
+		////console.log(cover_url);
 		return cover_url;
 	}
 	

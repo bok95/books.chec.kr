@@ -125,7 +125,6 @@ div.content {
 }
 
 .title {
-    margin-bottom: .3em;
     font-size: 1.5em;
     line-height: 1;
 }
@@ -153,7 +152,7 @@ div.right_panel {
 }
 
 .download_header {
-    margin-bottom: .3em;
+    margin-bottom: 1.0em;
     color: #4D4D4D;
     font-size: 1.2em;
     font-weight: bold;

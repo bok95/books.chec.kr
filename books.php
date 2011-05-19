@@ -96,7 +96,7 @@
 			items_per_page: 50,
 			link_to: '/?q=' + q + '&page=__id__',
 			next_text:">>", 
-			prev_text: "<<",
+			prev_text: "<<"
 			};
 		
 		$("div.pagination").pagination(3210, optInit);
