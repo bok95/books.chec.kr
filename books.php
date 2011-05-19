@@ -99,8 +99,11 @@
 			prev_text: "<<"
 			};
 		
-		$("div.pagination").pagination(3210, optInit);
-//		var provider = new IA(result.feed);
+		var ia = new IA(result.feed);
+		total_result_count = ia.getResultCount();
+		if(total_result_count > 0){
+			$("div.pagination").pagination(total_result_count, optInit);
+		}
       }
     }
     

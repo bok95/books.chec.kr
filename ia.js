@@ -1,9 +1,13 @@
 var IA = function(feed){
     this.feed = feed;
-	this.pageInfo = this.feed.title.match(/[\d\.]+/g); 
-	if(pageInfo){
-		this.total_page = pageInfo[2];
+	_pageInfo = this.feed.title.match(/[\d\.]+/g); 
+	if(_pageInfo){
+		this.total_result_count = _pageInfo[2];
 	}
     
+	this.getResultCount = function () {
+		count = this.total_result_count;
+		return (count != null) ? count : -1;
+	};
 	
 }
