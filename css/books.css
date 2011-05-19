@@ -165,7 +165,7 @@ hr.split {
     color: #999;
 }
 
-.pages {
+.pagination {
     width: 950px;
     margin: 0 auto;
     text-align: center;
@@ -178,25 +178,25 @@ hr.split {
     font-weight: bold;
 }
 
-.pages a, .pages a:visited {
+.pagination a, .pagination a:visited {
     padding: .2em .5em;
     border: 1px solid #EEE;
     text-decoration: none;
     color: #406EA1;
 }
 
-.pages a:hover, .pages a:active {
+.pagination a:hover, .pagination a:active {
     border: 1px solid #406EA1;
     color: black;
 }
 
-.pages .current {
+.pagination .current {
     padding: .2em .5em;
     margin-right: .1em;
     color: #406EA1;
 }
 
-.pages .disabled {
+.pagination .disabled {
     padding: .2em .5em;
     margin-right: .1em;
     border: 1px solid #EEE;

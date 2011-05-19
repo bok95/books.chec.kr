@@ -5,6 +5,7 @@
     <title>books.chec.kr</title>
 	<link href="css/books.css" type="text/css" rel="stylesheet" />
 	<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
+	<script src="jquery.pagination.js"></script>
 	<script src="publication.js"></script>
 	<script src="ia.js"></script>
 	<script src="http://www.google.com/jsapi?key=ABQIAAAANh1OABxsMaSvl1OTck5I8RRL6ZglLh05n3dnEWnjIUmqeCfcGhRa7yfe_Pf1zInO6RCfBTBOMiWPLQ" type="text/javascript"></script>
@@ -25,6 +26,7 @@
 	?> 
     google.load("feeds", "1");
     var page;
+	var q;
 	
     // Our callback function, for when a feed is loaded.
     function feedLoaded(result) {
@@ -86,26 +88,33 @@
 		$('div.left_panel').show();
 		$('a#ia').addClass("selected");
 		$('h3.result_msg').text(result.feed.title);
-		$('div.pages span.current').text(page);
-		var provider = new IA(result.feed);
-		pageInfo = provider.getPageInfo();
-		console.log(pageInfo[0]);
-		console.log(pageInfo[1]);
-		console.log(pageInfo[2]);
+		var optInit = {
+			callback: pageselectCallback, 
+			current_page: page,
+			num_edge_entries:3, 
+			num_display_entries:5, 
+			items_per_page: 50,
+			link_to: '/?q=' + q + '&page=__id__',
+			next_text:">>", 
+			prev_text: "<<",
+			};
+		
+		$("div.pagination").pagination(3210, optInit);
+//		var provider = new IA(result.feed);
       }
     }
     
     function OnLoad() {
 		
       // Create a feed instance that will grab Digg's feed.
-		var q = "<?=$q?>";
-		page = "<?=$page?>";
-		if(q != -1){
+		q = "<?=$q?>";
+		page = parseInt("<?=$page?>");
+		if(page < 0){
+			page = 0;
+		}
 			
-			var args = 'q=' + q;
-			if(page != -1){
-				args += '&start=' + page;
-			}
+		if(q != -1){
+			var args = 'q=' + q + '&start=' + page;
 			var url = "http://bookserver.archive.org/catalog/opensearch" + '?' + args;
 			
 		    var feed = new google.feeds.Feed(url);
@@ -121,6 +130,12 @@
     }
     
     google.setOnLoadCallback(OnLoad);
+	
+	function pageselectCallback(page_index, jq){
+		
+		return true;
+	}
+		
     </script>
 
 	<script type="text/javascript">
@@ -148,11 +163,8 @@
 		</div>
 		<div id=list_data class="center_list">
 		</div>
-		<div class="pages">
-			<h3 class="result_msg"></h3>
-			<a><<</a>
-			<span class="current"></span>
-			<a>>></a>
+		<div class="pagination">
+			
 		</div>
 	</div> <!--container -->
   </body>
