@@ -105,7 +105,10 @@
     }
     
     function OnLoad() {
-		
+		if($.browser.msie==true) {
+   	 		alert('IE is not supported. Please use other browsers(Chrome, Firefox, Safari, Opera ...)');
+			return false;
+  		} 
       // Create a feed instance that will grab Digg's feed.
 		q = "<?=$q?>";
 		page = parseInt("<?=$page?>");
