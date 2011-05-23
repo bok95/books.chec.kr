@@ -102,7 +102,7 @@ var Shelf = function(args, callback){
                 pubs.push(pub);
             }
 			values['pubs'] = pubs;
-			values['feed'] = result.feed;
+			values['result'] = result;
             callback(values);
         }
     }
@@ -126,8 +126,10 @@ FBShelf.prototype.setup = function(args){
 	arg = 'query=' + args['query'] + '&page=' + page;
    	this.url = 'http://www.feedbooks.com/books/search.atom?' + arg;
 }
-FBShelf.prototype.getPubTotalCount = function(feed){
-	return $(feed.xmlnode).find('totalResults').text();
+FBShelf.prototype.getPubTotalCount = function(result){
+	xmlDocument = result.xmlDocument;
+	count = $(xmlDocument).find('totalResults').text();
+	return (count != null) ? parseInt(count) : 0;
 }
 	
 var IAShelf = function(args, callback) {
@@ -141,8 +143,8 @@ IAShelf.prototype.setup = function(args){
 	arg = 'q=' + args['query'] + '&start=' + args['page'];
 	this.url = 'http://bookserver.archive.org/catalog/opensearch?' + arg;	
 }
-IAShelf.prototype.getPubTotalCount = function(feed){
-	title = feed.title;
+IAShelf.prototype.getPubTotalCount = function(result){
+	title = result.feed.title;
 	if(title){
 		pageInfo = title.match(/[\d\.]+/g);
 	    if (pageInfo) {

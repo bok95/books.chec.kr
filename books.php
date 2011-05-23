@@ -36,7 +36,7 @@
 	
 	function showShelf(values){
 		pubs = values['pubs'];
-		feed = values['feed'];
+		result = values['result'];
 		
 		if (pubs == null) {
 			return false;
@@ -94,7 +94,7 @@
 				$('div#list_data').append(content_data);
 		}//for
 		
-		$('h3.result_msg').text(feed.title);
+		$('h3.result_msg').text(result.feed.title);
 		var optInit = {
 			callback: pageselectCallback, 
 			current_page: page,
@@ -106,7 +106,7 @@
 			prev_text: "<<"
 			};
 		
-		pubTotalCount = shelf.getPubTotalCount(feed);
+		pubTotalCount = shelf.getPubTotalCount(result);
 		if(pubTotalCount > 0){
 			$("div.pagination").pagination(pubTotalCount, optInit);
 		}
