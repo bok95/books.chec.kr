@@ -1,11 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>ACSM Test Page</title>
-</head> 
-<body>
-
-<a href="test.acsm" type="application/vnd.adobe.adept+xml">Test ACM file</a>
-
-</body>
+    <head>
+        <title>ACSM Test Page</title>
+		<script src="jquery-1.5.2.min.js"></script>
+        <script src="test.js">
+        </script>
+        <script type="text/javascript">
+        	function showShelf() {
+				console.log("showShelf()");
+			}
+			
+        	function onLoad() {
+				var args = new Array();
+				args['query'] = "query";
+				args['page'] = "page";
+				shelf = new IAShelf(args, showShelf);
+				shelf.feedLoad("query", "page");
+			}
+        
+        </script>
+    </head>
+    <body onload=onLoad()>
+    </body>
 </html>

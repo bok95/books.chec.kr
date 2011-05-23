@@ -32,6 +32,7 @@ a {
 
 a.selected {
     font-style: italic;
+	text-decoration: underline;
     color: #999;
 }
 

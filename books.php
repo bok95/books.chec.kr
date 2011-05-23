@@ -6,8 +6,7 @@
 	<link href="css/books.css" type="text/css" rel="stylesheet" />
 	<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
 	<script src="jquery.pagination.js"></script>
-	<script src="publication.js"></script>
-	<script src="ia.js"></script>
+	<script src="cp.js"></script>
 	<script src="http://www.google.com/jsapi?key=ABQIAAAANh1OABxsMaSvl1OTck5I8RRL6ZglLh05n3dnEWnjIUmqeCfcGhRa7yfe_Pf1zInO6RCfBTBOMiWPLQ" type="text/javascript"></script>
     <script type="text/javascript">
 
@@ -23,27 +22,38 @@
 		}else{
 			$page = -1;
 		}
+		
+		if(!empty($_GET['cpType'])){
+			$cpType = $_GET['cpType'];
+		}else{
+			$cpType = -1;
+		}
 	?> 
     google.load("feeds", "1");
     var page;
 	var q;
+	var cpType = 1;
 	
-    // Our callback function, for when a feed is loaded.
-    function feedLoaded(result) {
-      if (!result.error) {
-        for (var i = 0; i < result.feed.entries.length; i++) {
-			var entry = result.feed.entries[i];
-			var book = new Publication(entry);
-			epub = book.getEpub();
-			pdf = book.getPdf();
-			cover = book.getCover();
-			categories = book.getCategories();
-			authors = book.getAuthors();
-			title = book.getTitle();
-			publisher = book.getPublisher();
-			language = book.getLanguage();
+	function showShelf(values){
+		pubs = values['pubs'];
+		feed = values['feed'];
+		
+		if (pubs == null) {
+			return false;
+		}
+		for (var i = 0; i < pubs.length; i++) {
+			pub = pubs[i];
+			epub = pub.getEpub();
+			pdf = pub.getPdf();
+			cover = pub.getCover();
+			categories = pub.getCategories();
+			authors = pub.getAuthors();
+			title = pub.getTitle();
+			publisher = pub.getPublisher();
+			language = pub.getLanguage();
 			
-			var content_data ='<div class="cover">' +
+			var content_data =
+							'<div class="cover">' +
 								'<a >' + 
 									'<img src=' + cover + ' class="thumb"/>' + 
 								'</a>' +
@@ -81,32 +91,27 @@
 								'</div>' +	
 							'</div>' +
 							'<hr class="split">';
-							
-			$('div#list_data').append(content_data);
-         	// container.appendChild(div_data);
-        }
-		$('div.left_panel').show();
-		$('a#ia').addClass("selected");
-		$('h3.result_msg').text(result.feed.title);
+				$('div#list_data').append(content_data);
+		}//for
+		
+		$('h3.result_msg').text(feed.title);
 		var optInit = {
 			callback: pageselectCallback, 
 			current_page: page,
 			num_edge_entries:3, 
 			num_display_entries:5, 
 			items_per_page: 50,
-			link_to: '/?q=' + q + '&page=__id__',
+			link_to: '/?q=' + q + '&cpType=' + cpType + '&page=__id__',
 			next_text:">>", 
 			prev_text: "<<"
 			};
 		
-		var ia = new IA(result.feed);
-		total_result_count = ia.getResultCount();
-		if(total_result_count > 0){
-			$("div.pagination").pagination(total_result_count, optInit);
+		pubTotalCount = shelf.getPubTotalCount(feed);
+		if(pubTotalCount > 0){
+			$("div.pagination").pagination(pubTotalCount, optInit);
 		}
-      }
-    }
-    
+	}
+	    
     function OnLoad() {
 		if($.browser.msie==true) {
    	 		alert('IE is not supported. Please use other browsers(Chrome, Firefox, Safari, Opera ...)');
@@ -118,29 +123,56 @@
 		if(page < 0){
 			page = 0;
 		}
-			
+		cpType = parseInt("<?=$cpType?>");
+		if(cpType < 0){
+			cpType = 1;
+		}
 		if(q != -1){
-			var args = 'q=' + q + '&start=' + page;
-			var url = "http://bookserver.archive.org/catalog/opensearch" + '?' + args;
+			var args = {
+				query:	q,
+				page:	page
+			}
+			switch(cpType) {
+				case 1:
+					$('p.server a#fb').addClass("selected");
+					shelf = new FBShelf(args, showShelf);
+					break;
+				case 2:
+					$('p.server a#ia').addClass("selected");
+					shelf = new IAShelf(args, showShelf);
+					break;					
+				default: 
+					break;
+			}
 			
-		    var feed = new google.feeds.Feed(url);
-		    feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
-
-		    feed.includeHistoricalEntries(); // tell the API we want to have old entries too
-		    feed.setNumEntries(250); // we want a maximum of 250 entries, if they exist
-    
-		    // Calling load sends the request off.  It requires a callback function.
-		    feed.load(feedLoaded);
-			
+			shelf.feedLoad();		
+			setupServers();
+			$('div.left_panel').show();
 		}
     }
     
     google.setOnLoadCallback(OnLoad);
 	
 	function pageselectCallback(page_index, jq){
-		
 		return true;
 	}
+	
+	function setupServers() {
+		url = '/?' + 'q=' + q + '&page=0' + '&cpType=';
+		$('p.server a#fb').attr('href', url + '1');
+		$('p.server a#ia').attr('href', url + '2');
+	}
+	
+	$('p.server a#fb').live('click', function (e){
+		cpType = 1;
+		
+	});
+	
+	$('p.server a#ia').live('click', function (e){
+		cpType = 2;
+	});
+	
+	
 		
     </script>
 
@@ -163,6 +195,9 @@
 	<div class="container">
 		<div class="left_panel">
 			<p class="search_in">Search in</p>
+				<p class="server">
+					<a id="fb" href="http://www.feedbooks.com/">feedbooks</a>
+				</p>
 				<p class="server">
 					<a id="ia" href="http://www.archive.org/">Internet Archive</a>
 				</p>
