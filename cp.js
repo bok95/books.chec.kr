@@ -80,7 +80,6 @@ var Shelf = function(args, callback){
     var totalResultCount;
 	
 	this.feedLoad = function(){
-		console.log(this.url);
         var feed = new google.feeds.Feed(this.url);
         feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
         
