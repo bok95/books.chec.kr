@@ -83,6 +83,10 @@ hr {
     font-weight: bold;
 }
 
+#searching {
+    width: 755 px;
+}
+
 .server {
     margin-left: 16px;
     text-indent: -8px;

@@ -41,6 +41,7 @@
 		if (pubs == null) {
 			return false;
 		}
+		$('#searching').hide();
 		for (var i = 0; i < pubs.length; i++) {
 			pub = pubs[i];
 			epub = pub.getEpub();
@@ -203,6 +204,11 @@
 				</p>
 		</div>
 		<div id=list_data class="center_list">
+			<div id=searching>
+            	<h3 class="title">
+            		Searching ...
+            	</h3>
+            </div>
 		</div>
 		<div class="pagination">
 			

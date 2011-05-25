@@ -2,24 +2,50 @@
 <html>
     <head>
         <title>ACSM Test Page</title>
-		<script src="jquery-1.5.2.min.js"></script>
+        <link href="css/books.css" type="text/css" rel="stylesheet" />
+        <script src="jquery-1.5.2.min.js">
+        </script>
         <script src="test.js">
         </script>
         <script type="text/javascript">
-        	function showShelf() {
-				console.log("showShelf()");
-			}
-			
-        	function onLoad() {
-				var args = new Array();
-				args['query'] = "query";
-				args['page'] = "page";
-				shelf = new IAShelf(args, showShelf);
-				shelf.feedLoad("query", "page");
-			}
-        
+            function showShelf(){
+                console.log("showShelf()");
+            }
+            
+            function onLoad(){
+                //				var args = new Array();
+                //				args['query'] = "query";
+                //				args['page'] = "page";
+                //				shelf = new IAShelf(args, showShelf);
+                //				shelf.feedLoad("query", "page");
+				
+				$('div.left_panel').show();
+            }
         </script>
     </head>
     <body onload=onLoad()>
+        <div class="container">
+            <div class="left_panel">
+                <p class="search_in">
+                    Search in
+                </p>
+                <p class="server">
+                    <a id="fb" href="http://www.feedbooks.com/">feedbooks</a>
+                </p>
+                <p class="server">
+                    <a id="ia" href="http://www.archive.org/">Internet Archive</a>
+                </p>
+            </div>
+            <div id=list_data class="center_list">
+            	<div id=searching>
+            		<h3 class="title">
+            			Searching ...
+            		</h3>
+            	</div>
+            </div>
+            <div class="pagination">
+            </div>
+        </div>
+        <!--container -->
     </body>
 </html>
