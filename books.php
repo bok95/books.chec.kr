@@ -192,9 +192,17 @@
   </head>
 
   <body style="font-family: Arial;border: 0 none;">
-    <!-- <div id="content">Loading...</div> -->
+	<div class="search">
+		<a href="/">
+		<img class="logo_img" src="images/ebook-48.png" border="0" height="48">
+		<h2 class="logo_txt">
+			checkr
+		</h2>
+		</a>
+	</div>
+	<hr class="split">
 	<div class="container">
-		<div class="left_panel">
+		<div class="left_panel upper_line">
 			<p class="search_in">Search in</p>
 				<p class="server">
 					<a id="fb" href="http://www.feedbooks.com/">feedbooks</a>
@@ -203,7 +211,7 @@
 					<a id="ia" href="http://www.archive.org/">Internet Archive</a>
 				</p>
 		</div>
-		<div id=list_data class="center_list">
+		<div id=list_data class="center_list  upper_line">
 			<div id=searching>
             	<h3 class="title">
             		Searching ...
