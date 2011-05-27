@@ -72,6 +72,10 @@ hr {
 	margin-bottom: 0px;
 }
 
+#home {
+	height: 100%;
+}
+
 .logo_img {
 	float: left;
 }
@@ -79,7 +83,9 @@ hr {
 .logo_txt {
 	float: left;
 	color: #406EA1;
-	font-size: 2.3em;
+	font-size: 2.4em;
+	margin-top: 4px;
+	font-weight: bold;
 }
 
 #searchText {
@@ -103,7 +109,7 @@ hr {
 	margin-bottom: 0.8em;
 }
 
-.search_btn {
+#searchBtn {
 	font-size: 1.2em;
     height: 32px;
     padding: 3px 6px;

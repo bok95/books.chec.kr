@@ -101,7 +101,7 @@
 			current_page: page,
 			num_edge_entries:3, 
 			num_display_entries:5, 
-			items_per_page: 50,
+			items_per_page: 10,
 			link_to: '/?q=' + q + '&cpType=' + cpType + '&page=__id__',
 			next_text:">>", 
 			prev_text: "<<"
@@ -118,7 +118,6 @@
    	 		alert('IE is not supported. Please use other browsers(Chrome, Firefox, Safari, Opera ...)');
 			return false;
   		} 
-      // Create a feed instance that will grab Digg's feed.
 		q = "<?=$q?>";
 		page = parseInt("<?=$page?>");
 		if(page < 0){
@@ -173,8 +172,22 @@
 		cpType = 2;
 	});
 	
-	
-		
+	$('#searchBtn').live('click', function (e){
+		_search();
+    });
+
+    $('#searchText').live('keyup', function(e){
+	    if (e.keyCode==13) {
+	        _search();
+	    }
+    });
+
+    function _search(){
+    	var str = $('#searchText').val();
+		if(str != null){
+	    	window.location = "/?q=" + str;
+		}
+    }
     </script>
 
 	<script type="text/javascript">
@@ -196,12 +209,12 @@
         	<div id="home">
 	            <a href="/">
     	        	<img class="logo_img" src="images/ebook-48.png" border="0" height="48">
-					<h2 class="logo_txt">checkr</h2>
+					<h2 class="logo_txt">Checkr</h2>
 				</a>
         	</div>
             <div style="position:relative;zoom:1">
                 <input id="searchText" maxlength="2048" name="q" size="50" accesskey="s" id="hpq" style="text-align: left; ">
-				<button class="search_btn">search</button>
+				<button id="searchBtn">search</button>
             </div>
         </div><hr class="split">
         <div class="container">
