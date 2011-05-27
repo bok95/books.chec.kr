@@ -69,6 +69,7 @@ hr {
 .search {
 	width: 950px;
     margin: 1.5em auto;
+	margin-bottom: 0px;
 }
 
 .logo_img {
@@ -79,6 +80,35 @@ hr {
 	float: left;
 	color: #406EA1;
 	font-size: 2.3em;
+}
+
+#searchText {
+	width: 755 px;
+	float: left;
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #646464 #969696 #969696;
+    border-radius: 2px 2px 2px 2px;
+    border-right: 1px solid #969696;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    font-size: 1.2em;
+    height: 24px;
+    padding: 3px 6px;
+	margin-top: 0.8em;
+	margin-bottom: 0.8em;
+}
+
+.search_btn {
+	font-size: 1.2em;
+    height: 32px;
+    padding: 3px 6px;
+	margin-top: 0.8em;
+	margin-bottom: 0.8em;
 }
 
 .container {
@@ -93,12 +123,16 @@ hr {
 	padding-top: 1em;
 }
 
-.left_panel {
+.left_panel, #home {
     float: left;
-/*    margin-top: 1em;*/
     width: 150px;
+	margin-left: 20px;
+}
+
+.left_panel {
     display: none;
 }
+
 
 .search_in {
     font-weight: bold;
@@ -188,6 +222,8 @@ div.right_panel {
 hr.split {
     background: white;
     color: #999;
+	margin-bottom:0px;
+	margin-top:0px;
 }
 
 .pagination {

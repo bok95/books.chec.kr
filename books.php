@@ -192,35 +192,37 @@
   </head>
 
   <body style="font-family: Arial;border: 0 none;">
-	<div class="search">
-		<a href="/">
-		<img class="logo_img" src="images/ebook-48.png" border="0" height="48">
-		<h2 class="logo_txt">
-			checkr
-		</h2>
-		</a>
-	</div>
-	<hr class="split">
-	<div class="container">
-		<div class="left_panel upper_line">
-			<p class="search_in">Search in</p>
-				<p class="server">
-					<a id="fb" href="http://www.feedbooks.com/">feedbooks</a>
-				</p>
-				<p class="server">
-					<a id="ia" href="http://www.archive.org/">Internet Archive</a>
-				</p>
-		</div>
-		<div id=list_data class="center_list  upper_line">
-			<div id=searching>
-            	<h3 class="title">
-            		Searching ...
-            	</h3>
+        <div class="search">
+        	<div id="home">
+	            <a href="/">
+    	        	<img class="logo_img" src="images/ebook-48.png" border="0" height="48">
+					<h2 class="logo_txt">checkr</h2>
+				</a>
+        	</div>
+            <div style="position:relative;zoom:1">
+                <input id="searchText" maxlength="2048" name="q" size="50" accesskey="s" id="hpq" style="text-align: left; ">
+				<button class="search_btn">search</button>
             </div>
-		</div>
-		<div class="pagination">
-			
-		</div>
-	</div> <!--container -->
+        </div><hr class="split">
+        <div class="container">
+            <div class="left_panel upper_line">
+                <p class="search_in">
+                    Search in
+                </p>
+                <p class="server">
+                    <a id="fb" href="http://www.feedbooks.com/">feedbooks</a>
+                </p>
+                <p class="server">
+                    <a id="ia" href="http://www.archive.org/">Internet Archive</a>
+                </p>
+            </div>
+            <div id=list_data class="center_list  upper_line">
+                <div id=searching>
+                    <h3 class="title">Searching ...</h3>
+                </div>
+            </div>
+            <div class="pagination">
+            </div>
+        </div>
   </body>
 </html>
