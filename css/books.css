@@ -153,6 +153,11 @@ hr {
     text-indent: -8px;
 }
 
+.resultCount {
+	font-size: 0.9em;
+	color: #999;
+}
+
 p + p {
     margin-top: -1.5em;
 }

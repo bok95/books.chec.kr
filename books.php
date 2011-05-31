@@ -6,6 +6,7 @@
 	<link href="css/books.css" type="text/css" rel="stylesheet" />
 	<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
 	<script src="jquery.pagination.js"></script>
+	<script src="cutil.js"></script>
 	<script src="cp.js"></script>
 	<script src="http://www.google.com/jsapi?key=ABQIAAAANh1OABxsMaSvl1OTck5I8RRL6ZglLh05n3dnEWnjIUmqeCfcGhRa7yfe_Pf1zInO6RCfBTBOMiWPLQ" type="text/javascript"></script>
     <script type="text/javascript">
@@ -29,14 +30,19 @@
 			$cpType = -1;
 		}
 	?> 
-    google.load("feeds", "1");
+
+	google.load("feeds", "1");
+    
     var page;
 	var q;
 	var cpType = 1;
+	var fbShelf;
+	var iaShelf;
+	var itemPerPage;
 	
-	function showShelf(values){
-		pubs = values['pubs'];
-		result = values['result'];
+	function showShelf(shelf, data){
+		pubs = data['pubs'];
+		result = data['result'];
 		
 		if (pubs == null) {
 			return false;
@@ -101,7 +107,7 @@
 			current_page: page,
 			num_edge_entries:3, 
 			num_display_entries:5, 
-			items_per_page: 10,
+			items_per_page: itemPerPage,
 			link_to: '/?q=' + q + '&cpType=' + cpType + '&page=__id__',
 			next_text:">>", 
 			prev_text: "<<"
@@ -112,8 +118,40 @@
 			$("div.pagination").pagination(pubTotalCount, optInit);
 		}
 	}
+
+	function onFbShelfResult(data) {
+		clog("onFbShelfResult(0)");
+		result = data['result'];
+		if(cpType == 1){
+			clog("showShelf(0)");
+			itemPerPage = 20;
+			showShelf(fbShelf, data);
+			clog("showShelf(1)");
+		}
+		var resultCount = fbShelf.getPubTotalCount(result);
+		var countStr = '<span class="resultCount"> (' + resultCount + ')</span>';
+		$('p.server a#fb').append(countStr);
+		clog("onFbShelfResult(1)");
+		clog("fb : count " + resultCount);
+	}
+	
+	function onIaShelfResult(data) {
+		clog("onIaShelfResult(0)");
+		result = data['result'];
+		if(cpType == 2){
+			clog("showShelf(0)");
+			itemPerPage = 50;
+			showShelf(iaShelf, data);
+			clog("showShelf(1)");
+		}
+		var resultCount = iaShelf.getPubTotalCount(result);
+		var countStr = '<span class="resultCount"> (' + resultCount + ')</span>';
+		$('p.server a#ia').append(countStr);
+		clog("onIaShelfResult(1)");
+		clog("ia : count " + resultCount);
+	}
 	    
-    function OnLoad() {
+    function onLoad() {
 		if($.browser.msie==true) {
    	 		alert('IE is not supported. Please use other browsers(Chrome, Firefox, Safari, Opera ...)');
 			return false;
@@ -132,32 +170,47 @@
 				query:	q,
 				page:	page
 			}
+			
+			fbShelfLoad(args);
+			iaShelfLoad(args);
+			
 			switch(cpType) {
 				case 1:
 					$('p.server a#fb').addClass("selected");
-					shelf = new FBShelf(args, showShelf);
 					break;
 				case 2:
 					$('p.server a#ia').addClass("selected");
-					shelf = new IAShelf(args, showShelf);
 					break;					
 				default: 
 					break;
 			}
-			
-			shelf.feedLoad();		
 			setupServers();
 			$('div.left_panel').show();
 		}
     }
     
-    google.setOnLoadCallback(OnLoad);
+    google.setOnLoadCallback(onLoad);
 	
 	function pageselectCallback(page_index, jq){
 		return true;
 	}
+
+	function fbShelfLoad(args){
+		clog("fbShelfLoad(0)");
+		fbShelf = new FBShelf(args, onFbShelfResult);
+		fbShelf.feedLoad();
+		clog("fbShelfLoad(1)");
+	}
+
+	function iaShelfLoad(args){
+		clog("iaShelfLoad(0)");
+		iaShelf = new IAShelf(args, onIaShelfResult);
+		iaShelf.feedLoad();
+		clog("iaShelfLoad(1)");
+	}
 	
 	function setupServers() {
+		clog("setupServers()");
 		url = '/?' + 'q=' + q + '&page=0' + '&cpType=';
 		$('p.server a#fb').attr('href', url + '1');
 		$('p.server a#ia').attr('href', url + '2');
@@ -227,6 +280,7 @@
                 </p>
                 <p class="server">
                     <a id="ia" href="http://www.archive.org/">Internet Archive</a>
+                    
                 </p>
             </div>
             <div id=list_data class="center_list  upper_line">

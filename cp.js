@@ -127,8 +127,23 @@ FBShelf.prototype.setup = function(args){
 }
 FBShelf.prototype.getPubTotalCount = function(result){
 	xmlDocument = result.xmlDocument;
-	count = $(xmlDocument).find('totalResults').text();
-	return (count != null) ? parseInt(count) : 0;
+	var q; 
+	if ($.browser.mozilla) {
+		q = 'opensearch\\:totalResults';
+	}else if($.browser.webkit){
+		q = 'totalResults'
+	}
+	countStr = $(xmlDocument).find(q).text();
+	var count = 0;
+	if(countStr != null){
+		if(countStr.length > 0){
+				count = parseInt(countStr);
+				return count;
+		}else{
+			
+		}
+	}
+	return count;
 }
 	
 var IAShelf = function(args, callback) {
