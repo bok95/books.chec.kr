@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+    	
         <title>ACSM Test Page</title>
         <link href="css/books.css" type="text/css" rel="stylesheet" />
         <script src="jquery-1.5.2.min.js">
@@ -18,7 +19,7 @@
                 //				args['page'] = "page";
                 //				shelf = new IAShelf(args, showShelf);
                 //				shelf.feedLoad("query", "page");
-                
+			
                 $('div.left_panel').show();
             }
             
@@ -27,10 +28,7 @@
     <body onload=onLoad() style="font-family: Arial;border: 0 none;">
         <div class="search">
             <div id="home">
-                <a href="/">
-                	<img class="logo_img" src="images/ebook-48.png" border="0" height="48">
-					<h2 class="logo_txt">checkr</h2>
-				</a>
+                <a href="/"><img class="logo_img" src="images/ebook-48.png" border="0" height="48"><h2 class="logo_txt">checkr</h2></a>
             </div>
             <div style="position:relative;zoom:1">
                 <input id="searchText" maxlength="2048" name="q" size="50" accesskey="s" id="hpq" style="text-align: left; ">
@@ -47,6 +45,7 @@
                 </p>
                 <p class="server">
                     <a id="fb" href="http://www.feedbooks.com/">feedbooks</a>
+					<span>(10)</span>
                 </p>
                 <p class="server">
                     <a id="ia" href="http://www.archive.org/">Internet Archive</a>

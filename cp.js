@@ -127,7 +127,7 @@ FBShelf.prototype.setup = function(args){
 }
 FBShelf.prototype.getPubTotalCount = function(result){
 	xmlDocument = result.xmlDocument;
-	count = $(xmlDocument).find('totalResults').text();
+	count = $(xmlDocument).find('opensearch\\:totalResults').text();
 	return (count != null) ? parseInt(count) : 0;
 }
 	
