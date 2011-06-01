@@ -43,11 +43,12 @@
 	function showShelf(shelf, data){
 		pubs = data['pubs'];
 		result = data['result'];
-		
-		if (pubs == null) {
+		$('#searching .title').remove();
+		if (pubs == null || pubs.length == 0) {
+			$('#searching').append('<h3 class="title">Not found "' + q + '"</h3>');
 			return false;
 		}
-		$('#searching').hide();
+
 		for (var i = 0; i < pubs.length; i++) {
 			pub = pubs[i];
 			epub = pub.getEpub();
@@ -186,6 +187,7 @@
 			}
 			setupServers();
 			$('div.left_panel').show();
+			$('#searching').append('<h3 class="title">Searching ...</h3>');
 		}
     }
     
@@ -271,7 +273,7 @@
             </div>
         </div><hr class="split">
         <div class="container">
-            <div class="left_panel upper_line">
+            <div class="left_panel">
                 <p class="search_in">
                     Search in
                 </p>
@@ -283,9 +285,8 @@
                     
                 </p>
             </div>
-            <div id=list_data class="center_list  upper_line">
+            <div id=list_data class="center_list">
                 <div id=searching>
-                    <h3 class="title">Searching ...</h3>
                 </div>
             </div>
             <div class="pagination">

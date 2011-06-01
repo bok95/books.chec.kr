@@ -103,7 +103,10 @@ var Shelf = function(args, callback){
 			values['pubs'] = pubs;
 			values['result'] = result;
             callback(values);
-        }
+        }else{
+			values['result'] = result;
+			callback(values);
+		}
     }
     
     this.getPubs = function(){
@@ -134,16 +137,17 @@ FBShelf.prototype.getPubTotalCount = function(result){
 	}else if($.browser.webkit){
 		q = 'totalResults'
 	}
-	countStr = $(xmlDocument).find(q).text();
+	var countStr = $(xmlDocument).find(q).text();
 	var count = 0;
 	if(countStr != null){
 		if(countStr.length > 0){
 				count = parseInt(countStr);
-				return count;
 		}
 	}
 	return count;
 }
+	
+	
 	
 var IAShelf = function(args, callback) {
 	this.setup(args);
@@ -156,16 +160,22 @@ IAShelf.prototype.setup = function(args){
 	arg = 'q=' + args['query'] + '&start=' + args['page'];
 	this.url = 'http://bookserver.archive.org/catalog/opensearch?' + arg;	
 }
+
 IAShelf.prototype.getPubTotalCount = function(result){
 	title = result.feed.title;
+	var count = 0;
+	
 	if(title){
 		pageInfo = title.match(/[\d\.]+/g);
 	    if (pageInfo) {
-	    	count = pageInfo[2];
+	    	var countStr = pageInfo[2];
+			if(countStr != null){
+				if(countStr.length > 0){
+					count = parseInt(countStr);
+				}	
+			}
 	    }
-	    return (count != null) ? count : 0;
-	}else{
-		return 0;
 	}
+	return count;
 }
 
