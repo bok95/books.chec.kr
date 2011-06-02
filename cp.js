@@ -179,3 +179,24 @@ IAShelf.prototype.getPubTotalCount = function(result){
 	return count;
 }
 
+	
+var PGShelf = function(args, callback) {
+	this.setup(args);
+	Shelf.call(this, args, callback);
+	
+}
+PGShelf.prototype = new Shelf();
+PGShelf.prototype.constructor = PGShelf;
+PGShelf.prototype.setup = function(args){
+	var page = parseInt(args['page']);
+	page = (page * 25) + 1;
+	arg = 'default_prefix=all' + '&sort_order=downloads' + '&q=' + args['query'] + '&start_index=' + page;
+	this.url = 'http://www.gutenberg.org/ebooks/search.opds?' + arg;	
+}
+
+PGShelf.prototype.getPubTotalCount = function(result){
+	var count = 0;
+	
+	return count;
+}
+
