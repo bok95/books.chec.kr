@@ -38,6 +38,7 @@
 	var cpType = 1;
 	var fbShelf;
 	var iaShelf;
+	var pgShelf;
 	var itemPerPage;
 	
 	function showShelf(shelf, data){
@@ -151,6 +152,22 @@
 		clog("onIaShelfResult(1)");
 		clog("ia : count " + resultCount);
 	}
+
+	function onPgShelfResult(data) {
+		clog("onPgShelfResult(0)");
+		result = data['result'];
+		if(cpType == 3){
+			clog("showShelf(0)");
+			itemPerPage = 25;
+			showShelf(pgShelf, data);
+			clog("showShelf(1)");
+		}
+		var resultCount = pgShelf.getPubTotalCount(result);
+		var countStr = '<span class="resultCount"> (' + resultCount + ')</span>';
+		$('p.server a#ia').append(countStr);
+		clog("onPgShelfResult(1)");
+		clog("ia : count " + resultCount);
+	}
 	    
     function onLoad() {
 		if($.browser.msie==true) {
@@ -172,8 +189,9 @@
 				page:	page
 			}
 			
-			fbShelfLoad(args);
-			iaShelfLoad(args);
+			//fbShelfLoad(args);
+			//iaShelfLoad(args);
+			pgShelfLoad(args);
 			
 			switch(cpType) {
 				case 1:
@@ -210,12 +228,20 @@
 		iaShelf.feedLoad();
 		clog("iaShelfLoad(1)");
 	}
+
+	function pgShelfLoad(args){
+		clog("pgShelfLoad(0)");
+		pgShelf = new PGShelf(args, onPgShelfResult);
+		pgShelf.getCatalog();
+		clog("pgShelfLoad(1)");
+	}
 	
 	function setupServers() {
 		clog("setupServers()");
 		url = '/?' + 'q=' + q + '&page=0' + '&cpType=';
 		$('p.server a#fb').attr('href', url + '1');
 		$('p.server a#ia').attr('href', url + '2');
+		$('p.server a#pg').attr('href', url + '3');
 	}
 	
 	$('p.server a#fb').live('click', function (e){
@@ -282,7 +308,9 @@
                 </p>
                 <p class="server">
                     <a id="ia" href="http://www.archive.org/">Internet Archive</a>
-                    
+                </p>
+                <p class="server">
+                    <a id="pg" href="http://www.gutenberg.org/">Gutenberg</a>
                 </p>
             </div>
             <div id=list_data class="center_list">

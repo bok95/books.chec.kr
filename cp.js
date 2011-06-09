@@ -15,10 +15,15 @@ var Publication = function(entry){
     };
     
     this.getCover = function(){
+        //PG : image/png
         cover_url = $(this.node).find('link[type*="image/jpeg"][rel*="thumbnail"]').attr('href');
         return cover_url;
     }
     
+    //Category 
+    //FB : label
+    //IA : term
+    //PG : term
     this.getCategoryArray = function(){
         categories = new Array();
         $(this.node).find('category').each(function(){
@@ -65,6 +70,10 @@ var Publication = function(entry){
         return authors;
     }
     
+    //Publisher
+    //IA : dcterms:publisher
+    //FB : dcterms:source
+    //PG : 
     this.getPublisher = function(){
         return $(this.node).find('publisher').text();
     }
@@ -76,10 +85,10 @@ var Publication = function(entry){
 
 var Shelf = function(args, callback){
     this.callback = callback;
-	this.url;
+    this.url;
     var totalResultCount;
-	
-	this.feedLoad = function(){
+    
+    this.feedLoad = function(){
         var feed = new google.feeds.Feed(this.url);
         feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
         
@@ -87,116 +96,175 @@ var Shelf = function(args, callback){
         feed.setNumEntries(250);
         feed.load($.proxy(this, this.feedLoaded));
     }
-	
+    
     this.feedLoaded = function(result){
-		var values = new Array();
-		var pubs = new Array();
-		
+        var values = new Array();
+        var pubs = new Array();
+        
         if (!result.error) {
-            
+        
             entries = result.feed.entries;
             for (var i = 0; i < entries.length; i++) {
                 var entry = entries[i];
                 pub = new Publication(entry);
                 pubs.push(pub);
             }
-			values['pubs'] = pubs;
-			values['result'] = result;
+            values['pubs'] = pubs;
+            values['result'] = result;
             callback(values);
-        }else{
-			values['result'] = result;
-			callback(values);
-		}
+        }
+        else {
+            values['result'] = result;
+            callback(values);
+        }
     }
     
     this.getPubs = function(){
         return (pubs != null) ? pubs : null;
     }
-	
-	getPubTotalCount = function() {};
+    
+    getPubTotalCount = function(){
+    };
 }
 
-var FBShelf = function(args, callback) {
-	this.setup(args);
-	Shelf.call(this, args, callback);
+var FBShelf = function(args, callback){
+    this.setup(args);
+    Shelf.call(this, args, callback);
 }
 FBShelf.prototype = new Shelf();
 FBShelf.prototype.constructor = FBShelf;
 FBShelf.prototype.setup = function(args){
-	var page = parseInt(args['page']);
-	page++;
-	arg = 'query=' + args['query'] + '&page=' + page;
-   	this.url = 'http://www.feedbooks.com/books/search.atom?' + arg;
+    var page = parseInt(args['page']);
+    page++;
+    arg = 'query=' + args['query'] + '&page=' + page;
+    this.url = 'http://www.feedbooks.com/books/search.atom?' + arg;
 }
 FBShelf.prototype.getPubTotalCount = function(result){
-	xmlDocument = result.xmlDocument;
-
-	var q; 
-	if ($.browser.mozilla) {
-		q = 'opensearch\\:totalResults';
-	}else if($.browser.webkit){
-		q = 'totalResults'
-	}
-	var countStr = $(xmlDocument).find(q).text();
-	var count = 0;
-	if(countStr != null){
-		if(countStr.length > 0){
-				count = parseInt(countStr);
-		}
-	}
-	return count;
+    xmlDocument = result.xmlDocument;
+    
+    var q;
+    if ($.browser.mozilla) {
+        q = 'opensearch\\:totalResults';
+    }
+    else 
+        if ($.browser.webkit) {
+            q = 'totalResults'
+        }
+    var countStr = $(xmlDocument).find(q).text();
+    var count = 0;
+    if (countStr != null) {
+        if (countStr.length > 0) {
+            count = parseInt(countStr);
+        }
+    }
+    return count;
 }
-	
-	
-	
-var IAShelf = function(args, callback) {
-	this.setup(args);
-	Shelf.call(this, args, callback);
-	
+
+
+
+var IAShelf = function(args, callback){
+    this.setup(args);
+    Shelf.call(this, args, callback);
+    
 }
 IAShelf.prototype = new Shelf();
 IAShelf.prototype.constructor = IAShelf;
 IAShelf.prototype.setup = function(args){
-	arg = 'q=' + args['query'] + '&start=' + args['page'];
-	this.url = 'http://bookserver.archive.org/catalog/opensearch?' + arg;	
+    arg = 'q=' + args['query'] + '&start=' + args['page'];
+    this.url = 'http://bookserver.archive.org/catalog/opensearch?' + arg;
 }
 
 IAShelf.prototype.getPubTotalCount = function(result){
-	title = result.feed.title;
-	var count = 0;
-	
-	if(title){
-		pageInfo = title.match(/[\d\.]+/g);
-	    if (pageInfo) {
-	    	var countStr = pageInfo[2];
-			if(countStr != null){
-				if(countStr.length > 0){
-					count = parseInt(countStr);
-				}	
-			}
-	    }
-	}
-	return count;
+    title = result.feed.title;
+    var count = 0;
+    
+    if (title) {
+        pageInfo = title.match(/[\d\.]+/g);
+        if (pageInfo) {
+            var countStr = pageInfo[2];
+            if (countStr != null) {
+                if (countStr.length > 0) {
+                    count = parseInt(countStr);
+                }
+            }
+        }
+    }
+    return count;
 }
 
-	
-var PGShelf = function(args, callback) {
-	this.setup(args);
-	Shelf.call(this, args, callback);
-	
+var PGShelf = function(args, callback){
+    this.setup(args);
+    Shelf.call(this, args, callback);
+    
 }
+
 PGShelf.prototype = new Shelf();
 PGShelf.prototype.constructor = PGShelf;
 PGShelf.prototype.setup = function(args){
-	var page = parseInt(args['page']);
-	page = (page * 25) + 1;
-	arg = 'default_prefix=all' + '&sort_order=downloads' + '&q=' + args['query'] + '&start_index=' + page;
-	this.url = 'http://www.gutenberg.org/ebooks/search.opds?' + arg;	
+    var page = parseInt(args['page']);
+    page = (page * 25) + 1;
+    arg = 'default_prefix=all' + '&sort_order=downloads' + '&query=' + args['query'] + '&start_index=' + page;
+    this.url = 'http://www.gutenberg.org/ebooks/search.opds/?' + arg;
 }
 
 PGShelf.prototype.getPubTotalCount = function(result){
-	var count = 0;
-	
-	return count;
+    var count = 0;
+    
+    return count;
 }
+
+PGShelf.prototype.feedLoad = function(){
+	this.getCatalog();
+}
+
+PGShelf.prototype.getCatalog = function() {
+    var feed = new google.feeds.Feed(this.url);
+    feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
+    
+    feed.includeHistoricalEntries();
+    feed.setNumEntries(250);
+    feed.load($.proxy(this, this.onCatalog));
+}
+
+PGShelf.prototype.onCatalog = function(result){
+    var values = new Array();
+    var pubs = new Array();
+    
+    if (!result.error) {
+    
+        entries = result.feed.entries;
+        for (var i = 0; i < entries.length; i++) {
+            var entry = entries[i];
+			xmlNode = entry.xmlNode;
+			id = $(xmlNode).find('id').text();
+			clog(id);
+        }
+    }
+    else {
+        values['result'] = result;
+        callback(values);
+    }
+}
+
+PGShelf.prototype.getPub = function(url) {
+    var feed = new google.feeds.Feed(url);
+    feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
+    
+    feed.includeHistoricalEntries();
+    feed.setNumEntries(250);
+    feed.load($.proxy(this, this.onPub));
+}
+
+PGShelf.prototype.onPub = function(result){
+    var values = new Array();
+    var pubs = new Array();
+    
+    if (!result.error) {
+    }
+    else {
+    }
+}
+
+
+
 
