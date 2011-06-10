@@ -39,68 +39,81 @@
 	var fbShelf;
 	var iaShelf;
 	var pgShelf;
+	var pgCatalog;
+	var pgPubIDs;
+	var pgPubCount;
 	var itemPerPage;
+
+	function showPub(pub){
+		var epub = makeDownloadTag("epub", pub.getEpub());
+		clog("epub = " + epub);
+		var pdf = makeDownloadTag("pdf", pub.getPdf());
+		clog("pdf = " + pdf);
+		var cover = pub.getCover();
+		clog("cover = " + cover);
+		var categories = pub.getCategories();
+		clog("categories = " + categories);
+		var authors = pub.getAuthors();
+		clog("authors = " + authors);
+		var title = pub.getTitle();
+		clog("title = " + title);
+		var publisher = pub.getPublisher();
+		clog("publisher = " + publisher);
+		var language = pub.getLanguage();
+		clog("language = " + language);
+		
+		var content_data =
+						'<div class="cover">' +
+							'<a >' + 
+								'<img src=' + cover + ' class="thumb"/>' + 
+							'</a>' +
+						'</div>' +
+						'<div class="content">' +
+				  			'<h3 class="title">' + 
+								'<a>' + title + '</a>' +
+							'</h3>' +
+				  			'<p class="mata_tag">' + 
+								'Author : '  +
+								'<span class="meta_data">' + authors + '</a>' +
+							'</p>' +
+					  		'<p class="mata_tag">' + 
+								'Language : '  +
+								'<span class="meta_data">' + language + '</a>' +
+							'</p>' +
+			  				'<p class="mata_tag">' + 
+								'Category : '  +
+								'<span class="meta_data">' + categories + '</a>' +
+							'</p>' +
+					  		'<p class="mata_tag">' + 
+								'Publisher : '  +
+								'<span class="meta_data">' + publisher + '</a>' +
+							'</p>' +
+						'</div>' +
+						'<div class="right_panel">' +
+							'<h4 class="download_header">Download</h4>' +
+							'<div class="format">';
+			content_data += epub;
+			content_data += pdf;
+			content_data += '</div>' +	
+						'</div>' +
+						'<hr class="split">';
+			$('div#list_data').append(content_data);
+	}
 	
 	function showShelf(shelf, data){
 		pubs = data['pubs'];
 		result = data['result'];
-		$('#searching .title').remove();
+		hideSearchingMsg();
 		if (pubs == null || pubs.length == 0) {
-			$('#searching').append('<h3 class="title">Not found "' + q + '"</h3>');
+			showNotFoundMsg();
 			return false;
 		}
 
 		for (var i = 0; i < pubs.length; i++) {
-			pub = pubs[i];
-			epub = pub.getEpub();
-			pdf = pub.getPdf();
-			cover = pub.getCover();
-			categories = pub.getCategories();
-			authors = pub.getAuthors();
-			title = pub.getTitle();
-			publisher = pub.getPublisher();
-			language = pub.getLanguage();
-			
-			var content_data =
-							'<div class="cover">' +
-								'<a >' + 
-									'<img src=' + cover + ' class="thumb"/>' + 
-								'</a>' +
-							'</div>' +
-							'<div class="content">' +
-					  			'<h3 class="title">' + 
-									'<a>' + title + '</a>' +
-								'</h3>' +
-					  			'<p class="mata_tag">' + 
-									'Author : '  +
-									'<span class="meta_data">' + authors + '</a>' +
-								'</p>' +
-						  		'<p class="mata_tag">' + 
-									'Language : '  +
-									'<span class="meta_data">' + language + '</a>' +
-								'</p>' +
-				  				'<p class="mata_tag">' + 
-									'Category : '  +
-									'<span class="meta_data">' + categories + '</a>' +
-								'</p>' +
-						  		'<p class="mata_tag">' + 
-									'Publisher : '  +
-									'<span class="meta_data">' + publisher + '</a>' +
-								'</p>' +
-							'</div>' +
-							'<div class="right_panel">' +
-								'<h4 class="download_header">Download</h4>' +
-								'<div class="format">' +
-									'<p>' +
-										'<a href=' + epub + '>' + "epub" + '</a>' +
-									'</p>' +
-									'<p>' +
-										'<a href=' + pdf + '>' + "pdf" + '</a>' +
-									'</p>' +
-								'</div>' +	
-							'</div>' +
-							'<hr class="split">';
-				$('div#list_data').append(content_data);
+			var pub = pubs[i];
+			if(pub){
+				showPub(pub);
+			}
 		}//for
 		
 		$('h3.result_msg').text(result.feed.title);
@@ -120,7 +133,24 @@
 			$("div.pagination").pagination(pubTotalCount, optInit);
 		}
 	}
+	function hideSearchingMsg(){
+		$('#searching .title').remove();
+	}
 
+	function showNotFoundMsg(){
+		$('#searching').append('<h3 class="title">Not found "' + q + '"</h3>');
+	}
+
+	function makeCountTag(count){
+		return '<span class="resultCount"> (' + count + ')</span>';
+	}
+
+	function makeDownloadTag(type, link){
+		var tag = (link) ? '<p>' +
+		'<a href=' + link + '>' + type + '</a>' + '</p>' : "";
+		return tag;
+	}
+	
 	function onFbShelfResult(data) {
 		clog("onFbShelfResult(0)");
 		result = data['result'];
@@ -131,8 +161,7 @@
 			clog("showShelf(1)");
 		}
 		var resultCount = fbShelf.getPubTotalCount(result);
-		var countStr = '<span class="resultCount"> (' + resultCount + ')</span>';
-		$('p.server a#fb').append(countStr);
+		$('p.server a#fb').append(makeCountTag(resultCount));
 		clog("onFbShelfResult(1)");
 		clog("fb : count " + resultCount);
 	}
@@ -147,26 +176,57 @@
 			clog("showShelf(1)");
 		}
 		var resultCount = iaShelf.getPubTotalCount(result);
-		var countStr = '<span class="resultCount"> (' + resultCount + ')</span>';
-		$('p.server a#ia').append(countStr);
+		
+		$('p.server a#ia').append(makeCountTag(resultCount));
 		clog("onIaShelfResult(1)");
 		clog("ia : count " + resultCount);
 	}
 
 	function onPgShelfResult(data) {
 		clog("onPgShelfResult(0)");
-		result = data['result'];
-		if(cpType == 3){
-			clog("showShelf(0)");
-			itemPerPage = 25;
-			showShelf(pgShelf, data);
-			clog("showShelf(1)");
+		if(data){
+			hideSearchingMsg();
+			if(cpType == 3){
+				pgPubCount++;
+				showPub(data);
+			}
 		}
-		var resultCount = pgShelf.getPubTotalCount(result);
-		var countStr = '<span class="resultCount"> (' + resultCount + ')</span>';
-		$('p.server a#ia').append(countStr);
+		if(pgPubIDs){
+			if(pgPubIDs.length > 0){
+				if(pgShelf){
+					var id = pgPubIDs.pop();
+					pgShelf = new PGShelf(id, onPgShelfResult);
+					pgShelf.feedLoad();
+				}
+			}else{
+				var count = pgPubCount;
+				if(pgPubCount == 25){
+					count += "+";
+				}
+				$('p.server a#pg').append(makeCountTag(count));
+			}
+		}
 		clog("onPgShelfResult(1)");
-		clog("ia : count " + resultCount);
+	}
+
+	function onPgCatalogResult(data) {
+		clog("onPgCatalogResult(0)");
+		pgPubCount = 0;
+		pgPubIDs = data;
+		if(pgPubIDs){
+			if(pgPubIDs.length > 0){
+				var id = pgPubIDs.pop();
+				pgShelf = new PGShelf(id, onPgShelfResult);
+				pgShelf.feedLoad();
+			}else{
+				hideSearchingMsg();
+				showNotFoundMsg();
+			}
+		}else{
+			hideSearchingMsg();
+			showNotFoundMsg();
+		}
+		clog("onPgCatalogResult(1)");
 	}
 	    
     function onLoad() {
@@ -188,9 +248,8 @@
 				query:	q,
 				page:	page
 			}
-			
-			//fbShelfLoad(args);
-			//iaShelfLoad(args);
+			fbShelfLoad(args);
+			iaShelfLoad(args);
 			pgShelfLoad(args);
 			
 			switch(cpType) {
@@ -199,6 +258,9 @@
 					break;
 				case 2:
 					$('p.server a#ia').addClass("selected");
+					break;					
+				case 3:
+					$('p.server a#pg').addClass("selected");
 					break;					
 				default: 
 					break;
@@ -231,8 +293,8 @@
 
 	function pgShelfLoad(args){
 		clog("pgShelfLoad(0)");
-		pgShelf = new PGShelf(args, onPgShelfResult);
-		pgShelf.getCatalog();
+		pgCatalog = new PGCatalog(args, onPgCatalogResult);
+		pgCatalog.getCatalog();
 		clog("pgShelfLoad(1)");
 	}
 	
@@ -251,6 +313,10 @@
 	
 	$('p.server a#ia').live('click', function (e){
 		cpType = 2;
+	});
+	
+	$('p.server a#pg').live('click', function (e){
+		cpType = 3;
 	});
 	
 	$('#searchBtn').live('click', function (e){

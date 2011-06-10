@@ -1,4 +1,4 @@
-DEBUG = false; // set to false to disable debugging
+DEBUG = true; // set to false to disable debugging
 
 function clog (argument) {
 	if( DEBUG ){

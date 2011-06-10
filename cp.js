@@ -17,7 +17,7 @@ var Publication = function(entry){
     this.getCover = function(){
         //PG : image/png
         cover_url = $(this.node).find('link[type*="image/jpeg"][rel*="thumbnail"]').attr('href');
-        return cover_url;
+        return (cover_url != null) ? cover_url : "";
     }
     
     //Category 
@@ -103,7 +103,7 @@ var Shelf = function(args, callback){
         
         if (!result.error) {
         
-            entries = result.feed.entries;
+            var entries = result.feed.entries;
             for (var i = 0; i < entries.length; i++) {
                 var entry = entries[i];
                 pub = new Publication(entry);
@@ -192,79 +192,120 @@ IAShelf.prototype.getPubTotalCount = function(result){
     return count;
 }
 
-var PGShelf = function(args, callback){
-    this.setup(args);
-    Shelf.call(this, args, callback);
+var Catalog = function(args, callback){
+    this.callback = callback;
     
+    this.getCatalog = function(){
+        var feed = new google.feeds.Feed(this.url);
+        feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
+        
+        feed.includeHistoricalEntries();
+        feed.setNumEntries(250);
+        feed.load($.proxy(this, this.onCatalog));
+    }
+    
+    this.onCatalog = function(result){
+        var values = new Array();
+        var pubIDs = new Array();
+        
+        if (!result.error) {
+            entries = result.feed.entries;
+            for (var i = 0; i < entries.length; i++) {
+                var entry = entries[i];
+                xmlNode = entry.xmlNode;
+                var id = $(xmlNode).find('id').text();
+                if (id) {
+                    if (id.length > 0) {
+                        var tmp = ".opds";
+                        var extension = id.substr(-(tmp.length));
+                        if (tmp == extension) {
+                            pubIDs.push(id);
+                        }
+                    }
+                }
+            }
+            callback(pubIDs);
+        }
+        else {
+        
+        }
+    }
 }
 
-PGShelf.prototype = new Shelf();
-PGShelf.prototype.constructor = PGShelf;
-PGShelf.prototype.setup = function(args){
+var PGCatalog = function(args, callback){
+    this.setup(args);
+    Catalog.call(this, args, callback);
+}
+
+PGCatalog.prototype = new Catalog();
+PGCatalog.prototype.constructor = PGCatalog;
+PGCatalog.prototype.setup = function(args){
     var page = parseInt(args['page']);
     page = (page * 25) + 1;
     arg = 'default_prefix=all' + '&sort_order=downloads' + '&query=' + args['query'] + '&start_index=' + page;
     this.url = 'http://www.gutenberg.org/ebooks/search.opds/?' + arg;
 }
 
+
+var PGShelf = function(pubID, callback){
+    this.pubID = pubID;
+    this.callback = callback;
+	this.pubs = new Array();
+	var values = new Array();
+	
+    this.feedLoad = function(){
+        var id = this.pubID;
+		if(id){
+	        this.getPub(id);
+		}else{
+			callback(pubs);
+		}
+    }
+    
+    this.getPub = function(url){
+        var feed = new google.feeds.Feed(url);
+		clog("getPub:" + url);
+        feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
+        
+        feed.includeHistoricalEntries();
+        feed.setNumEntries(250);
+        feed.load($.proxy(this, this.onPub));
+    }
+    
+    this.onPub = function(result){
+        //var values = new Array();
+        var pubs;
+        clog("onPub");
+        if (!result.error) {
+            var entries = result.feed.entries;
+			clog("entries = " + entries.length);
+            for (var i = 0; i < entries.length; i++) {
+                var entry = entries[i];
+                pub = new Publication(entry);
+               // pubs.push(pub);
+            }
+            //values['pubs'] = pubs;
+            //values['result'] = result;
+            //feedLoad();
+			callback(pub);
+        }
+        else {
+        }
+    }
+}
+
+
+PGShelf.prototype = new PGShelf();
+PGShelf.prototype.constructor = PGShelf;
+PGShelf.prototype.setup = function(args){
+}
+
+
 PGShelf.prototype.getPubTotalCount = function(result){
     var count = 0;
     
     return count;
 }
-
-PGShelf.prototype.feedLoad = function(){
-	this.getCatalog();
-}
-
-PGShelf.prototype.getCatalog = function() {
-    var feed = new google.feeds.Feed(this.url);
-    feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
-    
-    feed.includeHistoricalEntries();
-    feed.setNumEntries(250);
-    feed.load($.proxy(this, this.onCatalog));
-}
-
-PGShelf.prototype.onCatalog = function(result){
-    var values = new Array();
-    var pubs = new Array();
-    
-    if (!result.error) {
-    
-        entries = result.feed.entries;
-        for (var i = 0; i < entries.length; i++) {
-            var entry = entries[i];
-			xmlNode = entry.xmlNode;
-			id = $(xmlNode).find('id').text();
-			clog(id);
-        }
-    }
-    else {
-        values['result'] = result;
-        callback(values);
-    }
-}
-
-PGShelf.prototype.getPub = function(url) {
-    var feed = new google.feeds.Feed(url);
-    feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
-    
-    feed.includeHistoricalEntries();
-    feed.setNumEntries(250);
-    feed.load($.proxy(this, this.onPub));
-}
-
-PGShelf.prototype.onPub = function(result){
-    var values = new Array();
-    var pubs = new Array();
-    
-    if (!result.error) {
-    }
-    else {
-    }
-}
-
 
 
 
