@@ -49,7 +49,7 @@
 		clog("epub = " + epub);
 		var pdf = makeDownloadTag("pdf", pub.getPdf());
 		clog("pdf = " + pdf);
-		var cover = pub.getCover();
+		var cover = makeCoverTag(pub.getCover());
 		clog("cover = " + cover);
 		var categories = pub.getCategories();
 		clog("categories = " + categories);
@@ -61,12 +61,14 @@
 		clog("publisher = " + publisher);
 		var language = pub.getLanguage();
 		clog("language = " + language);
+		var pubType = pub.getPubType();
+		clog("pubType >>>>>> " + pubType);
 		
 		var content_data =
 						'<div class="cover">' +
-							'<a >' + 
-								'<img src=' + cover + ' class="thumb"/>' + 
-							'</a>' +
+							'<a >';
+		content_data += cover;
+		content_data += '</a>' +
 						'</div>' +
 						'<div class="content">' +
 				  			'<h3 class="title">' + 
@@ -144,11 +146,13 @@
 	function makeCountTag(count){
 		return '<span class="resultCount"> (' + count + ')</span>';
 	}
-
+	
+	function makeCoverTag(cover){
+		return (cover) ? '<img src=' + cover + ' class="thumb"/>' : "";
+	}
 	function makeDownloadTag(type, link){
-		var tag = (link) ? '<p>' +
+		return (link) ? '<p>' +
 		'<a href=' + link + '>' + type + '</a>' + '</p>' : "";
-		return tag;
 	}
 	
 	function onFbShelfResult(data) {
@@ -176,7 +180,6 @@
 			clog("showShelf(1)");
 		}
 		var resultCount = iaShelf.getPubTotalCount(result);
-		
 		$('p.server a#ia').append(makeCountTag(resultCount));
 		clog("onIaShelfResult(1)");
 		clog("ia : count " + resultCount);
@@ -186,8 +189,8 @@
 		clog("onPgShelfResult(0)");
 		if(data){
 			hideSearchingMsg();
+			pgPubCount++;
 			if(cpType == 3){
-				pgPubCount++;
 				showPub(data);
 			}
 		}

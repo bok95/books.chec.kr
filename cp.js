@@ -3,6 +3,7 @@ var BOOKSERVER_FEEDBOOKS = 'http://www.feedbooks.com/books/search.atom';
 var Publication = function(entry){
     this.entry = entry;
     this.node = entry.xmlNode;
+	this.pubType = 1;
     
     this.getEpub = function(){
         epub_url = $(this.node).find('link[type*="application/epub+zip"]').attr('href');
@@ -34,9 +35,14 @@ var Publication = function(entry){
     
     this.getCategories = function(){
         var categories = '';
+		var parent = this;
         $(this.node).find('category').each(function(){
             if (categories != '') {
-                categories += ', ' + $(this).attr('term');
+				var term = $(this).attr('term');
+				if(term == "Sound" || term == "sound"){
+					parent.pubType = 2;
+				}
+                categories += ', ' + term;
             }
             else {
                 categories += $(this).attr('term');
@@ -45,6 +51,10 @@ var Publication = function(entry){
         return categories;
     }
     
+	this.getPubType = function(){
+		return this.pubType;
+	}
+
     this.getTitle = function(){
         return $(this.node).find('title').text();
     }
