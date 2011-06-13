@@ -33,12 +33,22 @@
 
 	google.load("feeds", "1");
 
+	var FB = function(){
+		this.shelf;
+
+		this.loadShelf = function(args){
+			clog("fbShelfLoad(0)");
+			this.shelf = new FBShelf(args, onFbShelfResult);
+			this.shelf.feedLoad();
+			clog("fbShelfLoad(1)");
+		}
+	}
+
 	var PG = function(){
 		this.pgShelf;
 		this.pgCatalog;
 		this.pgPubIDs;
 		var bNextPage; //boolean
-
 
 		this.loadShelf = function(args){
 			clog("loadShelf(0)");
@@ -65,7 +75,7 @@
     var page;
 	var q;
 	var cpType = 1;
-	var fbShelf;
+
 	var iaShelf;
 	var itemPerPage;
 
@@ -213,10 +223,10 @@
 		if(cpType == 1){
 			clog("showShelf(0)");
 			itemPerPage = 20;
-			showShelf(fbShelf, data, 0);
+			showShelf(bsFB.shelf, data, 0);
 			clog("showShelf(1)");
 		}
-		var resultCount = fbShelf.getPubTotalCount(result);
+		var resultCount = bsFB.shelf.getPubTotalCount(result);
 		$('p.server a#fb').append(makeCountTag(resultCount));
 		clog("onFbShelfResult(1)");
 		clog("fb : count " + resultCount);
@@ -317,7 +327,8 @@
 				page:	page
 			}
 
-			fbShelfLoad(args);
+			bsFB = new FB();
+			bsFB.loadShelf(args);
 			iaShelfLoad(args);
 
 			bsPG = new PG();
@@ -350,13 +361,6 @@
 	
 	function pageselectCallback(page_index, jq){
 		return true;
-	}
-
-	function fbShelfLoad(args){
-		clog("fbShelfLoad(0)");
-		fbShelf = new FBShelf(args, onFbShelfResult);
-		fbShelf.feedLoad();
-		clog("fbShelfLoad(1)");
 	}
 
 	function iaShelfLoad(args){
