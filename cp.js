@@ -234,7 +234,9 @@ var Catalog = function(args, callback){
                     }
                 }
             }
-            callback(pubIDs);
+			values['pubs'] = pubIDs;
+            values['result'] = result;
+            callback(values);
         }
         else {
         
@@ -283,7 +285,6 @@ var PGShelf = function(pubID, callback){
     }
     
     this.onPub = function(result){
-        //var values = new Array();
         var pubs;
         clog("onPub");
         if (!result.error) {
@@ -292,15 +293,9 @@ var PGShelf = function(pubID, callback){
             for (var i = 0; i < entries.length; i++) {
                 var entry = entries[i];
                 pub = new Publication(entry);
-               // pubs.push(pub);
             }
-            //values['pubs'] = pubs;
-            //values['result'] = result;
-            //feedLoad();
-			callback(pub);
         }
-        else {
-        }
+		callback(pub);
     }
 }
 
@@ -317,5 +312,15 @@ PGShelf.prototype.getPubTotalCount = function(result){
     return count;
 }
 
-
+var XmlUtil = function(xmlDoc){
+	this.xmlDoc = xmlDoc;
+	
+	this.getNextPage = function(){
+		return $(this.xmlDoc).find('link[type*="application/atom+xml"][rel*="next"]').attr('href');
+	}
+	
+	this.getPrevPage = function(){
+		return $(this.xmlDoc).find('link[type*="application/atom+xml"][rel*="previous"]').attr('href');
+	}
+}
 

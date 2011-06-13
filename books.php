@@ -32,16 +32,41 @@
 	?> 
 
 	google.load("feeds", "1");
-    
+
+	var PG = function(){
+		this.pgShelf;
+		this.pgCatalog;
+		this.pgPubIDs;
+		var bNextPage; //boolean
+
+
+		this.loadShelf = function(args){
+			clog("loadShelf(0)");
+			this.pgCatalog = new PGCatalog(args, onPgCatalogResult);
+			this.pgCatalog.getCatalog();
+			clog("loadShelf(1)");
+		}
+
+		this.isExistNextPage = function(){
+			return bNextPage;
+		}
+
+		this.existNextPage = function(val){
+			return bNextPage = val;
+		}
+
+		this.getPubCount = function(){
+			return (page + 1) * 25;
+		}
+	}
+
+	var bsPG;
+	
     var page;
 	var q;
 	var cpType = 1;
 	var fbShelf;
 	var iaShelf;
-	var pgShelf;
-	var pgCatalog;
-	var pgPubIDs;
-	var pgPubCount;
 	var itemPerPage;
 
 	function showPub(pub){
@@ -102,7 +127,7 @@
 			$('div#list_data').append(content_data);
 	}
 	
-	function showShelf(shelf, data){
+	function showShelf(shelf, data, pnType){
 		pubs = data['pubs'];
 		result = data['result'];
 		hideSearchingMsg();
@@ -110,31 +135,58 @@
 			showNotFoundMsg();
 			return false;
 		}
-
 		for (var i = 0; i < pubs.length; i++) {
 			var pub = pubs[i];
 			if(pub){
 				showPub(pub);
 			}
 		}//for
-		
-		$('h3.result_msg').text(result.feed.title);
-		var optInit = {
-			callback: pageselectCallback, 
-			current_page: page,
-			num_edge_entries:3, 
-			num_display_entries:5, 
-			items_per_page: itemPerPage,
-			link_to: '/?q=' + q + '&cpType=' + cpType + '&page=__id__',
-			next_text:">>", 
-			prev_text: "<<"
-			};
-		
-		pubTotalCount = shelf.getPubTotalCount(result);
-		if(pubTotalCount > 0){
-			$("div.pagination").pagination(pubTotalCount, optInit);
-		}
+
+		showResultMsg(result.feed.title);
+		showPagination(shelf, result, pnType);
+
 	}
+
+	function showPagination(shelf, result, type){
+		var numDisplayEntries;
+		var numEdgeEntries;
+		switch(type){
+			case 0://Normal
+				numEdgeEntries = 3;
+				numDisplayEntries = 5;
+				break;
+			case 1://Simple
+				numEdgeEntries = 0;
+				numDisplayEntries = 0;	
+				break;
+		}
+			
+		var optInit = {
+				callback: pageselectCallback, 
+				current_page: page,
+				num_edge_entries:numEdgeEntries, 
+				num_display_entries:numDisplayEntries, 
+				items_per_page: itemPerPage,
+				link_to: '/?q=' + q + '&cpType=' + cpType + '&page=__id__',
+				next_text:">>", 
+				prev_text: "<<"
+				};
+		if(result){
+			pubTotalCount = shelf.getPubTotalCount(result);
+		}else{
+			pubTotalCount = 100;
+		}
+		$("div.pagination").pagination(pubTotalCount, optInit);
+	}
+
+	function showResultMsg(msg){
+		$('h3.result_msg').text();
+	}
+
+	function showSearchingMsg(){
+		$('#searching').append('<h3 class="title">Searching ...</h3>');
+	}
+	
 	function hideSearchingMsg(){
 		$('#searching .title').remove();
 	}
@@ -161,7 +213,7 @@
 		if(cpType == 1){
 			clog("showShelf(0)");
 			itemPerPage = 20;
-			showShelf(fbShelf, data);
+			showShelf(fbShelf, data, 0);
 			clog("showShelf(1)");
 		}
 		var resultCount = fbShelf.getPubTotalCount(result);
@@ -176,7 +228,7 @@
 		if(cpType == 2){
 			clog("showShelf(0)");
 			itemPerPage = 50;
-			showShelf(iaShelf, data);
+			showShelf(iaShelf, data, 0);
 			clog("showShelf(1)");
 		}
 		var resultCount = iaShelf.getPubTotalCount(result);
@@ -189,24 +241,24 @@
 		clog("onPgShelfResult(0)");
 		if(data){
 			hideSearchingMsg();
-			pgPubCount++;
 			if(cpType == 3){
 				showPub(data);
 			}
 		}
-		if(pgPubIDs){
-			if(pgPubIDs.length > 0){
-				if(pgShelf){
-					var id = pgPubIDs.pop();
-					pgShelf = new PGShelf(id, onPgShelfResult);
-					pgShelf.feedLoad();
+		if(bsPG.pgPubIDs){
+			if(bsPG.pgPubIDs.length > 0){
+				if(bsPG.pgShelf){
+					var id = bsPG.pgPubIDs.pop();
+					bsPG.pgShelf = new PGShelf(id, onPgShelfResult);
+					bsPG.pgShelf.feedLoad();
 				}
 			}else{
-				var count = pgPubCount;
-				if(pgPubCount == 25){
-					count += "+";
-				}
+				var count = bsPG.getPubCount();
+				count += "+";
 				$('p.server a#pg').append(makeCountTag(count));
+				if(isBookServer(3)){
+					showPagination(bsPG.pgShelf, null, 1);
+				}
 			}
 		}
 		clog("onPgShelfResult(1)");
@@ -214,13 +266,17 @@
 
 	function onPgCatalogResult(data) {
 		clog("onPgCatalogResult(0)");
-		pgPubCount = 0;
-		pgPubIDs = data;
-		if(pgPubIDs){
-			if(pgPubIDs.length > 0){
-				var id = pgPubIDs.pop();
-				pgShelf = new PGShelf(id, onPgShelfResult);
-				pgShelf.feedLoad();
+
+		if(data==null) return;
+		
+		var result = data['result'];
+		
+		bsPG.pgPubIDs = data['pubs'];
+		if(bsPG.pgPubIDs){
+			if(bsPG.pgPubIDs.length > 0){
+				var id = bsPG.pgPubIDs.pop();
+				bsPG.pgShelf = new PGShelf(id, onPgShelfResult);
+				bsPG.pgShelf.feedLoad();
 			}else{
 				hideSearchingMsg();
 				showNotFoundMsg();
@@ -229,6 +285,15 @@
 			hideSearchingMsg();
 			showNotFoundMsg();
 		}
+
+		xmlUtil = new XmlUtil(result.xmlDocument);
+		var nextPage = xmlUtil.getNextPage();
+		if(nextPage){
+			bsPG.existNextPage(true);
+		}
+		var prevPage = xmlUtil.getPrevPage();
+
+		
 		clog("onPgCatalogResult(1)");
 	}
 	    
@@ -251,9 +316,12 @@
 				query:	q,
 				page:	page
 			}
+
 			fbShelfLoad(args);
 			iaShelfLoad(args);
-			pgShelfLoad(args);
+
+			bsPG = new PG();
+			bsPG.loadShelf(args);
 			
 			switch(cpType) {
 				case 1:
@@ -270,11 +338,15 @@
 			}
 			setupServers();
 			$('div.left_panel').show();
-			$('#searching').append('<h3 class="title">Searching ...</h3>');
+			showSearchingMsg();
 		}
     }
     
     google.setOnLoadCallback(onLoad);
+
+	function isBookServer(type){
+		return (cpType == type) ? true : false;
+	}
 	
 	function pageselectCallback(page_index, jq){
 		return true;
@@ -292,13 +364,6 @@
 		iaShelf = new IAShelf(args, onIaShelfResult);
 		iaShelf.feedLoad();
 		clog("iaShelfLoad(1)");
-	}
-
-	function pgShelfLoad(args){
-		clog("pgShelfLoad(0)");
-		pgCatalog = new PGCatalog(args, onPgCatalogResult);
-		pgCatalog.getCatalog();
-		clog("pgShelfLoad(1)");
 	}
 	
 	function setupServers() {
