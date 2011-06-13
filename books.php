@@ -44,6 +44,18 @@
 		}
 	}
 
+	var IA = function(){
+		this.shelf;
+
+		this.loadShelf = function(args){
+			clog("iaShelfLoad(0)");
+			this.shelf = new IAShelf(args, onIaShelfResult);
+			this.shelf.feedLoad();
+			clog("iaShelfLoad(1)");
+		}
+	}
+	
+	
 	var PG = function(){
 		this.pgShelf;
 		this.pgCatalog;
@@ -71,12 +83,12 @@
 	}
 
 	var bsPG;
-	
+	var bsFB;
+	var bsIA;
     var page;
 	var q;
 	var cpType = 1;
 
-	var iaShelf;
 	var itemPerPage;
 
 	function showPub(pub){
@@ -238,10 +250,10 @@
 		if(cpType == 2){
 			clog("showShelf(0)");
 			itemPerPage = 50;
-			showShelf(iaShelf, data, 0);
+			showShelf(bsIA.shelf, data, 0);
 			clog("showShelf(1)");
 		}
-		var resultCount = iaShelf.getPubTotalCount(result);
+		var resultCount = bsIA.shelf.getPubTotalCount(result);
 		$('p.server a#ia').append(makeCountTag(resultCount));
 		clog("onIaShelfResult(1)");
 		clog("ia : count " + resultCount);
@@ -263,9 +275,6 @@
 					bsPG.pgShelf.feedLoad();
 				}
 			}else{
-				var count = bsPG.getPubCount();
-				count += "+";
-				$('p.server a#pg').append(makeCountTag(count));
 				if(isBookServer(3)){
 					showPagination(bsPG.pgShelf, null, 1);
 				}
@@ -284,6 +293,10 @@
 		bsPG.pgPubIDs = data['pubs'];
 		if(bsPG.pgPubIDs){
 			if(bsPG.pgPubIDs.length > 0){
+				var count = bsPG.getPubCount();
+				count += "+";
+				$('p.server a#pg').append(makeCountTag(count));
+				
 				var id = bsPG.pgPubIDs.pop();
 				bsPG.pgShelf = new PGShelf(id, onPgShelfResult);
 				bsPG.pgShelf.feedLoad();
@@ -328,10 +341,10 @@
 			}
 
 			bsFB = new FB();
-			bsFB.loadShelf(args);
-			iaShelfLoad(args);
-
+			bsIA = new IA();
 			bsPG = new PG();
+			bsFB.loadShelf(args);
+			bsIA.loadShelf(args);
 			bsPG.loadShelf(args);
 			
 			switch(cpType) {
@@ -361,13 +374,6 @@
 	
 	function pageselectCallback(page_index, jq){
 		return true;
-	}
-
-	function iaShelfLoad(args){
-		clog("iaShelfLoad(0)");
-		iaShelf = new IAShelf(args, onIaShelfResult);
-		iaShelf.feedLoad();
-		clog("iaShelfLoad(1)");
 	}
 	
 	function setupServers() {
