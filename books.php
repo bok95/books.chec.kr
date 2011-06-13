@@ -96,6 +96,8 @@
 		clog("epub = " + epub);
 		var pdf = makeDownloadTag("pdf", pub.getPdf());
 		clog("pdf = " + pdf);
+		var kindle = makeDownloadTag("Kindle", pub.getKindle());
+		clog("kindle = " + kindle);
 		var cover = makeCoverTag(pub.getCover());
 		clog("cover = " + cover);
 		var categories = pub.getCategories();
@@ -143,6 +145,7 @@
 							'<div class="format">';
 			content_data += epub;
 			content_data += pdf;
+			content_data += kindle;
 			content_data += '</div>' +	
 						'</div>' +
 						'<hr class="split">';

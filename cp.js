@@ -6,13 +6,15 @@ var Publication = function(entry){
 	this.pubType = 1;
     
     this.getEpub = function(){
-        epub_url = $(this.node).find('link[type*="application/epub+zip"]').attr('href');
-        return epub_url;
+        return $(this.node).find('link[type*="application/epub+zip"]').attr('href');
     };
     
     this.getPdf = function(){
-        epub_url = $(this.node).find('link[type*="application/pdf"]').attr('href');
-        return epub_url;
+        return $(this.node).find('link[type*="application/pdf"]').attr('href');
+    };
+    
+    this.getKindle = function(){
+        return $(this.node).find('link[type*="application/x-mobipocket-ebook"]').attr('href');
     };
     
     this.getCover = function(){
