@@ -1,25 +1,24 @@
 var BOOKSERVER_FEEDBOOKS = 'http://www.feedbooks.com/books/search.atom';
 
-var Publication = function(entry){
-    this.entry = entry;
-    this.node = entry.xmlNode;
+var Publication = function(xmlNode){
+    this.xmlNode = xmlNode;
 	this.pubType = 1;
     
     this.getEpub = function(){
-        return $(this.node).find('link[type*="application/epub+zip"]').attr('href');
+        return $(this.xmlNode).find('link[type*="application/epub+zip"]').attr('href');
     };
     
     this.getPdf = function(){
-        return $(this.node).find('link[type*="application/pdf"]').attr('href');
+        return $(this.xmlNode).find('link[type*="application/pdf"]').attr('href');
     };
     
     this.getKindle = function(){
-        return $(this.node).find('link[type*="application/x-mobipocket-ebook"]').attr('href');
+        return $(this.xmlNode).find('link[type*="application/x-mobipocket-ebook"]').attr('href');
     };
     
     this.getCover = function(){
         //PG : image/png
-        cover_url = $(this.node).find('link[type*="image/jpeg"][rel*="thumbnail"]').attr('href');
+        cover_url = $(this.xmlNode).find('link[type*="image/jpeg"][rel*="thumbnail"]').attr('href');
         return (cover_url != null) ? cover_url : "";
     }
     
@@ -29,7 +28,7 @@ var Publication = function(entry){
     //PG : term
     this.getCategoryArray = function(){
         categories = new Array();
-        $(this.node).find('category').each(function(){
+        $(this.xmlNode).find('category').each(function(){
             categories.push($(this).attr('term'));
         });
         return categories;
@@ -38,7 +37,7 @@ var Publication = function(entry){
     this.getCategories = function(){
         var categories = '';
 		var parent = this;
-        $(this.node).find('category').each(function(){
+        $(this.xmlNode).find('category').each(function(){
             if (categories != '') {
 				var term = $(this).attr('term');
 				if(term == "Sound" || term == "sound"){
@@ -58,12 +57,12 @@ var Publication = function(entry){
 	}
 
     this.getTitle = function(){
-        return $(this.node).find('title').text();
+        return $(this.xmlNode).find('title').text();
     }
     
     this.getAuthorArray = function(){
         authors = new Array();
-        $(this.node).find('author').each(function(){
+        $(this.xmlNode).find('author').each(function(){
             authors.push($(this).text());
         });
         return authors;
@@ -71,7 +70,7 @@ var Publication = function(entry){
     
     this.getAuthors = function(){
         var authors = '';
-        $(this.node).find('author > name').each(function(){
+        $(this.xmlNode).find('author > name').each(function(){
             if (authors != '') {
                 authors += ', ' + $(this).text();
             }
@@ -87,11 +86,11 @@ var Publication = function(entry){
     //FB : dcterms:source
     //PG : 
     this.getPublisher = function(){
-        return $(this.node).find('publisher').text();
+        return $(this.xmlNode).find('publisher').text();
     }
     
     this.getLanguage = function(){
-        return $(this.node).find('language').text();
+        return $(this.xmlNode).find('language').text();
     }
 }
 
@@ -118,7 +117,7 @@ var Shelf = function(args, callback){
             var entries = result.feed.entries;
             for (var i = 0; i < entries.length; i++) {
                 var entry = entries[i];
-                pub = new Publication(entry);
+                pub = new Publication(entry.xmlNode);
                 pubs.push(pub);
             }
             values['pubs'] = pubs;
@@ -246,6 +245,12 @@ var Catalog = function(args, callback){
     }
 }
 
+var PGPublication = function(xmlNode){
+	Publication.call(this, xmlNode);
+}
+PGPublication.prototype = new Publication();
+PGPublication.prototype.constructor = PGPublication;
+
 var PGCatalog = function(args, callback){
     this.setup(args);
     Catalog.call(this, args, callback);
@@ -294,7 +299,7 @@ var PGShelf = function(pubID, callback){
 			clog("entries = " + entries.length);
             for (var i = 0; i < entries.length; i++) {
                 var entry = entries[i];
-                pub = new Publication(entry);
+                pub = new PGPublication(entry.xmlNode);
             }
         }
 		callback(pub);
