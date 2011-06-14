@@ -33,9 +33,14 @@
 
 	google.load("feeds", "1");
 
+	var BS_TYPE = {
+		FB:1,
+		IA:2,
+		PG:3
+	};
+
 	var FB = function(){
 		this.shelf;
-
 		this.loadShelf = function(args){
 			clog("fbShelfLoad(0)");
 			this.shelf = new FBShelf(args, onFbShelfResult);
@@ -46,7 +51,6 @@
 
 	var IA = function(){
 		this.shelf;
-
 		this.loadShelf = function(args){
 			clog("iaShelfLoad(0)");
 			this.shelf = new IAShelf(args, onIaShelfResult);
@@ -235,7 +239,7 @@
 	function onFbShelfResult(data) {
 		clog("onFbShelfResult(0)");
 		result = data['result'];
-		if(cpType == 1){
+		if(cpType == BS_TYPE.FB){
 			clog("showShelf(0)");
 			itemPerPage = 20;
 			showShelf(bsFB.shelf, data, 0);
@@ -250,7 +254,7 @@
 	function onIaShelfResult(data) {
 		clog("onIaShelfResult(0)");
 		result = data['result'];
-		if(cpType == 2){
+		if(cpType == BS_TYPE.IA){
 			clog("showShelf(0)");
 			itemPerPage = 50;
 			showShelf(bsIA.shelf, data, 0);
@@ -266,7 +270,7 @@
 		clog("onPgShelfResult(0)");
 		if(data){
 			hideSearchingMsg();
-			if(cpType == 3){
+			if(cpType == BS_TYPE.PG){
 				showPub(data);
 			}
 		}
