@@ -33,6 +33,13 @@
 
 	google.load("feeds", "1");
 
+
+	var Argument = function() {
+	    this.page;
+		this.q;
+		this.cpType = 1;
+	}
+	
 	var BS_TYPE = {
 		FB:1,
 		IA:2,
@@ -43,7 +50,8 @@
 		this.shelf;
 		this.loadShelf = function(args){
 			clog("fbShelfLoad(0)");
-			this.shelf = new FBShelf(args, onFbShelfResult);
+			var values = makeArgs(BS_TYPE.FB);
+			this.shelf = new FBShelf(values, onFbShelfResult);
 			this.shelf.feedLoad();
 			clog("fbShelfLoad(1)");
 		}
@@ -52,8 +60,9 @@
 	var IA = function(){
 		this.shelf;
 		this.loadShelf = function(args){
+			var values = makeArgs(BS_TYPE.IA);
 			clog("iaShelfLoad(0)");
-			this.shelf = new IAShelf(args, onIaShelfResult);
+			this.shelf = new IAShelf(values, onIaShelfResult);
 			this.shelf.feedLoad();
 			clog("iaShelfLoad(1)");
 		}
@@ -65,10 +74,13 @@
 		this.pgCatalog;
 		this.pgPubIDs;
 		var bNextPage; //boolean
+		var curPage=0;
 
 		this.loadShelf = function(args){
 			clog("loadShelf(0)");
-			this.pgCatalog = new PGCatalog(args, onPgCatalogResult);
+			var values = makeArgs(BS_TYPE.PG);
+			curPage = values['page'];
+			this.pgCatalog = new PGCatalog(values, onPgCatalogResult);
 			this.pgCatalog.getCatalog();
 			clog("loadShelf(1)");
 		}
@@ -82,19 +94,30 @@
 		}
 
 		this.getPubCount = function(){
-			return (page + 1) * 25;
+			return (curPage + 1) * 25;
 		}
 	}
 
 	var bsPG;
 	var bsFB;
 	var bsIA;
-    var page;
-	var q;
-	var cpType = 1;
+	var args;
+
 
 	var itemPerPage;
 
+	function makeArgs(type){
+		if(args.cpType != type){
+			page = 0;
+		}else{
+			page = args.page;
+		}
+		var values = {
+			query:	args.q,
+			page:	page
+		}
+		return values;
+	}
 	function showPub(pub){
 		var epub = makeDownloadTag("epub", pub.getEpub());
 		clog("epub = " + epub);
@@ -192,11 +215,11 @@
 			
 		var optInit = {
 				callback: pageselectCallback, 
-				current_page: page,
+				current_page: args.page,
 				num_edge_entries:numEdgeEntries, 
 				num_display_entries:numDisplayEntries, 
 				items_per_page: itemPerPage,
-				link_to: '/?q=' + q + '&cpType=' + cpType + '&page=__id__',
+				link_to: '/?q=' + args.q + '&cpType=' + args.cpType + '&page=__id__',
 				next_text:">>", 
 				prev_text: "<<"
 				};
@@ -239,7 +262,7 @@
 	function onFbShelfResult(data) {
 		clog("onFbShelfResult(0)");
 		result = data['result'];
-		if(cpType == BS_TYPE.FB){
+		if(args.cpType == BS_TYPE.FB){
 			clog("showShelf(0)");
 			itemPerPage = 20;
 			showShelf(bsFB.shelf, data, 0);
@@ -254,7 +277,7 @@
 	function onIaShelfResult(data) {
 		clog("onIaShelfResult(0)");
 		result = data['result'];
-		if(cpType == BS_TYPE.IA){
+		if(args.cpType == BS_TYPE.IA){
 			clog("showShelf(0)");
 			itemPerPage = 50;
 			showShelf(bsIA.shelf, data, 0);
@@ -270,7 +293,7 @@
 		clog("onPgShelfResult(0)");
 		if(data){
 			hideSearchingMsg();
-			if(cpType == BS_TYPE.PG){
+			if(args.cpType == BS_TYPE.PG){
 				showPub(data);
 			}
 		}
@@ -331,77 +354,82 @@
 		if($.browser.msie==true) {
    	 		alert('IE is not supported. Please use other browsers(Chrome, Firefox, Safari, Opera ...)');
 			return false;
-  		} 
-		q = "<?=$q?>";
-		page = parseInt("<?=$page?>");
-		if(page < 0){
-			page = 0;
+  		}
+  		args = new Argument();
+  		
+		args.q = "<?=$q?>";
+		args.page = parseInt("<?=$page?>");
+		if(args.page < 0){
+			args.page = 0;
 		}
-		cpType = parseInt("<?=$cpType?>");
-		if(cpType < 0){
-			cpType = 1;
+		args.cpType = parseInt("<?=$cpType?>");
+		if(args.cpType < 0){
+			args.cpType = 1;
 		}
-		if(q != -1){
-			var args = {
-				query:	q,
-				page:	page
-			}
-
+		if(args.q != -1){
 			bsFB = new FB();
 			bsIA = new IA();
 			bsPG = new PG();
-			bsFB.loadShelf(args);
-			bsIA.loadShelf(args);
-			bsPG.loadShelf(args);
+			bsFB.loadShelf();
+			bsIA.loadShelf();
+			bsPG.loadShelf();
 			
-			switch(cpType) {
-				case 1:
-					$('p.server a#fb').addClass("selected");
-					break;
-				case 2:
-					$('p.server a#ia').addClass("selected");
-					break;					
-				case 3:
-					$('p.server a#pg').addClass("selected");
-					break;					
-				default: 
-					break;
-			}
 			setupServers();
-			$('div.left_panel').show();
+			showLeftPanel();
 			showSearchingMsg();
 		}
     }
     
     google.setOnLoadCallback(onLoad);
 
-	function isBookServer(type){
-		return (cpType == type) ? true : false;
+    function isBookServer(type){
+		return (args.cpType == type) ? true : false;
 	}
 	
 	function pageselectCallback(page_index, jq){
 		return true;
 	}
+
+	function serverSelected() {
+		switch(args.cpType) {
+			case 1:
+				$('p.server a#fb').addClass("selected");
+				break;
+			case 2:
+				$('p.server a#ia').addClass("selected");
+				break;					
+			case 3:
+				$('p.server a#pg').addClass("selected");
+				break;					
+			default: 
+				break;
+		}
+	}
+
+	function showLeftPanel(){
+		$('div.left_panel').show();
+	}
 	
 	function setupServers() {
 		clog("setupServers()");
-		url = '/?' + 'q=' + q + '&page=0' + '&cpType=';
+		serverSelected();
+		url = '/?' + 'q=' + args.q + '&page=0' + '&cpType=';
 		$('p.server a#fb').attr('href', url + '1');
 		$('p.server a#ia').attr('href', url + '2');
 		$('p.server a#pg').attr('href', url + '3');
 	}
 	
 	$('p.server a#fb').live('click', function (e){
-		cpType = 1;
+		args.cpType = 1;
 		
 	});
 	
 	$('p.server a#ia').live('click', function (e){
-		cpType = 2;
+		args.cpType = 2;
 	});
 	
 	$('p.server a#pg').live('click', function (e){
-		cpType = 3;
+		args.cpType = 3;
 	});
 	
 	$('#searchBtn').live('click', function (e){
