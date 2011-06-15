@@ -125,6 +125,8 @@
 		clog("pdf = " + pdf);
 		var kindle = makeDownloadTag("Kindle", pub.getKindle());
 		clog("kindle = " + kindle);
+		var audio = makeDownloadTag("Audio", pub.getAudio());
+		clog("kindle = " + kindle);
 		var cover = makeCoverTag(pub.getCover());
 		clog("cover = " + cover);
 		var categories = pub.getCategories();
@@ -137,8 +139,6 @@
 		clog("publisher = " + publisher);
 		var language = pub.getLanguage();
 		clog("language = " + language);
-		var pubType = pub.getPubType();
-		clog("pubType >>>>>> " + pubType);
 		
 		var content_data =
 						'<div class="cover">' +
@@ -173,6 +173,7 @@
 			content_data += epub;
 			content_data += pdf;
 			content_data += kindle;
+			content_data += audio;
 			content_data += '</div>' +	
 						'</div>' +
 						'<hr class="split">';

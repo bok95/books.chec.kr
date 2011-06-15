@@ -1,7 +1,10 @@
 DEBUG = false; // set to false to disable debugging
+function clog(argument){
+    if (DEBUG) {
+        console.log(argument);
+    }
+}
 
-function clog (argument) {
-	if( DEBUG ){
-		console.log(argument);
-	}
+function getNumberStringArray(str){
+	return str.match(/[\d\.]+/g);
 }

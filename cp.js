@@ -1,24 +1,23 @@
 var BOOKSERVER_FEEDBOOKS = 'http://www.feedbooks.com/books/search.atom';
 
-var Publication = function(xmlNode){
-    this.xmlNode = xmlNode;
-	this.pubType = 1;
+var Publication = function(entry){
+    this.entry = entry;
     
     this.getEpub = function(){
-        return $(this.xmlNode).find('link[type*="application/epub+zip"]').attr('href');
+        return $(this.entry.xmlNode).find('link[type*="application/epub+zip"]').attr('href');
     };
     
     this.getPdf = function(){
-        return $(this.xmlNode).find('link[type*="application/pdf"]').attr('href');
+        return $(this.entry.xmlNode).find('link[type*="application/pdf"]').attr('href');
     };
     
     this.getKindle = function(){
-        return $(this.xmlNode).find('link[type*="application/x-mobipocket-ebook"]').attr('href');
+        return $(this.entry.xmlNode).find('link[type*="application/x-mobipocket-ebook"]').attr('href');
     };
     
     this.getCover = function(){
         //PG : image/png
-        cover_url = $(this.xmlNode).find('link[type*="image/jpeg"][rel*="thumbnail"]').attr('href');
+        cover_url = $(this.entry.xmlNode).find('link[type*="image/jpeg"][rel*="thumbnail"]').attr('href');
         return (cover_url != null) ? cover_url : "";
     }
     
@@ -36,13 +35,10 @@ var Publication = function(xmlNode){
     
     this.getCategories = function(){
         var categories = '';
-		var parent = this;
-        $(this.xmlNode).find('category').each(function(){
+        var parent = this;
+        $(this.entry.xmlNode).find('category').each(function(){
             if (categories != '') {
-				var term = $(this).attr('term');
-				if(term == "Sound" || term == "sound"){
-					parent.pubType = 2;
-				}
+                var term = $(this).attr('term');
                 categories += ', ' + term;
             }
             else {
@@ -52,17 +48,13 @@ var Publication = function(xmlNode){
         return categories;
     }
     
-	this.getPubType = function(){
-		return this.pubType;
-	}
-
     this.getTitle = function(){
-        return $(this.xmlNode).find('title').text();
+        return $(this.entry.xmlNode).find('title').text();
     }
     
     this.getAuthorArray = function(){
         authors = new Array();
-        $(this.xmlNode).find('author').each(function(){
+        $(this.entry.xmlNode).find('author').each(function(){
             authors.push($(this).text());
         });
         return authors;
@@ -70,7 +62,7 @@ var Publication = function(xmlNode){
     
     this.getAuthors = function(){
         var authors = '';
-        $(this.xmlNode).find('author > name').each(function(){
+        $(this.entry.xmlNode).find('author > name').each(function(){
             if (authors != '') {
                 authors += ', ' + $(this).text();
             }
@@ -86,13 +78,20 @@ var Publication = function(xmlNode){
     //FB : dcterms:source
     //PG : 
     this.getPublisher = function(){
-        return $(this.xmlNode).find('publisher').text();
+        return $(this.entry.xmlNode).find('publisher').text();
     }
     
     this.getLanguage = function(){
-        return $(this.xmlNode).find('language').text();
+        return $(this.entry.xmlNode).find('language').text();
     }
 }
+Publication.prototype.hasAudioFile = function(){
+    return false;
+}
+Publication.prototype.getID = function(){
+    return null;
+}
+Publication.prototype.getAudio = function() {}
 
 var Shelf = function(args, callback){
     this.callback = callback;
@@ -117,7 +116,7 @@ var Shelf = function(args, callback){
             var entries = result.feed.entries;
             for (var i = 0; i < entries.length; i++) {
                 var entry = entries[i];
-                pub = new Publication(entry.xmlNode);
+                pub = new Publication(entry);
                 pubs.push(pub);
             }
             values['pubs'] = pubs;
@@ -134,9 +133,11 @@ var Shelf = function(args, callback){
         return (pubs != null) ? pubs : null;
     }
     
-    getPubTotalCount = function(){
-    };
+    
 }
+Shelf.prototype.getPubTotalCount = function(){
+    return 0;
+};
 
 var FBShelf = function(args, callback){
     this.setup(args);
@@ -235,7 +236,7 @@ var Catalog = function(args, callback){
                     }
                 }
             }
-			values['pubs'] = pubIDs;
+            values['pubs'] = pubIDs;
             values['result'] = result;
             callback(values);
         }
@@ -245,11 +246,32 @@ var Catalog = function(args, callback){
     }
 }
 
-var PGPublication = function(xmlNode){
-	Publication.call(this, xmlNode);
+var PGPublication = function(entry){
+    Publication.call(this, entry);
 }
 PGPublication.prototype = new Publication();
 PGPublication.prototype.constructor = PGPublication;
+PGPublication.prototype.hasAudioFile = function(){
+    var dcmiType = $(this.entry.xmlNode).find('category[scheme*="http://purl.org/dc/terms/DCMIType"]').attr('term');
+	return (dcmiType == "Sound") ? true : false;
+}
+PGPublication.prototype.getID = function(){
+    var idStr = $(this.entry.xmlNode).find('id').text();
+	var id;
+    if (idStr) {
+        var array = getNumberStringArray(idStr);
+        if (array) {
+            id = array[0];
+        }
+    }
+	return id;
+}
+PGPublication.prototype.getAudio = function() {
+	if(this.hasAudioFile()){
+		var id = this.getID();
+		return 'http://www.gutenberg.org/files/' + id + '/' + id + '-index.html';
+	}
+}
 
 var PGCatalog = function(args, callback){
     this.setup(args);
@@ -269,21 +291,22 @@ PGCatalog.prototype.setup = function(args){
 var PGShelf = function(pubID, callback){
     this.pubID = pubID;
     this.callback = callback;
-	this.pubs = new Array();
-	var values = new Array();
-	
+    this.pubs = new Array();
+    var values = new Array();
+    
     this.feedLoad = function(){
         var id = this.pubID;
-		if(id){
-	        this.getPub(id);
-		}else{
-			callback(pubs);
-		}
+        if (id) {
+            this.getPub(id);
+        }
+        else {
+            callback(pubs);
+        }
     }
     
     this.getPub = function(url){
         var feed = new google.feeds.Feed(url);
-		clog("getPub:" + url);
+        clog("getPub:" + url);
         feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
         
         feed.includeHistoricalEntries();
@@ -296,13 +319,13 @@ var PGShelf = function(pubID, callback){
         clog("onPub");
         if (!result.error) {
             var entries = result.feed.entries;
-			clog("entries = " + entries.length);
+            clog("entries = " + entries.length);
             for (var i = 0; i < entries.length; i++) {
                 var entry = entries[i];
-                pub = new PGPublication(entry.xmlNode);
+                pub = new PGPublication(entry);
             }
         }
-		callback(pub);
+        callback(pub);
     }
 }
 
@@ -312,22 +335,15 @@ PGShelf.prototype.constructor = PGShelf;
 PGShelf.prototype.setup = function(args){
 }
 
-
-PGShelf.prototype.getPubTotalCount = function(result){
-    var count = 0;
-    
-    return count;
-}
-
 var XmlUtil = function(xmlDoc){
-	this.xmlDoc = xmlDoc;
-	
-	this.getNextPage = function(){
-		return $(this.xmlDoc).find('link[type*="application/atom+xml"][rel*="next"]').attr('href');
-	}
-	
-	this.getPrevPage = function(){
-		return $(this.xmlDoc).find('link[type*="application/atom+xml"][rel*="previous"]').attr('href');
-	}
+    this.xmlDoc = xmlDoc;
+    
+    this.getNextPage = function(){
+        return $(this.xmlDoc).find('link[type*="application/atom+xml"][rel*="next"]').attr('href');
+    }
+    
+    this.getPrevPage = function(){
+        return $(this.xmlDoc).find('link[type*="application/atom+xml"][rel*="previous"]').attr('href');
+    }
 }
 
