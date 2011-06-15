@@ -1,15 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <title>books.chec.kr</title>
-	<link href="css/books.css" type="text/css" rel="stylesheet" />
-	<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
-	<script src="jquery.pagination.js"></script>
-	<script src="cutil.js"></script>
-	<script src="cp.js"></script>
-	<script src="http://www.google.com/jsapi?key=ABQIAAAANh1OABxsMaSvl1OTck5I8RRL6ZglLh05n3dnEWnjIUmqeCfcGhRa7yfe_Pf1zInO6RCfBTBOMiWPLQ" type="text/javascript"></script>
-    <script type="text/javascript">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>books.chec.kr</title>
+<link href="css/books.css" type="text/css" rel="stylesheet" />
+<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
+<script src="jquery.pagination.js"></script>
+<script src="cutil.js"></script>
+<script src="cp.js"></script>
+<script
+	src="http://www.google.com/jsapi?key=ABQIAAAANh1OABxsMaSvl1OTck5I8RRL6ZglLh05n3dnEWnjIUmqeCfcGhRa7yfe_Pf1zInO6RCfBTBOMiWPLQ"
+	type="text/javascript"></script>
+<script type="text/javascript">
 
 	<?
 		if(!empty($_GET['q'])){
@@ -376,7 +378,7 @@
 			bsPG.loadShelf();
 			
 			setupServers();
-			showLeftPanel();
+			//showLeftPanel();
 			showSearchingMsg();
 		}
     }
@@ -451,7 +453,7 @@
     }
     </script>
 
-	<script type="text/javascript">
+<script type="text/javascript">
 	  var _gaq = _gaq || [];
 	  _gaq.push(['_setAccount', 'UA-23322948-1']);
 	  _gaq.push(['_trackPageview']);
@@ -463,42 +465,47 @@
 	  })();
 
 	</script>
-  </head>
+</head>
 
-  <body style="font-family: Arial;border: 0 none;">
-        <div class="search">
-        	<div id="home">
-	            <a href="/">
-    	        	<img class="logo_img" src="images/ebook-48.png" border="0" height="48">
+<body style="font-family: Arial; border: 0 none;">
+	<div class="search">
+		<div id="home">
+			<a href="/"> <img class="logo_img" src="images/ebook-48.png"
+				border="0" height="48">
 					<h2 class="logo_txt">Checkr</h2>
-				</a>
-        	</div>
-            <div style="position:relative;zoom:1">
-                <input id="searchText" maxlength="2048" name="q" size="50" accesskey="s" id="hpq" style="text-align: left; ">
+			
+			</a>
+		</div>
+		<div style="position: relative; zoom: 1">
+			<input id="searchText" maxlength="2048" name="q" size="50"
+				accesskey="s" id="hpq" style="text-align: left;">
 				<button id="searchBtn">search</button>
-            </div>
-        </div><hr class="split">
-        <div class="container">
-            <div class="left_panel">
-                <p class="search_in">
-                    Search in
-                </p>
-                <p class="server">
-                    <a id="fb" href="http://www.feedbooks.com/">feedbooks</a>
-                </p>
-                <p class="server">
-                    <a id="ia" href="http://www.archive.org/">Internet Archive</a>
-                </p>
-                <p class="server">
-                    <a id="pg" href="http://www.gutenberg.org/">Gutenberg</a>
-                </p>
-            </div>
-            <div id=list_data class="center_list">
-                <div id=searching>
-                </div>
-            </div>
-            <div class="pagination">
-            </div>
-        </div>
-  </body>
+		
+		</div>
+	</div>
+
+	<hr class="split">
+		<div class="container">
+			<div class="left_panel">
+				<p class="search_in">Search in</p>
+				<p class="server">
+					<a id="fb" href="http://www.feedbooks.com/">feedbooks</a>
+				</p>
+				<p class="server">
+					<a id="ia" href="http://www.archive.org/">Internet Archive</a>
+				</p>
+				<p class="server">
+					<a id="pg" href="http://www.gutenberg.org/">Gutenberg</a>
+				</p>
+				<iframe id="fb_like_btn"
+					src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FCheckrBooks%2F168948329834305&amp;width=190&amp;colorscheme=light&amp;show_faces=true&amp;border_color&amp;stream=false&amp;header=true&amp;height=290"
+					scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+			</div>
+			<div id=list_data class="center_list">
+				<div id=searching></div>
+			</div>
+			<div class="pagination"></div>
+		</div>
+
+</body>
 </html>

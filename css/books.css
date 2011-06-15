@@ -32,7 +32,7 @@ a {
 
 a.selected {
     font-style: italic;
-	text-decoration: underline;
+    text-decoration: underline;
     color: #999;
 }
 
@@ -62,35 +62,35 @@ hr {
     float: none;
     width: 100%;
     height: .1em;
-/*    margin: 0 0 1.45em;*/
+    /*    margin: 0 0 1.45em;*/
     border: none;
 }
 
 .search {
-	width: 950px;
+    width: 950px;
     margin: 1.5em auto;
-	margin-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 #home {
-	height: 100%;
+    height: 100%;
 }
 
 .logo_img {
-	float: left;
+    float: left;
 }
 
 .logo_txt {
-	float: left;
-	color: #406EA1;
-	font-size: 2.3em;
-	margin-top: 4px;
-	font-weight: bold;
+    float: left;
+    color: #406EA1;
+    font-size: 2.3em;
+    margin-top: 4px;
+    font-weight: bold;
 }
 
 #searchText {
-	width: 755 px;
-	float: left;
+    width: 755 px;
+    float: left;
     -moz-border-bottom-colors: none;
     -moz-border-image: none;
     -moz-border-left-colors: none;
@@ -105,41 +105,45 @@ hr {
     font-size: 1.2em;
     height: 24px;
     padding: 3px 6px;
-	margin-top: 0.8em;
-	margin-bottom: 0.8em;
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
 }
 
 #searchBtn {
-	font-size: 1.2em;
+    font-size: 1.2em;
     height: 32px;
     padding: 3px 6px;
-	margin-top: 0.8em;
-	margin-bottom: 0.8em;
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
 }
 
 .container {
     width: 950px;
     margin: 0 auto;
-	margin-top: 1.0em;
+    margin-top: 1.0em;
 }
 
 .upper_line {
-	border-top-width: 1px; 
-	border-top-style: solid; 
-	border-top-color: rgb(211, 225, 249);
-	padding-top: 1em;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: rgb(211, 225, 249);
+    padding-top: 1em;
 }
 
 .left_panel, #home {
     float: left;
     width: 150px;
-	margin-left: 20px;
+    margin-left: 20px;
 }
 
-.left_panel {
-    display: none;
+#fb_like_btn {
+    margin-left: -60px;
+    margin-top: 50px;
+    border: none;
+    overflow: hidden;
+    width: 190px;
+    height: 290px;
 }
-
 
 .search_in {
     font-weight: bold;
@@ -155,20 +159,21 @@ hr {
 }
 
 .resultCount {
-	font-size: 0.9em;
-	color: #999;
+    font-size: 0.9em;
+    color: #999;
 }
 
 p + p {
     margin-top: -1.5em;
 }
 
+
 /******** list **********/
 .center_list {
     margin-right: 0;
     float: left;
     width: 755 px;
-/*    margin-top: 1em;*/
+    /*    margin-top: 1em;*/
 }
 
 div.cover {
@@ -234,8 +239,8 @@ div.right_panel {
 hr.split {
     background: white;
     color: #999;
-	margin-bottom:0px;
-	margin-top:0px;
+    margin-bottom: 0px;
+    margin-top: 0px;
 }
 
 .pagination {
@@ -244,7 +249,7 @@ hr.split {
     text-align: center;
     float: left;
     margin-top: 1.5em;
-	margin-bottom: 1.5em;
+    margin-bottom: 1.5em;
 }
 
 .result_msg {
