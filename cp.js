@@ -91,7 +91,60 @@ Publication.prototype.hasAudioFile = function(){
 Publication.prototype.getID = function(){
     return null;
 }
-Publication.prototype.getAudio = function() {}
+Publication.prototype.getAudio = function(){
+}
+
+var FBPublication = function(entry){
+    Publication.call(this, entry);
+}
+FBPublication.prototype = new Publication();
+FBPublication.prototype.constructor = FBPublication;
+FBPublication.prototype.hasAudioFile = function(){
+    var dcmiType = $(this.entry.xmlNode).find('category[scheme*="http://purl.org/dc/terms/DCMIType"]').attr('term');
+    return (dcmiType == "Sound") ? true : false;
+}
+
+FBPublication.prototype.getID = function(){
+    var idStr = $(this.entry.xmlNode).find('id').text();
+    var id;
+    if (idStr) {
+        var array = getNumberStringArray(idStr);
+        if (array) {
+            id = array[0];
+        }
+    }
+    return id;
+}
+
+var PGPublication = function(entry){
+    Publication.call(this, entry);
+}
+PGPublication.prototype = new Publication();
+PGPublication.prototype.constructor = PGPublication;
+PGPublication.prototype.hasAudioFile = function(){
+    var dcmiType = $(this.entry.xmlNode).find('category[scheme*="http://purl.org/dc/terms/DCMIType"]').attr('term');
+    return (dcmiType == "Sound") ? true : false;
+}
+
+PGPublication.prototype.getID = function(){
+    var idStr = $(this.entry.xmlNode).find('id').text();
+    var id;
+    if (idStr) {
+        var array = getNumberStringArray(idStr);
+        if (array) {
+            id = array[0];
+        }
+    }
+    return id;
+}
+
+PGPublication.prototype.getAudio = function(){
+    if (this.hasAudioFile()) {
+        var id = this.getID();
+        return 'http://www.gutenberg.org/files/' + id + '/' + id + '-index.html';
+    }
+}
+
 
 var Shelf = function(args, callback){
     this.callback = callback;
@@ -132,12 +185,13 @@ var Shelf = function(args, callback){
     this.getPubs = function(){
         return (pubs != null) ? pubs : null;
     }
-    
-    
 }
 Shelf.prototype.getPubTotalCount = function(){
     return 0;
 };
+Shelf.prototype.getPubID = function() {
+	return null;
+}
 
 var FBShelf = function(args, callback){
     this.setup(args);
@@ -172,7 +226,15 @@ FBShelf.prototype.getPubTotalCount = function(result){
     return count;
 }
 
-
+FBShelf.prototype.getPubID = function(pub){
+    var idStr = $(pub.entry.xmlNode).find('id').text();
+	var id = null;
+	if(idStr){
+		var s = idStr.lastIndexOf('/');
+		id = idStr.substr(s+1, idStr.length);
+	}
+	return id;
+}
 
 var IAShelf = function(args, callback){
     this.setup(args);
@@ -244,33 +306,6 @@ var Catalog = function(args, callback){
         
         }
     }
-}
-
-var PGPublication = function(entry){
-    Publication.call(this, entry);
-}
-PGPublication.prototype = new Publication();
-PGPublication.prototype.constructor = PGPublication;
-PGPublication.prototype.hasAudioFile = function(){
-    var dcmiType = $(this.entry.xmlNode).find('category[scheme*="http://purl.org/dc/terms/DCMIType"]').attr('term');
-	return (dcmiType == "Sound") ? true : false;
-}
-PGPublication.prototype.getID = function(){
-    var idStr = $(this.entry.xmlNode).find('id').text();
-	var id;
-    if (idStr) {
-        var array = getNumberStringArray(idStr);
-        if (array) {
-            id = array[0];
-        }
-    }
-	return id;
-}
-PGPublication.prototype.getAudio = function() {
-	if(this.hasAudioFile()){
-		var id = this.getID();
-		return 'http://www.gutenberg.org/files/' + id + '/' + id + '-index.html';
-	}
 }
 
 var PGCatalog = function(args, callback){
