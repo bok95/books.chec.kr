@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>books.CHECKR</title>
+<link href="/css/books.css" type="text/css" rel="stylesheet" />
+<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
+<script src="../cutil.js"></script>
+<script src="../cp.js"></script>
+<script src="http://www.google.com/jsapi?key=ABQIAAAANh1OABxsMaSvl1OTck5I8RRL6ZglLh05n3dnEWnjIUmqeCfcGhRa7yfe_Pf1zInO6RCfBTBOMiWPLQ" type="text/javascript">
+</script>
+<script type="text/javascript">
+<?
+	if(!empty($_GET['cpType'])){
+		$cpType = $_GET['cpType'];
+  	}else{
+		$q = -1;
+	}
+    if(!empty($_GET['id'])){
+		$id = $_GET['id'];
+	}else{
+		$id = -1;
+	}
+?> 
+	var Argument = function() {
+    	this.id;
+		this.cpType = 1;
+	}
+	
+   	function onLoad() {
+    	if($.browser.msie==true) {
+ 				alert('IE is not supported. Please use other browsers(Chrome, Firefox, Safari, Opera ...)');
+		return false;
+  		}
+  		args = new Argument();
+  		
+		args.id = "<?=$id?>";
+		args.cpType = parseInt("<?=$cpType?>");
+		showSearchingMsg();
+	}
+	function showSearchingMsg(){
+		$('#searching').append('<h3 class="title">' + args.id + '</h3>');
+	}
+                                
+</script>
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23322948-1']);
+    _gaq.push(['_trackPageview']);
+    
+    (function(){
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+</head>
+
+<body onload="onLoad()" style="font-family: Arial; border: 0 none;">
+    <div class="search">
+        <div id="home">
+            <a href="/"><img class="logo_img" src="/images/ebook-48.png" border="0" height="48"><h2 class="logo_txt">Checkr</h2></a>
+        </div>
+        <div style="position: relative; zoom: 1">
+            <input id="searchText" maxlength="2048" name="q" size="50" accesskey="s" id="hpq" style="text-align: left;">
+            <button id="searchBtn">
+                search
+            </button>
+        </div>
+    </div>
+    <hr class="split">
+    <div class="container">
+        <div id=list_data class="center_list">
+            <div id=searching>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

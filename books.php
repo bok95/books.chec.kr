@@ -121,6 +121,19 @@
 		return values;
 	}
 	function showPub(pub){
+		var shelf;
+		switch(args.cpType){
+			case BS_TYPE.FB:
+				shelf = bsFB.shelf;
+				break;
+			case BS_TYPE.IA:
+				shelf = bsFB.shelf;
+				break;
+			case BS_TYPE.PG:
+				shelf = bsFB.shelf;
+				break;
+		}
+		var id = shelf.getPubID(pub);
 		var epub = makeDownloadTag("epub", pub.getEpub());
 		clog("epub = " + epub);
 		var pdf = makeDownloadTag("pdf", pub.getPdf());
@@ -150,7 +163,7 @@
 						'</div>' +
 						'<div class="content">' +
 				  			'<h3 class="title">' + 
-								'<a>' + title + '</a>' +
+								'<a href="/' + args.cpType + '/' + id + '">' + title + '</a>' +
 							'</h3>' +
 				  			'<p class="mata_tag">' + 
 								'Author : '  +
@@ -498,7 +511,7 @@
 					<a id="pg" href="http://www.gutenberg.org/">Gutenberg</a>
 				</p>
 				<iframe id="fb_like_btn"
-					src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FCheckrBooks%2F168948329834305&amp;width=190&amp;colorscheme=light&amp;show_faces=true&amp;border_color&amp;stream=false&amp;header=true&amp;height=290"
+					src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FCheckrBooks%2F168948329834305&amp;width=190&amp;colorscheme=light&amp;show_faces=true&amp;border_color&amp;stream=false&amp;header=true&amp;height=330"
 					scrolling="no" frameborder="0" allowTransparency="true"></iframe>
 			</div>
 			<div id=list_data class="center_list">
