@@ -42,12 +42,6 @@
 		this.cpType = 1;
 	}
 	
-	var BS_TYPE = {
-		FB:1,
-		IA:2,
-		PG:3
-	};
-
 	var FB = function(){
 		this.shelf;
 		this.loadShelf = function(args){

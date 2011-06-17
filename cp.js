@@ -1,4 +1,9 @@
-var BOOKSERVER_FEEDBOOKS = 'http://www.feedbooks.com/books/search.atom';
+var BS_TYPE = {
+    FB: 1,
+    IA: 2,
+    PG: 3
+};
+
 
 var Publication = function(entry){
     this.entry = entry;
@@ -189,8 +194,8 @@ var Shelf = function(args, callback){
 Shelf.prototype.getPubTotalCount = function(){
     return 0;
 };
-Shelf.prototype.getPubID = function() {
-	return null;
+Shelf.prototype.getPubID = function(){
+    return null;
 }
 
 var FBShelf = function(args, callback){
@@ -228,12 +233,12 @@ FBShelf.prototype.getPubTotalCount = function(result){
 
 FBShelf.prototype.getPubID = function(pub){
     var idStr = $(pub.entry.xmlNode).find('id').text();
-	var id = null;
-	if(idStr){
-		var s = idStr.lastIndexOf('/');
-		id = idStr.substr(s+1, idStr.length);
-	}
-	return id;
+    var id = null;
+    if (idStr) {
+        var s = idStr.lastIndexOf('/');
+        id = idStr.substr(s + 1, idStr.length);
+    }
+    return id;
 }
 
 var IAShelf = function(args, callback){
@@ -364,21 +369,70 @@ var PGShelf = function(pubID, callback){
     }
 }
 
-
 PGShelf.prototype = new PGShelf();
 PGShelf.prototype.constructor = PGShelf;
 PGShelf.prototype.setup = function(args){
 }
 
-var XmlUtil = function(xmlDoc){
-    this.xmlDoc = xmlDoc;
+var Feeder = function(id, callback){
+    this.url;
+    this.callback = callback;
+    this.setUrl(id);
     
-    this.getNextPage = function(){
-        return $(this.xmlDoc).find('link[type*="application/atom+xml"][rel*="next"]').attr('href');
-    }
-    
-    this.getPrevPage = function(){
-        return $(this.xmlDoc).find('link[type*="application/atom+xml"][rel*="previous"]').attr('href');
+    this.feedLoad = function(){
+        $.ajax({
+            type: "get",
+            dataType: "xml",
+            url: this.url,
+            success: function(xml){
+                if ($(xml).find("entry").length > 0) { // null check
+                    $(xml).find("link").each(function(){ // item ¼ö¸¸Å­ loop
+                        var link = $(this).attr('href');
+						clog(link);
+                    });
+                }
+            },
+            error: function(){
+                alert("xml error!!");
+            }
+        });
     }
 }
+
+Feeder.prototype.setUrl = function(id){
+
+}
+
+Feeder.prototype.feedLoaded = function(result){
+    var values = new Array();
+    var pubs = new Array();
+    
+    if (!result.error) {
+    
+        var entries = result.feed.entries;
+        for (var i = 0; i < entries.length; i++) {
+            var entry = entries[i];
+            pub = new Publication(entry);
+            pubs.push(pub);
+        }
+        values['pubs'] = pubs;
+        values['result'] = result;
+        //callback(values);
+    }
+    else {
+        values['result'] = result;
+        //callback(values);
+    }
+}
+
+var FBFeeder = function(id, callback){
+    Feeder.call(this, id, callback);
+    
+}
+FBFeeder.prototype = new Feeder();
+FBFeeder.prototype.constructor = Feeder;
+FBFeeder.prototype.setUrl = function(id){
+    this.url = "http://www.feedbooks.com/book/" + id + ".atom";
+}
+
 

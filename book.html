@@ -5,8 +5,8 @@
 <title>books.CHECKR</title>
 <link href="/css/books.css" type="text/css" rel="stylesheet" />
 <script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
-<script src="../cutil.js"></script>
-<script src="../cp.js"></script>
+<script src="/cutil.js"></script>
+<script src="/cp.js"></script>
 <script src="http://www.google.com/jsapi?key=ABQIAAAANh1OABxsMaSvl1OTck5I8RRL6ZglLh05n3dnEWnjIUmqeCfcGhRa7yfe_Pf1zInO6RCfBTBOMiWPLQ" type="text/javascript">
 </script>
 <script type="text/javascript">
@@ -22,11 +22,28 @@
 		$id = -1;
 	}
 ?> 
+	google.load("feeds", "1");
+	
+	var pubFB;
+	var pubIA;
+	var pubPG;
+	
 	var Argument = function() {
     	this.id;
 		this.cpType = 1;
 	}
 	
+	
+	var FB = function(){
+		this.shelf = new FBShelf(values, onFbShelfResult);
+		this.shelf.feedLoad();
+		clog("fbShelfLoad(1)");
+	}
+	
+	function onPubResult(data){
+		clog("onPubResult(0)");
+	}
+
    	function onLoad() {
     	if($.browser.msie==true) {
  				alert('IE is not supported. Please use other browsers(Chrome, Firefox, Safari, Opera ...)');
@@ -36,31 +53,31 @@
   		
 		args.id = "<?=$id?>";
 		args.cpType = parseInt("<?=$cpType?>");
+		
+		switch(args.cpType){
+			case BS_TYPE.FB:
+				pubFB = new FBFeeder(args.id);
+				pubFB.feedLoad();
+			break;
+			case BS_TYPE.IA:
+			break;
+			case BS_TYPE.PG:
+			break;
+		}
+		
 		showSearchingMsg();
 	}
 	function showSearchingMsg(){
 		$('#searching').append('<h3 class="title">' + args.id + '</h3>');
 	}
-                                
+               
+	google.setOnLoadCallback(onLoad);
+	                 
 </script>
 
-<script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-23322948-1']);
-    _gaq.push(['_trackPageview']);
-    
-    (function(){
-        var ga = document.createElement('script');
-        ga.type = 'text/javascript';
-        ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(ga, s);
-    })();
-</script>
 </head>
 
-<body onload="onLoad()" style="font-family: Arial; border: 0 none;">
+<body style="font-family: Arial; border: 0 none;">
     <div class="search">
         <div id="home">
             <a href="/"><img class="logo_img" src="/images/ebook-48.png" border="0" height="48"><h2 class="logo_txt">Checkr</h2></a>
