@@ -5,26 +5,35 @@ var BS_TYPE = {
 };
 
 
-var Publication = function(entry){
-    this.entry = entry;
+var Publication = function(){
+    this.entry;
     
     this.getEpub = function(){
-        return $(this.entry.xmlNode).find('link[type*="application/epub+zip"]').attr('href');
+        return $(this.entry).find('link[type*="application/epub+zip"]').attr('href');
     };
     
     this.getPdf = function(){
-        return $(this.entry.xmlNode).find('link[type*="application/pdf"]').attr('href');
+        return $(this.entry).find('link[type*="application/pdf"]').attr('href');
     };
     
     this.getKindle = function(){
-        return $(this.entry.xmlNode).find('link[type*="application/x-mobipocket-ebook"]').attr('href');
+        return $(this.entry).find('link[type*="application/x-mobipocket-ebook"]').attr('href');
     };
     
-    this.getCover = function(){
+    this.getCoverS = function(){
         //PG : image/png
-        cover_url = $(this.entry.xmlNode).find('link[type*="image/jpeg"][rel*="thumbnail"]').attr('href');
+        cover_url = $(this.entry).find('link[type*="image/jpeg"][rel*="thumbnail"]').attr('href');
         return (cover_url != null) ? cover_url : "";
     }
+
+    this.getLCoverL = function(){
+        //PG : image/png
+        cover_url = $(this.entry).find('link[type*="image/jpeg"][rel*="image"]').attr('href');
+        return (cover_url != null) ? cover_url : "";
+    }
+
+
+
     
     //Category 
     //FB : label
@@ -32,7 +41,7 @@ var Publication = function(entry){
     //PG : term
     this.getCategoryArray = function(){
         categories = new Array();
-        $(this.xmlNode).find('category').each(function(){
+        $(this.entry).find('category').each(function(){
             categories.push($(this).attr('term'));
         });
         return categories;
@@ -41,7 +50,7 @@ var Publication = function(entry){
     this.getCategories = function(){
         var categories = '';
         var parent = this;
-        $(this.entry.xmlNode).find('category').each(function(){
+        $(this.entry).find('category').each(function(){
             if (categories != '') {
                 var term = $(this).attr('term');
                 categories += ', ' + term;
@@ -54,12 +63,12 @@ var Publication = function(entry){
     }
     
     this.getTitle = function(){
-        return $(this.entry.xmlNode).find('title').text();
+        return $(this.entry).find('title').text();
     }
     
     this.getAuthorArray = function(){
         authors = new Array();
-        $(this.entry.xmlNode).find('author').each(function(){
+        $(this.entry).find('author').each(function(){
             authors.push($(this).text());
         });
         return authors;
@@ -67,7 +76,7 @@ var Publication = function(entry){
     
     this.getAuthors = function(){
         var authors = '';
-        $(this.entry.xmlNode).find('author > name').each(function(){
+        $(this.entry).find('author > name').each(function(){
             if (authors != '') {
                 authors += ', ' + $(this).text();
             }
@@ -83,13 +92,25 @@ var Publication = function(entry){
     //FB : dcterms:source
     //PG : 
     this.getPublisher = function(){
-        return $(this.entry.xmlNode).find('publisher').text();
+        return $(this.entry).find('publisher').text();
     }
     
     this.getLanguage = function(){
-        return $(this.entry.xmlNode).find('language').text();
+        return $(this.entry).find('language').text();
     }
+
+	this.getSummary = function() {
+		return $(this.entry).find('summary').text();
+	}
+	
+	this.getRights = function() {
+		return $(this.entry).find('rights').text();
+	}
+	
 }
+Publication.prototype.setEntry = function(entry) {
+	this.entry = entry;
+};
 Publication.prototype.hasAudioFile = function(){
     return false;
 }
@@ -98,19 +119,26 @@ Publication.prototype.getID = function(){
 }
 Publication.prototype.getAudio = function(){
 }
+Publication.prototype.sameAuthor = function(){
+}
 
-var FBPublication = function(entry){
-    Publication.call(this, entry);
+
+var FBPublication = function(){
+    Publication.call(this);
 }
 FBPublication.prototype = new Publication();
 FBPublication.prototype.constructor = FBPublication;
 FBPublication.prototype.hasAudioFile = function(){
-    var dcmiType = $(this.entry.xmlNode).find('category[scheme*="http://purl.org/dc/terms/DCMIType"]').attr('term');
+    var dcmiType = $(this.entry).find('category[scheme*="http://purl.org/dc/terms/DCMIType"]').attr('term');
     return (dcmiType == "Sound") ? true : false;
 }
 
+FBPublication.prototype.setEntry = function(entry) {
+	this.entry = entry;
+}
+
 FBPublication.prototype.getID = function(){
-    var idStr = $(this.entry.xmlNode).find('id').text();
+    var idStr = $(this.entry).find('id').text();
     var id;
     if (idStr) {
         var array = getNumberStringArray(idStr);
@@ -121,18 +149,32 @@ FBPublication.prototype.getID = function(){
     return id;
 }
 
-var PGPublication = function(entry){
-    Publication.call(this, entry);
+FBPublication.prototype.sameAuthor = function(){
+	link = $(this.entry).find('link[type*="application/atom+xml"][title*="From the same author"]').attr('href');
+    return (link != null) ? link : "";
+}
+
+FBPublication.prototype.alsoDownload = function(){
+	link = $(this.entry).find('link[type*="application/atom+xml"][title*="People also downloaded..."]').attr('href');
+    return (link != null) ? link : "";
+}
+
+var PGPublication = function(){
+    Publication.call(this);
 }
 PGPublication.prototype = new Publication();
 PGPublication.prototype.constructor = PGPublication;
 PGPublication.prototype.hasAudioFile = function(){
-    var dcmiType = $(this.entry.xmlNode).find('category[scheme*="http://purl.org/dc/terms/DCMIType"]').attr('term');
+    var dcmiType = $(this.entry).find('category[scheme*="http://purl.org/dc/terms/DCMIType"]').attr('term');
     return (dcmiType == "Sound") ? true : false;
 }
 
+PGPublication.prototype.setEntry = function(entry) {
+	this.entry = entry;
+}
+
 PGPublication.prototype.getID = function(){
-    var idStr = $(this.entry.xmlNode).find('id').text();
+    var idStr = $(this.entry).find('id').text();
     var id;
     if (idStr) {
         var array = getNumberStringArray(idStr);
@@ -174,7 +216,8 @@ var Shelf = function(args, callback){
             var entries = result.feed.entries;
             for (var i = 0; i < entries.length; i++) {
                 var entry = entries[i];
-                pub = new Publication(entry);
+                pub = new Publication();
+				pub.setEntry(entry.xmlNode);
                 pubs.push(pub);
             }
             values['pubs'] = pubs;
@@ -232,7 +275,7 @@ FBShelf.prototype.getPubTotalCount = function(result){
 }
 
 FBShelf.prototype.getPubID = function(pub){
-    var idStr = $(pub.entry.xmlNode).find('id').text();
+    var idStr = $(pub.entry).find('id').text();
     var id = null;
     if (idStr) {
         var s = idStr.lastIndexOf('/');
@@ -362,7 +405,8 @@ var PGShelf = function(pubID, callback){
             clog("entries = " + entries.length);
             for (var i = 0; i < entries.length; i++) {
                 var entry = entries[i];
-                pub = new PGPublication(entry);
+                pub = new PGPublication();
+				pub.setEntry(entry.xmlNode);
             }
         }
         callback(pub);
@@ -374,65 +418,43 @@ PGShelf.prototype.constructor = PGShelf;
 PGShelf.prototype.setup = function(args){
 }
 
-var Feeder = function(id, callback){
+var Feeder = function(id){
     this.url;
-    this.callback = callback;
     this.setUrl(id);
-    
-    this.feedLoad = function(){
-        $.ajax({
-            type: "get",
-            dataType: "xml",
-            url: this.url,
-            success: function(xml){
-                if ($(xml).find("entry").length > 0) { // null check
-                    $(xml).find("link").each(function(){ // item ¼ö¸¸Å­ loop
-                        var link = $(this).attr('href');
-						clog(link);
-                    });
-                }
-            },
-            error: function(){
-                alert("xml error!!");
-            }
-        });
-    }
 }
 
 Feeder.prototype.setUrl = function(id){
 
 }
 
-Feeder.prototype.feedLoaded = function(result){
-    var values = new Array();
-    var pubs = new Array();
-    
-    if (!result.error) {
-    
-        var entries = result.feed.entries;
-        for (var i = 0; i < entries.length; i++) {
-            var entry = entries[i];
-            pub = new Publication(entry);
-            pubs.push(pub);
-        }
-        values['pubs'] = pubs;
-        values['result'] = result;
-        //callback(values);
-    }
-    else {
-        values['result'] = result;
-        //callback(values);
-    }
-}
 
-var FBFeeder = function(id, callback){
-    Feeder.call(this, id, callback);
+
+var FBFeeder = function(id){
+    Feeder.call(this, id);
     
 }
 FBFeeder.prototype = new Feeder();
 FBFeeder.prototype.constructor = Feeder;
 FBFeeder.prototype.setUrl = function(id){
     this.url = "http://www.feedbooks.com/book/" + id + ".atom";
+}
+FBFeeder.prototype.feedLoad = function(callback){
+    $.ajax({
+        type: "get",
+        dataType: "xml",
+        url: this.url,
+        success: function(xml){
+			var entry = $(xml).find("entry");
+            if (entry.length > 0) {
+                var pub = new FBPublication();
+				pub.setEntry(entry);
+				callback(pub);
+            }
+        },
+        error: function(){
+            alert("xml error!!");
+        }
+    });
 }
 
 

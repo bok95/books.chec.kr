@@ -18,7 +18,7 @@ var Publication = function (entry) {
 		return epub_url;
 	};
 	
-	this.getCover = function () {
+	this.getCoverS = function () {
 		cover_url = $(this.node).find('link[type*="image/jpeg"][rel*="thumbnail"]').attr('href');
 		////console.log(cover_url);
 		return cover_url;
