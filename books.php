@@ -136,7 +136,7 @@
 		clog("kindle = " + kindle);
 		var audio = makeDownloadTag("Audio", pub.getAudio());
 		clog("kindle = " + kindle);
-		var cover = makeCoverTag(pub.getCover());
+		var cover = makeCoverTag(pub.getCoverS());
 		clog("cover = " + cover);
 		var categories = pub.getCategories();
 		clog("categories = " + categories);
