@@ -37,10 +37,6 @@
 		'<a href=' + link + '>' + type + '</a>' + '</p>' : "";
 	}
 	
-	function makeCoverTag(cover){
-		return (cover) ? '<img src=' + cover + ' class="thumb"/>' : "";
-	}
-	
 	function onPubResult(pub){
 		clog("onPubResult(0)");
 		var epub = makeDownloadTag("epub", pub.getEpub());
@@ -51,18 +47,48 @@
 		clog("kindle = " + kindle);
 		var audio = makeDownloadTag("Audio", pub.getAudio());
 		clog("kindle = " + kindle);
-		var cover = makeCoverTag(pub.getCoverL());
+		var cover = pub.getCover();
+		applyCover(cover);
 		clog("cover = " + cover);
 		var categories = pub.getCategories();
 		clog("categories = " + categories);
 		var authors = pub.getAuthors();
+		applyAuthor(authors);
 		clog("authors = " + authors);
 		var title = pub.getTitle();
+		applyTitle(title);
 		clog("title = " + title);
 		var publisher = pub.getPublisher();
+		applyPublisher(publisher);
 		clog("publisher = " + publisher);
 		var language = pub.getLanguage();
-		clog("language = " + language);	}
+		applyLanguage(language);
+		clog("language = " + language);	
+	}
+	
+	function applyCover(src) {
+		$('div.cover img.cover').attr('src', src);
+	}
+	
+	function applyTitle(title) {
+		$('div.content .title').html(title);
+	}
+	
+	function applyAuthor(author) {
+		$('p.meta_tag span#author').html(author);
+	}
+
+	function applyCategory(aughors) {
+		$('p.meta_tag span#category').html(title);
+	}
+
+	function applyLanguage(language) {
+		$('p.meta_tag span#language').html(language);
+	}
+	
+	function applyPublisher(publisher) {
+		$('p.meta_tag span#publisher').html(publisher);
+	}
 
    	function onLoad() {
     	if($.browser.msie==true) {
@@ -90,31 +116,74 @@
 	function showSearchingMsg(){
 		$('#searching').append('<h3 class="title">' + args.id + '</h3>');
 	}
-               
+           
 	google.setOnLoadCallback(onLoad);
-	                 
 </script>
 
 </head>
 
 <body style="font-family: Arial; border: 0 none;">
-    <div class="search">
-        <div id="home">
-            <a href="/"><img class="logo_img" src="/images/ebook-48.png" border="0" height="48"><h2 class="logo_txt">Checkr</h2></a>
-        </div>
-        <div style="position: relative; zoom: 1">
-            <input id="searchText" maxlength="2048" name="q" size="50" accesskey="s" id="hpq" style="text-align: left;">
-            <button id="searchBtn">
-                search
-            </button>
-        </div>
-    </div>
-    <hr class="split">
-    <div class="container">
-        <div id=list_data class="center_list">
-            <div id=searching>
-            </div>
-        </div>
-    </div>
+	<div class="search">
+		<div id="home">
+			<a href="/"> <img class="logo_img" src="/images/ebook-48.png"
+				border="0" height="48">
+					<h2 class="logo_txt">Checkr</h2>
+			
+			</a>
+		</div>
+		<div style="position: relative; zoom: 1">
+			<input id="searchText" maxlength="2048" name="q" size="50"
+				accesskey="s" id="hpq" style="text-align: left;">
+				<button id="searchBtn">search</button>
+		
+		</div>
+	</div>
+
+	<hr class="split">
+		<div class="container">
+			<div class="left_panel">
+				<p class="search_in">Search in</p>
+				<p class="server">
+					<a id="fb" >...</a>
+				</p>
+				<p class="server">
+					<a id="ia" >...</a>
+				</p>
+				<p class="server">
+					<a id="pg" >...</a>
+				</p>
+				<iframe id="fb_like_btn"
+					src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FCheckrBooks%2F168948329834305&amp;width=190&amp;colorscheme=light&amp;show_faces=true&amp;border_color&amp;stream=false&amp;header=true&amp;height=330"
+					scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+			</div>
+			<div id="book_info" class="book_info">
+				<div class="cover">
+					<a >
+						<img class="cover"/>
+					</a>
+				</div>
+				<div class="content">
+		  			<h3 class="title"></h3>
+		  			<p class="mata_tag">
+						Author : 
+						<span id="author" class="meta_data"></span>
+					</p>
+			  		<p class="mata_tag">
+						Language :
+						<span id="language" class="meta_data"></span>
+					</p>
+	  				<p class="mata_tag">
+						Category :
+						<span id="category" class="meta_data"></span>
+					</p>
+			  		<p class="mata_tag">
+						Publisher :
+						<span id="publisher" class="meta_data"></span>
+					</p>
+				</div>
+				<hr class="split">
+			</div>
+			<div class="pagination"></div>
+		</div>
 </body>
 </html>

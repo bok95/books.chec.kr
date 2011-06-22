@@ -4,7 +4,6 @@ var BS_TYPE = {
     PG: 3
 };
 
-
 var Publication = function(){
     this.entry;
     
@@ -20,13 +19,13 @@ var Publication = function(){
         return $(this.entry).find('link[type*="application/x-mobipocket-ebook"]').attr('href');
     };
     
-    this.getCoverS = function(){
+    this.getCoverThumb = function(){
         //PG : image/png
         cover_url = $(this.entry).find('link[type*="image/jpeg"][rel*="thumbnail"]').attr('href');
         return (cover_url != null) ? cover_url : "";
     }
 
-    this.getLCoverL = function(){
+    this.getCover = function(){
         //PG : image/png
         cover_url = $(this.entry).find('link[type*="image/jpeg"][rel*="image"]').attr('href');
         return (cover_url != null) ? cover_url : "";
@@ -47,20 +46,7 @@ var Publication = function(){
         return categories;
     }
     
-    this.getCategories = function(){
-        var categories = '';
-        var parent = this;
-        $(this.entry).find('category').each(function(){
-            if (categories != '') {
-                var term = $(this).attr('term');
-                categories += ', ' + term;
-            }
-            else {
-                categories += $(this).attr('term');
-            }
-        });
-        return categories;
-    }
+
     
     this.getTitle = function(){
         return $(this.entry).find('title').text();
@@ -121,6 +107,20 @@ Publication.prototype.getAudio = function(){
 }
 Publication.prototype.sameAuthor = function(){
 }
+Publication.prototype.getCategories = function(){
+    var categories = '';
+    var parent = this;
+    $(this.entry).find('category').each(function(){
+        if (categories != '') {
+            var term = $(this).attr('term');
+            categories += ', ' + term;
+        }
+        else {
+            categories += $(this).attr('term');
+        }
+    });
+    return categories;
+}
 
 
 var FBPublication = function(){
@@ -158,6 +158,22 @@ FBPublication.prototype.alsoDownload = function(){
 	link = $(this.entry).find('link[type*="application/atom+xml"][title*="People also downloaded..."]').attr('href');
     return (link != null) ? link : "";
 }
+
+FBPublication.prototype.getCategories = function(){
+    var categories = '';
+    var parent = this;
+    $(this.entry).find('category').each(function(){
+        if (categories != '') {
+            var term = $(this).attr('term');
+            categories += ', ' + term;
+        }
+        else {
+            categories += $(this).attr('term');
+        }
+    });
+    return categories;
+}
+
 
 var PGPublication = function(){
     Publication.call(this);
@@ -426,8 +442,6 @@ var Feeder = function(id){
 Feeder.prototype.setUrl = function(id){
 
 }
-
-
 
 var FBFeeder = function(id){
     Feeder.call(this, id);
