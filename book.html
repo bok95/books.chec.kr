@@ -51,6 +51,7 @@
 		applyCover(cover);
 		clog("cover = " + cover);
 		var categories = pub.getCategories();
+		applyCategory(categories);
 		clog("categories = " + categories);
 		var authors = pub.getAuthors();
 		applyAuthor(authors);
@@ -71,23 +72,23 @@
 	}
 	
 	function applyTitle(title) {
-		$('div.content .title').html(title);
+		$('div.content .title').text(title);
 	}
 	
 	function applyAuthor(author) {
-		$('p.meta_tag span#author').html(author);
+		$('div.content #author').text(author);
 	}
 
-	function applyCategory(aughors) {
-		$('p.meta_tag span#category').html(title);
+	function applyCategory(category) {
+		$('div.content #category').text(category);
 	}
 
 	function applyLanguage(language) {
-		$('p.meta_tag span#language').html(language);
+		$('div.content #language').text(language);
 	}
 	
 	function applyPublisher(publisher) {
-		$('p.meta_tag span#publisher').html(publisher);
+		$('div.content #publisher').text(publisher);
 	}
 
    	function onLoad() {

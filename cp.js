@@ -81,10 +81,6 @@ var Publication = function(){
         return $(this.entry).find('publisher').text();
     }
     
-    this.getLanguage = function(){
-        return $(this.entry).find('language').text();
-    }
-
 	this.getSummary = function() {
 		return $(this.entry).find('summary').text();
 	}
@@ -120,6 +116,9 @@ Publication.prototype.getCategories = function(){
         }
     });
     return categories;
+}
+Publication.prototype.getLanguage = function(){
+    return $(this.entry).find('language').text();
 }
 
 
@@ -159,20 +158,17 @@ FBPublication.prototype.alsoDownload = function(){
     return (link != null) ? link : "";
 }
 
-FBPublication.prototype.getCategories = function(){
-    var categories = '';
-    var parent = this;
-    $(this.entry).find('category').each(function(){
-        if (categories != '') {
-            var term = $(this).attr('term');
-            categories += ', ' + term;
-        }
-        else {
-            categories += $(this).attr('term');
-        }
-    });
-    return categories;
+FBPublication.prototype.getLanguage = function(){
+    var q;
+    if ($.browser.mozilla) {
+        q = 'dcterms\\:language';
+    }else if ($.browser.webkit) {
+        q = 'language'
+    }
+    return $(this.entry).find(q).text();
+
 }
+
 
 
 var PGPublication = function(){
@@ -275,12 +271,10 @@ FBShelf.prototype.getPubTotalCount = function(result){
     var q;
     if ($.browser.mozilla) {
         q = 'opensearch\\:totalResults';
+    }else if ($.browser.webkit) {
+        q = 'totalResults'
     }
-    else 
-        if ($.browser.webkit) {
-            q = 'totalResults'
-        }
-    var countStr = $(xmlDocument).find(q).text();
+	var countStr = $(xmlDocument).find(q).text();
     var count = 0;
     if (countStr != null) {
         if (countStr.length > 0) {
