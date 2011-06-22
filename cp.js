@@ -169,8 +169,6 @@ FBPublication.prototype.getLanguage = function(){
 
 }
 
-
-
 var PGPublication = function(){
     Publication.call(this);
 }
@@ -305,7 +303,6 @@ IAShelf.prototype.setup = function(args){
     arg = 'q=' + args['query'] + '&start=' + args['page'];
     this.url = 'http://bookserver.archive.org/catalog/opensearch?' + arg;
 }
-
 IAShelf.prototype.getPubTotalCount = function(result){
     title = result.feed.title;
     var count = 0;
@@ -322,6 +319,14 @@ IAShelf.prototype.getPubTotalCount = function(result){
         }
     }
     return count;
+}
+IAShelf.prototype.getPubID = function(pub){
+    var idStr = $(pub.entry).find('id').text();
+    var id = null;
+    if (idStr) {
+        id = idStr.split(':')[5];
+    }
+    return id;
 }
 
 var Catalog = function(args, callback){
@@ -426,6 +431,14 @@ var PGShelf = function(pubID, callback){
 PGShelf.prototype = new PGShelf();
 PGShelf.prototype.constructor = PGShelf;
 PGShelf.prototype.setup = function(args){
+}
+PGShelf.prototype.getPubID = function(pub){
+    var idStr = $(pub.entry).find('id').text();
+    var id = null;
+    if (idStr) {
+        id = idStr.split(':')[2];
+    }
+    return id;
 }
 
 var Feeder = function(id){

@@ -66,9 +66,9 @@
 	
 	
 	var PG = function(){
-		this.pgShelf;
-		this.pgCatalog;
-		this.pgPubIDs;
+		this.shelf;
+		this.catalog;
+		this.pubIDs;
 		var bNextPage; //boolean
 		var curPage=0;
 
@@ -76,8 +76,8 @@
 			clog("loadShelf(0)");
 			var values = makeArgs(BS_TYPE.PG);
 			curPage = values['page'];
-			this.pgCatalog = new PGCatalog(values, onPgCatalogResult);
-			this.pgCatalog.getCatalog();
+			this.catalog = new PGCatalog(values, onPgCatalogResult);
+			this.catalog.getCatalog();
 			clog("loadShelf(1)");
 		}
 
@@ -99,7 +99,6 @@
 	var bsIA;
 	var args;
 
-
 	var itemPerPage;
 
 	function makeArgs(type){
@@ -114,6 +113,7 @@
 		}
 		return values;
 	}
+	
 	function showPub(pub){
 		var shelf;
 		switch(args.cpType){
@@ -121,10 +121,10 @@
 				shelf = bsFB.shelf;
 				break;
 			case BS_TYPE.IA:
-				shelf = bsFB.shelf;
+				shelf = bsIA.shelf;
 				break;
 			case BS_TYPE.PG:
-				shelf = bsFB.shelf;
+				shelf = bsPG.shelf;
 				break;
 		}
 		var id = shelf.getPubID(pub);
@@ -307,16 +307,16 @@
 				showPub(data);
 			}
 		}
-		if(bsPG.pgPubIDs){
-			if(bsPG.pgPubIDs.length > 0){
-				if(bsPG.pgShelf){
-					var id = bsPG.pgPubIDs.pop();
-					bsPG.pgShelf = new PGShelf(id, onPgShelfResult);
-					bsPG.pgShelf.feedLoad();
+		if(bsPG.pubIDs){
+			if(bsPG.pubIDs.length > 0){
+				if(bsPG.shelf){
+					var id = bsPG.pubIDs.pop();
+					bsPG.shelf = new PGShelf(id, onPgShelfResult);
+					bsPG.shelf.feedLoad();
 				}
 			}else{
 				if(isBookServer(3)){
-					showPagination(bsPG.pgShelf, null, 1);
+					showPagination(bsPG.shelf, null, 1);
 				}
 			}
 		}
@@ -330,16 +330,16 @@
 		
 		var result = data['result'];
 		
-		bsPG.pgPubIDs = data['pubs'];
-		if(bsPG.pgPubIDs){
-			if(bsPG.pgPubIDs.length > 0){
+		bsPG.pubIDs = data['pubs'];
+		if(bsPG.pubIDs){
+			if(bsPG.pubIDs.length > 0){
 				var count = bsPG.getPubCount();
 				count += "+";
 				$('p.server a#pg').append(makeCountTag(count));
 				
-				var id = bsPG.pgPubIDs.pop();
-				bsPG.pgShelf = new PGShelf(id, onPgShelfResult);
-				bsPG.pgShelf.feedLoad();
+				var id = bsPG.pubIDs.pop();
+				bsPG.shelf = new PGShelf(id, onPgShelfResult);
+				bsPG.shelf.feedLoad();
 			}else{
 				hideSearchingMsg();
 				showNotFoundMsg();
