@@ -6,89 +6,75 @@ var BS_TYPE = {
 
 var Publication = function(){
     this.entry;
-    
-    this.getEpub = function(){
-        return $(this.entry).find('link[type*="application/epub+zip"]').attr('href');
-    };
-    
-    this.getPdf = function(){
-        return $(this.entry).find('link[type*="application/pdf"]').attr('href');
-    };
-    
-    this.getKindle = function(){
-        return $(this.entry).find('link[type*="application/x-mobipocket-ebook"]').attr('href');
-    };
-    
-    this.getCoverThumb = function(){
-        //PG : image/png
-        cover_url = $(this.entry).find('link[type*="image/jpeg"][rel*="thumbnail"]').attr('href');
-        return (cover_url != null) ? cover_url : "";
-    }
+}
 
-    this.getCover = function(){
-        //PG : image/png
-        cover_url = $(this.entry).find('link[type*="image/jpeg"][rel*="image"]').attr('href');
-        return (cover_url != null) ? cover_url : "";
-    }
+Publication.prototype.getEpub = function(){
+    return $(this.entry).find('link[type*="application/epub+zip"]').attr('href');
+};
 
+Publication.prototype.getPdf = function(){
+    return $(this.entry).find('link[type*="application/pdf"]').attr('href');
+};
 
+Publication.prototype.getKindle = function(){
+    return $(this.entry).find('link[type*="application/x-mobipocket-ebook"]').attr('href');
+};
 
-    
-    //Category 
-    //FB : label
-    //IA : term
-    //PG : term
-    this.getCategoryArray = function(){
-        categories = new Array();
-        $(this.entry).find('category').each(function(){
-            categories.push($(this).attr('term'));
-        });
-        return categories;
-    }
-    
+Publication.prototype.getCoverThumb = function(){
+    //PG : image/png
+    cover_url = $(this.entry).find('link[type*="image/jpeg"][rel*="thumbnail"]').attr('href');
+    return (cover_url != null) ? cover_url : "";
+}
 
-    
-    this.getTitle = function(){
-        return $(this.entry).find('title').text();
-    }
-    
-    this.getAuthorArray = function(){
-        authors = new Array();
-        $(this.entry).find('author').each(function(){
-            authors.push($(this).text());
-        });
-        return authors;
-    }
-    
-    this.getAuthors = function(){
-        var authors = '';
-        $(this.entry).find('author > name').each(function(){
-            if (authors != '') {
-                authors += ', ' + $(this).text();
-            }
-            else {
-                authors += $(this).text();
-            }
-        });
-        return authors;
-    }
-    
-    //Publisher
-    //IA : dcterms:publisher
-    //FB : dcterms:source
-    //PG : 
-    this.getPublisher = function(){
-        return $(this.entry).find('publisher').text();
-    }
-    
-	this.getSummary = function() {
-		return $(this.entry).find('summary').text();
-	}
-	
-	this.getRights = function() {
-		return $(this.entry).find('rights').text();
-	}
-	
+Publication.prototype.getCover = function(){
+    //PG : image/png
+    cover_url = $(this.entry).find('link[type*="image/jpeg"][rel*="image"]').attr('href');
+    return (cover_url != null) ? cover_url : "";
+}
+
+Publication.prototype.getCategoryArray = function(){
+    categories = new Array();
+    $(this.entry).find('category').each(function(){
+        categories.push($(this).attr('term'));
+    });
+    return categories;
+}
+
+Publication.prototype.getTitle = function(){
+    return $(this.entry).find('title').text();
+}
+
+Publication.prototype.getAuthorArray = function(){
+    authors = new Array();
+    $(this.entry).find('author').each(function(){
+        authors.push($(this).text());
+    });
+    return authors;
+}
+
+Publication.prototype.getAuthors = function(){
+    var authors = '';
+    $(this.entry).find('author > name').each(function(){
+        if (authors != '') {
+            authors += ', ' + $(this).text();
+        }
+        else {
+            authors += $(this).text();
+        }
+    });
+    return authors;
+}
+
+Publication.prototype.getPublisher = function(){
+    return $(this.entry).find('publisher').text();
+}
+
+Publication.prototype.getSummary = function() {
+return $(this.entry).find('summary').text();
+}
+
+Publication.prototype.getRights = function() {
+return $(this.entry).find('rights').text();
 }
 Publication.prototype.setEntry = function(entry) {
 	this.entry = entry;
@@ -167,6 +153,106 @@ FBPublication.prototype.getLanguage = function(){
     }
     return $(this.entry).find(q).text();
 
+}
+
+var IAPublication = function(){
+	this.files;
+    Publication.call(this);
+}
+IAPublication.prototype = new Publication();
+IAPublication.prototype.constructor = IAPublication;
+IAPublication.prototype.hasAudioFile = function(){
+    var dcmiType = $(this.entry).find('category[scheme*="http://purl.org/dc/terms/DCMIType"]').attr('term');
+    return (dcmiType == "Sound") ? true : false;
+}
+
+IAPublication.prototype.setEntry = function(entry) {
+	this.entry = entry;
+}
+
+IAPublication.prototype.getFiles = function(){
+    return this.entry.files;
+};
+
+IAPublication.prototype.getEpub = function(){
+    return "http://www.archive.org/download/" + this.entry.metadata.identifier + ".epub";
+};
+
+IAPublication.prototype.getPdf = function(){
+    return $(this.entry).find('link[type*="application/pdf"]').attr('href');
+};
+
+IAPublication.prototype.getKindle = function(){
+    return $(this.entry).find('link[type*="application/x-mobipocket-ebook"]').attr('href');
+};
+
+IAPublication.prototype.getCover = function(){
+    return this.entry.misc.image;
+}
+
+IAPublication.prototype.getTitle = function(){
+    return arrayToString(this.entry.metadata.title);
+}
+
+IAPublication.prototype.getAuthors = function(){
+    return arrayToString(this.entry.metadata.creator);
+}
+
+IAPublication.prototype.getPublisher = function(){
+    return arrayToString(this.entry.metadata.publisher);
+}
+
+IAPublication.prototype.getSummary = function() {
+	return this.entry.metadata.description;
+}
+
+IAPublication.prototype.getRights = function() {
+	return $(this.entry).find('rights').text();
+}
+IAPublication.prototype.setEntry = function(entry) {
+	this.entry = entry;
+};
+IAPublication.prototype.hasAudioFile = function(){
+    return false;
+}
+IAPublication.prototype.getID = function(){
+    return null;
+}
+IAPublication.prototype.getAudio = function(){
+}
+IAPublication.prototype.sameAuthor = function(){
+}
+IAPublication.prototype.getCategories = function(){
+    return arrayToString(this.entry.metadata.subject);
+}
+IAPublication.prototype.getLanguage = function(){
+    return arrayToString(this.entry.metadata.language);
+}
+
+IAPublication.prototype.getID = function(){
+    var idStr = $(this.entry).find('id').text();
+    var id;
+    if (idStr) {
+        var array = getNumberStringArray(idStr);
+        if (array) {
+            id = array[0];
+        }
+    }
+    return id;
+}
+
+IAPublication.prototype.sameAuthor = function(){
+	link = $(this.entry).find('link[type*="application/atom+xml"][title*="From the same author"]').attr('href');
+    return (link != null) ? link : "";
+}
+
+IAPublication.prototype.alsoDownload = function(){
+	link = $(this.entry).find('link[type*="application/atom+xml"][title*="People also downloaded..."]').attr('href');
+    return (link != null) ? link : "";
+}
+
+IAPublication.prototype.getLanguage = function(){
+    return arrayToString(this.entry.metadata.language);
 }
 
 var PGPublication = function(){
@@ -478,4 +564,30 @@ FBFeeder.prototype.feedLoad = function(callback){
     });
 }
 
-
+var IAFeeder = function(id){
+    Feeder.call(this, id);
+    
+}
+IAFeeder.prototype = new Feeder();
+IAFeeder.prototype.constructor = Feeder;
+IAFeeder.prototype.setUrl = function(id){
+	this.url = "http://www.archive.org/details/" + id + "&output=json"
+}
+IAFeeder.prototype.feedLoad = function(callback){
+	$.ajax({
+        type: "get",
+        dataType: "jsonp",
+        url: this.url,
+        success: function(data){
+			clog(data);
+			if(data){
+                var pub = new IAPublication();
+				pub.setEntry(data);
+				callback(pub);
+			}
+        },
+        error: function(){
+            clog("error : " + this.url);
+        }
+    });
+}

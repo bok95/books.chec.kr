@@ -20,3 +20,13 @@ var XmlUtil = function(xmlDoc){
         return $(this.xmlDoc).find('link[type*="application/atom+xml"][rel*="previous"]').attr('href');
     }
 }
+
+function arrayToString(array){
+	var str = '';
+	if(array){
+		$.each(array, function(index, value){
+			str += value + ' ';
+		});
+	}
+	return str;
+}
