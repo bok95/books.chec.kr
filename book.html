@@ -111,6 +111,8 @@
 				pubIA.feedLoad(onPubResult);
 			break;
 			case BS_TYPE.PG:
+				pubPG = new PGFeeder(args.id);
+				pubPG.feedLoad(onPubResult);
 			break;
 		}
 		

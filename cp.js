@@ -287,6 +287,18 @@ PGPublication.prototype.getAudio = function(){
         return 'http://www.gutenberg.org/files/' + id + '/' + id + '-index.html';
     }
 }
+PGPublication.prototype.getLanguage = function(){
+	var q;
+    if ($.browser.mozilla) {
+        q = 'dcterms\\:language';
+    }else if ($.browser.webkit) {
+        q = 'language'
+    }
+    return $(this.entry).find(q).text();
+}
+PGPublication.prototype.getRights = function() {
+	return $(this.entry).find('rights').text();
+}
 
 
 var Shelf = function(args, callback){
@@ -591,3 +603,40 @@ IAFeeder.prototype.feedLoad = function(callback){
         }
     });
 }
+
+var PGFeeder = function(id){
+	
+    Feeder.call(this, id);
+}
+PGFeeder.prototype = new Feeder();
+PGFeeder.prototype.constructor = Feeder;
+PGFeeder.prototype.setUrl = function(id){
+	this.url = "http://www.gutenberg.org/ebooks/" + id + ".opds"
+}
+PGFeeder.prototype.feedLoad = function(callback){
+	PGFeeder.callback = callback;
+
+    var feed = new google.feeds.Feed(this.url);
+    feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
+    feed.includeHistoricalEntries();
+    feed.setNumEntries(250);
+    feed.load($.proxy(this, this.feedLoaded));
+}
+
+
+
+PGFeeder.prototype.feedLoaded = function(result){
+	var pub;
+    if (!result.error) {
+		var entries = result.feed.entries;
+        clog("entries = " + entries.length);
+        for (var i = 0; i < entries.length; i++) {
+			var entry = entries[i];
+            pub = new PGPublication();
+			pub.setEntry(entry.xmlNode);
+         }
+    }
+    PGFeeder.callback(pub);
+}
+
+
