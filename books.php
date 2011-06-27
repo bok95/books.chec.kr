@@ -512,6 +512,7 @@
 				<div id=searching></div>
 			</div>
 			<div class="pagination"></div>
+			<div id="feedback"><a href="http://www.facebook.com/pages/CheckrBooks/168948329834305"><img src="/images/feedback.png" /></a></div>
 		</div>
 
 </body>

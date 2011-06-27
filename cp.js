@@ -638,5 +638,3 @@ PGFeeder.prototype.feedLoaded = function(result){
     }
     PGFeeder.callback(pub);
 }
-
-

@@ -313,3 +313,18 @@ hr.split {
 .book_info .title {
     font-size: 2.1em;
 }
+
+#feedback a{ 
+	display:block; 
+	position:fixed; 
+	top:200px; 
+	right:-1px; 
+	background:green; 
+	padding:7px 5px;
+	border:1px solid #030;
+	border-left-color:#060;
+	border-top-color:#090;
+}
+#feedback a:hover{
+	background:#030;border:1px solid #030;
+}
