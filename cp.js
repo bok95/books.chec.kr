@@ -203,7 +203,7 @@ IAPublication.prototype.getPublisher = function(){
 }
 
 IAPublication.prototype.getSummary = function() {
-	return this.entry.metadata.description;
+	return arrayToString(this.entry.metadata.description);
 }
 
 IAPublication.prototype.getRights = function() {

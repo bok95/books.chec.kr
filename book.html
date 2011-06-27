@@ -68,6 +68,12 @@
 		var summary = pub.getSummary();
 		applySummary(summary);
 		clog("summary = " + summary);
+		
+		showMetaTags();
+	}
+	
+	function showMetaTags() {
+		$('p.meta_tag').show();
 	}
 	
 	function applyCover(src) {
@@ -79,23 +85,48 @@
 	}
 	
 	function applyAuthor(author) {
-		$('div.content #author').text(author);
+		if(author){
+			$('div.content #author').text(author);
+		}else{
+			$('p.author').removeClass('meta_tag');
+			$('p.author').hide();
+		}
 	}
 
 	function applyCategory(category) {
-		$('div.content #category').text(category);
+		if(category){
+			$('div.content #category').text(category);
+		}else{
+			$('p.category').removeClass('meta_tag');
+			$('p.category').hide();
+		}
 	}
 
 	function applyLanguage(language) {
-		$('div.content #language').text(language);
+		if(language){
+			$('div.content #language').text(language);
+		}else{
+			$('p.language').removeClass('meta_tag');
+			$('p.language').hide();
+		}
 	}
 	
 	function applyPublisher(publisher) {
-		$('div.content #publisher').text(publisher);
+		if(publisher){
+			$('div.content #publisher').text(publisher);
+		}else{
+			$('p.publisher').removeClass('meta_tag');
+			$('p.publisher').hide();
+		}
 	}
 
 	function applySummary(summary) {
-		$('div.content #summary').text(summary);
+		if(summary){
+			$('div.content #summary').text(summary);
+		}else{
+			$('p.summary').removeClass('meta_tag');
+			$('p.summary').hide();
+		}
 	}
 
    	function onLoad() {
@@ -103,6 +134,7 @@
 			alert('IE is not supported. Please use other browsers(Chrome, Firefox, Safari, Opera ...)');
 			return false;
   		}
+		
   		args = new Argument();
   		
 		args.id = "<?=$id?>";
@@ -176,23 +208,23 @@
 				</div>
 				<div class="content">
 		  			<h3 class="title"></h3>
-		  			<p class="mata_tag">
+		  			<p class="meta_tag author">
 						Author : 
 						<span id="author" class="meta_data"></span>
 					</p>
-			  		<p class="mata_tag">
+			  		<p class="meta_tag language">
 						Language :
 						<span id="language" class="meta_data"></span>
 					</p>
-	  				<p class="mata_tag">
+	  				<p class="meta_tag category">
 						Category :
 						<span id="category" class="meta_data"></span>
 					</p>
-			  		<p class="mata_tag">
+			  		<p class="meta_tag publisher">
 						Publisher :
 						<span id="publisher" class="meta_data"></span>
 					</p>
-			  		<p class="mata_tag">
+			  		<p class="meta_tag summary">
 						Summary :
 						<span id="summary" class="meta_data"></span>
 					</p>
