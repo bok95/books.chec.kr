@@ -68,6 +68,9 @@
 		var summary = pub.getSummary();
 		applySummary(summary);
 		clog("summary = " + summary);
+		var rights = pub.getRights();
+		applyRights(rights);
+		clog("summary = " + rights);
 		
 		showMetaTags();
 	}
@@ -128,7 +131,15 @@
 			$('p.summary').hide();
 		}
 	}
-
+	
+	function applyRights(rights) {
+		if(rights){
+			$('div.content #rights').text(rights);
+		}else{
+			$('p.rights').removeClass('meta_tag');
+			$('p.rights').hide();
+		}	}
+	
    	function onLoad() {
     	if($.browser.msie==true) {
 			alert('IE is not supported. Please use other browsers(Chrome, Firefox, Safari, Opera ...)');
@@ -229,6 +240,10 @@
 			  		<p class="meta_tag summary">
 						Summary :
 						<span id="summary" class="meta_data"></span>
+					</p>
+			  		<p class="meta_tag rights">
+						Rights :
+						<span id="rights" class="meta_data"></span>
 					</p>
 				</div>
 				<hr class="split">

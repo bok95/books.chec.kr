@@ -206,9 +206,6 @@ IAPublication.prototype.getSummary = function() {
 	return arrayToString(this.entry.metadata.description);
 }
 
-IAPublication.prototype.getRights = function() {
-	return $(this.entry).find('rights').text();
-}
 IAPublication.prototype.setEntry = function(entry) {
 	this.entry = entry;
 };
@@ -297,7 +294,13 @@ PGPublication.prototype.getLanguage = function(){
     return $(this.entry).find(q).text();
 }
 PGPublication.prototype.getRights = function() {
-	return $(this.entry).find('rights').text();
+	var q;
+    if ($.browser.mozilla) {
+        q = 'dc\\:rights';
+    }else if ($.browser.webkit) {
+        q = 'rights'
+    }
+	return $(this.entry).find(q).text();
 }
 
 
