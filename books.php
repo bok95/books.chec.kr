@@ -138,10 +138,10 @@
 		clog("kindle = " + kindle);
 		var cover = makeCoverTag(pub.getCoverThumb());
 		clog("cover = " + cover);
-		var categories = pub.getCategories();
-		clog("categories = " + categories);
-		var authors = pub.getAuthors();
-		clog("authors = " + authors);
+		var category = pub.getCategories();
+		clog("category = " + category);
+		var author = pub.getAuthors();
+		clog("author = " + author);
 		var title = pub.getTitle();
 		clog("title = " + title);
 		var publisher = pub.getPublisher();
@@ -158,35 +158,32 @@
 						'<div class="content">' +
 				  			'<h3 class="title">' + 
 								'<a href="/' + args.cpType + '/' + id + '">' + title + '</a>' +
-							'</h3>' +
-				  			'<p class="mata_tag">' + 
-								'Author : '  +
-								'<span class="meta_data">' + authors + '</a>' +
-							'</p>' +
-					  		'<p class="mata_tag">' + 
-								'Language : '  +
-								'<span class="meta_data">' + language + '</a>' +
-							'</p>' +
-			  				'<p class="mata_tag">' + 
-								'Category : '  +
-								'<span class="meta_data">' + categories + '</a>' +
-							'</p>' +
-					  		'<p class="mata_tag">' + 
-								'Publisher : '  +
-								'<span class="meta_data">' + publisher + '</a>' +
-							'</p>' +
-						'</div>' +
+							'</h3>';
+		content_data += makeMetaData("Author", author);
+		content_data += makeMetaData("Language", language);
+		content_data += makeMetaData("Category", category);
+		content_data += makeMetaData("Publisher", publisher);
+
+		content_data +=	'</div>' +
 						'<div class="right_panel">' +
 							'<h4 class="download_header">Download</h4>' +
 							'<div class="format">';
-			content_data += epub;
-			content_data += pdf;
-			content_data += kindle;
-			content_data += audio;
-			content_data += '</div>' +	
+		content_data += epub;
+		content_data += pdf;
+		content_data += kindle;
+		content_data += audio;
+		content_data += '</div>' +	
 						'</div>' +
 						'<hr class="split">';
-			$('div#list_data').append(content_data);
+		$('div#list_data').append(content_data);
+	}
+	
+	function makeMetaData(name, tag) {
+		return (tag) ? 
+			'<p class="mata_tag">' + 
+			name + ' : '  +
+			'<span id="" class="meta_data">' + tag + '</a>' +
+		'</p>' : "";
 	}
 	
 	function showShelf(shelf, data, pnType){
