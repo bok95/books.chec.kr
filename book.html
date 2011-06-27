@@ -65,6 +65,9 @@
 		var language = pub.getLanguage();
 		applyLanguage(language);
 		clog("language = " + language);	
+		var summary = pub.getSummary();
+		applySummary(summary);
+		clog("summary = " + summary);
 	}
 	
 	function applyCover(src) {
@@ -89,6 +92,10 @@
 	
 	function applyPublisher(publisher) {
 		$('div.content #publisher').text(publisher);
+	}
+
+	function applySummary(summary) {
+		$('div.content #summary').text(summary);
 	}
 
    	function onLoad() {
@@ -184,6 +191,10 @@
 			  		<p class="mata_tag">
 						Publisher :
 						<span id="publisher" class="meta_data"></span>
+					</p>
+			  		<p class="mata_tag">
+						Summary :
+						<span id="summary" class="meta_data"></span>
 					</p>
 				</div>
 				<hr class="split">
