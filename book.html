@@ -39,13 +39,13 @@
 	
 	function onPubResult(pub){
 		clog("onPubResult(0)");
-		var epub = makeDownloadTag("epub", pub.getEpub());
+		var epub = applyDownload("epub", pub.getEpub());
 		clog("epub = " + epub);
-		var pdf = makeDownloadTag("pdf", pub.getPdf());
+		var pdf = applyDownload("pdf", pub.getPdf());
 		clog("pdf = " + pdf);
-		var kindle = makeDownloadTag("Kindle", pub.getKindle());
+		var kindle = applyDownload("Kindle", pub.getKindle());
 		clog("kindle = " + kindle);
-		var audio = makeDownloadTag("Audio", pub.getAudio());
+		var audio = applyDownload("Audio", pub.getAudio());
 		clog("kindle = " + kindle);
 		var cover = pub.getCover();
 		applyCover(cover);
@@ -72,11 +72,11 @@
 		applyRights(rights);
 		clog("summary = " + rights);
 		
-		showMetaTags();
+		showUnvisibles();
 	}
 	
-	function showMetaTags() {
-		$('p.meta_tag').show();
+	function showUnvisibles() {
+		$('.unvisible').show();
 	}
 	
 	function applyCover(src) {
@@ -84,61 +84,72 @@
 	}
 	
 	function applyTitle(title) {
-		$('div.content .title').text(title);
+		$('div.meta_data .title').text(title);
 	}
 	
 	function applyAuthor(author) {
 		if(author){
-			$('div.content #author').text(author);
+			$('div.meta_data #author').text(author);
 		}else{
-			$('p.author').removeClass('meta_tag');
+			$('p.author').removeClass('unvisible');
 			$('p.author').hide();
 		}
 	}
 
 	function applyCategory(category) {
 		if(category){
-			$('div.content #category').text(category);
+			$('div.meta_data #category').text(category);
 		}else{
-			$('p.category').removeClass('meta_tag');
+			$('p.category').removeClass('unvisible');
 			$('p.category').hide();
 		}
 	}
 
 	function applyLanguage(language) {
 		if(language){
-			$('div.content #language').text(language);
+			$('div.meta_data #language').text(language);
 		}else{
-			$('p.language').removeClass('meta_tag');
+			$('p.language').removeClass('unvisible');
 			$('p.language').hide();
 		}
 	}
 	
 	function applyPublisher(publisher) {
 		if(publisher){
-			$('div.content #publisher').text(publisher);
+			$('div.meta_data #publisher').text(publisher);
 		}else{
-			$('p.publisher').removeClass('meta_tag');
+			$('p.publisher').removeClass('unvisible');
 			$('p.publisher').hide();
 		}
 	}
 
 	function applySummary(summary) {
 		if(summary){
-			$('div.content #summary').text(summary);
+			$('div.meta_data #summary').text(summary);
 		}else{
-			$('p.summary').removeClass('meta_tag');
+			$('p.summary').removeClass('unvisible');
 			$('p.summary').hide();
 		}
 	}
 	
 	function applyRights(rights) {
 		if(rights){
-			$('div.content #rights').text(rights);
+			$('div.meta_data #rights').text(rights);
 		}else{
-			$('p.rights').removeClass('meta_tag');
+			$('p.rights').removeClass('unvisible');
 			$('p.rights').hide();
-		}	}
+		}
+	}
+	
+	function applyDownload(type, link){
+		var q = 'li.' + type ;
+		if(link){
+			$(q + ' a').attr('href', link);
+		}else{
+			$(q).removeClass('unvisible');
+			$(q).hide();
+		}
+	}
 	
    	function onLoad() {
     	if($.browser.msie==true) {
@@ -219,34 +230,45 @@
 						<img class="cover"/>
 					</a>
 				</div>
-				<div class="content">
+				<div class="meta_data">
 		  			<h3 class="title"></h3>
-		  			<p class="meta_tag author">
+		  			<p class="unvisible author">
 						Author : 
 						<span id="author" class="meta_data"></span>
 					</p>
-			  		<p class="meta_tag language">
+			  		<p class="unvisible language">
 						Language :
 						<span id="language" class="meta_data"></span>
 					</p>
-	  				<p class="meta_tag category">
+	  				<p class="unvisible category">
 						Category :
 						<span id="category" class="meta_data"></span>
 					</p>
-			  		<p class="meta_tag publisher">
+			  		<p class="unvisible publisher">
 						Publisher :
 						<span id="publisher" class="meta_data"></span>
 					</p>
-			  		<p class="meta_tag summary">
+			  		<p class="unvisible summary">
 						Summary :
 						<span id="summary" class="meta_data"></span>
 					</p>
-			  		<p class="meta_tag rights">
+			  		<p class="unvisible rights">
 						Rights :
 						<span id="rights" class="meta_data"></span>
 					</p>
 				</div>
 				<hr class="split">
+				<div class="unvisible download">
+					<h3>Download</h3>
+					<ul id="format">
+						<li class="unvisible format epub">
+							<a>epub</a>
+						</li>
+						<li class="unvisible format pdf">
+							<a>pdf</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 			<div class="pagination"></div>
 		</div>

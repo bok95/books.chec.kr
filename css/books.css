@@ -212,7 +212,6 @@ a img {
 }
 
 p.meta_tag {
-	display: none;
     color: #4D4D4D;
 }
 
@@ -283,6 +282,10 @@ hr.split {
     color: #929292;
 }
 
+.unvisible {
+	display: none;
+}
+
 
 .book_info {
     margin-right: 0;
@@ -291,7 +294,7 @@ hr.split {
     /*    margin-top: 1em;*/
 }
 
-.book_info div.content {
+.book_info div.meta_data {
     float: left;
     margin-right: 10px;
     padding-left: 10px;
@@ -313,6 +316,16 @@ hr.split {
 
 .book_info .title {
     font-size: 2.1em;
+}
+
+ul#format {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+li.format {
+	float: left;
+	padding-left: 12px;
 }
 
 #feedback a{ 
