@@ -43,9 +43,9 @@
 		clog("epub = " + epub);
 		var pdf = applyDownload("pdf", pub.getPdf());
 		clog("pdf = " + pdf);
-		var kindle = applyDownload("Kindle", pub.getKindle());
+		var kindle = applyDownload("kindle", pub.getKindle());
 		clog("kindle = " + kindle);
-		var audio = applyDownload("Audio", pub.getAudio());
+		var audio = applyDownload("audio", pub.getAudio());
 		clog("kindle = " + kindle);
 		var cover = pub.getCover();
 		applyCover(cover);
@@ -71,6 +71,7 @@
 		var rights = pub.getRights();
 		applyRights(rights);
 		clog("summary = " + rights);
+		
 		
 		showUnvisibles();
 	}
@@ -266,6 +267,12 @@
 						</li>
 						<li class="unvisible format pdf">
 							<a>pdf</a>
+						</li>
+						<li class="unvisible format kindle">
+							<a>kindle</a>
+						</li>
+						<li class="unvisible format audio">
+							<a>audio</a>
 						</li>
 					</ul>
 				</div>
