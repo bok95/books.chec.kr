@@ -71,13 +71,17 @@
 		var rights = pub.getRights();
 		applyRights(rights);
 		clog("summary = " + rights);
-		
-		
+	
 		showUnvisibles();
+		
 	}
 	
 	function showUnvisibles() {
 		$('.unvisible').show();
+	}
+	
+	function showFeedback() {
+		$('#feedback img').attr('src', '/images/feedback.png');
 	}
 	
 	function applyCover(src) {
@@ -159,7 +163,7 @@
   		}
 		
   		args = new Argument();
-  		
+		showFeedback();
 		args.id = "<?=$id?>";
 		args.cpType = parseInt("<?=$cpType?>");
 		
@@ -179,6 +183,7 @@
 		}
 		
 		showSearchingMsg();
+
 	}
 	function showSearchingMsg(){
 		$('#searching').append('<h3 class="title">' + args.id + '</h3>');
@@ -192,10 +197,10 @@
 <body style="font-family: Arial; border: 0 none;">
 	<div class="search">
 		<div id="home">
-			<a href="/"> <img class="logo_img" src="/images/ebook-48.png"
-				border="0" height="48">
-					<h2 class="logo_txt">Checkr</h2>
-			
+			<a href="http://books.chec.kr"> 
+				<img class="logo_img" src="/images/ebook-48.png"
+				border="0" height="48"/>
+				<h2 class="logo_txt">Checkr</h2>
 			</a>
 		</div>
 		<form action="/" method="get">
@@ -276,9 +281,16 @@
 						</li>
 					</ul>
 				</div>
+				<hr class="split">
+			</div>
+			
+			<div class="comments">
+				<div id="fb-root"></div>
+					<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+					<fb:comments href="http://books.chec.kr/<?=$cpType?>/<?=$id?>" num_posts="2" width="650"></fb:comments>
 			</div>
 			<div class="pagination"></div>
 		</div>
-		<div id="feedback"><a href="http://www.facebook.com/pages/CheckrBooks/168948329834305"><img src="/images/feedback.png" /></a></div>
+		<div id="feedback"><a href="http://www.facebook.com/pages/CheckrBooks/168948329834305"><img /></a></div>
 </body>
 </html>

@@ -80,7 +80,6 @@ hr {
     float: left;
 }
 
-
 .logo_txt {
     float: left;
     color: #406EA1;
@@ -327,6 +326,12 @@ li.format {
 	float: left;
 	padding-left: 12px;
 }
+
+.comments {
+	float: left;
+	margin-top: 20px;
+}
+
 
 #feedback a{ 
 	display:block; 
