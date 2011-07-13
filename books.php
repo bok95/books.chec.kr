@@ -457,7 +457,7 @@
     }
     </script>
 
-<script type="text/javascript">
+	<script type="text/javascript">
 	  var _gaq = _gaq || [];
 	  _gaq.push(['_setAccount', 'UA-23322948-1']);
 	  _gaq.push(['_trackPageview']);
@@ -509,7 +509,7 @@
 				<div id=searching></div>
 			</div>
 			<div class="pagination"></div>
-			<div id="feedback"><a href="http://www.facebook.com/pages/CheckrBooks/168948329834305"><img src="/images/feedback.png" /></a></div>
+			<div id="feedback"><a href="http://www.facebook.com/pages/CheckrBooks/168948329834305"><img src="/images/feedback.gif" /></a></div>
 		</div>
 
 </body>
