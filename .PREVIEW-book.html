@@ -87,8 +87,7 @@
 
 		function applyAuthor(author) {
 			if(author){
-				$('#main_author .byline').show();
-				$('#main_author .main_author').text(author);
+				$('div.main_author .main_author').show().text(author);
 			}
 		}
 		
@@ -198,11 +197,11 @@
 		<div class="lnsep" ></div>
 		<div id="download" >
 			<p>Downloads :
-				<a class="epub unvisible download" ><span id="epub" >epub</span></a>
-				<a class="pdf unvisible download" ><span id="pdf" >pdf</span></a>
-				<a class="kindle unvisible download" ><span id="kindle" >kindle</span></a>
-				<a class="html unvisible download" ><span id="html" >html</span></a>
-				<a class="audio unvisible download" ><span id="audio" >audio</span></a>
+				<a class="epub unvisible" ><span id="epub" >epub</span></a>
+				<a class="pdf unvisible" ><span id="pdf" >pdf</span></a>
+				<a class="kindle unvisible" ><span id="kindle" >kindle</span></a>
+				<a class="html unvisible" ><span id="html" >html</span></a>
+				<a class="audio unvisible" ><span id="audio" >audio</span></a>
 			</p>
 		</div>
 		<div id="meta_data" >
@@ -242,7 +241,7 @@
 		<div id="comments" >
 			<div id="fb-root" ></div>
 				<script src="http://connect.facebook.net/en_US/all.js#xfbml=1" ></script>
-				<fb:comments href="http://books.chec.kr" num_posts="2" width="480" ></fb:comments>
+				<fb:comments href="http://books.chec.kr" num_posts="2" width="650" ></fb:comments>
 		</div>
 		<!-- <div id="by_author_header" >
 		</div>
