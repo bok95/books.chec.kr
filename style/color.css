@@ -270,6 +270,10 @@ p.byline {
 	padding-right:15px;
 }
 
+#download p {
+	font-weight:bold;
+}
+
 .unvisible {
 	display:none;
 }
@@ -420,7 +424,7 @@ p.byline {
 
 .bar {
 	background-color:#5E3C22;
-	height:29px;
+	height:31px;
 }
 
 #container {

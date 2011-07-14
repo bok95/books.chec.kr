@@ -157,7 +157,18 @@
 
 		google.setOnLoadCallback(onLoad);
 	</script>
-	
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-23322948-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
 </head><body id="body" style="" >
 	
 
@@ -196,7 +207,7 @@
 			<img id="main_cover" >
 		</div>
 		<div id="fb_like" >
-			<div id="fb-root" ></div><script src="http://connect.facebook.net/en_US/all.js#appId=120648378027116&xfbml=1" ></script><fb:like href="http://books.chec.kr" send="true" layout="button_count" width="250" show_faces="true" font="" ></fb:like>
+			<div id="fb-root" ></div><script src="http://connect.facebook.net/en_US/all.js#appId=120648378027116&xfbml=1" ></script><fb:like href="http://books.chec.kr/<?=$cpType?>/<?=$id?>" send="true" layout="button_count" width="250" show_faces="true" font="" ></fb:like>
 		</div>
 		<div class="lnsep" ></div>
 		<div id="download" >
@@ -245,7 +256,7 @@
 		<div id="comments" >
 			<div id="fb-root" ></div>
 				<script src="http://connect.facebook.net/en_US/all.js#xfbml=1" ></script>
-				<fb:comments href="http://books.chec.kr" num_posts="2" width="480" ></fb:comments>
+				<fb:comments href="http://books.chec.kr/<?=$cpType?>/<?=$id?>" num_posts="2" width="480" ></fb:comments>
 		</div>
 		<!-- <div id="by_author_header" >
 		</div>
