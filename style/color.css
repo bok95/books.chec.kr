@@ -173,6 +173,28 @@ p.byline {
 	background-repeat-x:no-repeat;
 	background-repeat-y:no-repeat;
 	background-repeat:no-repeat;
+	padding-left:14px;
+}
+
+.relate_book {
+	position:relative;
+	background-color:#5E3C22;
+	width:80px;
+	box-shadow:rgb(94, 60, 34) 0px 4px 5px;
+	-webkit-box-shadow:rgb(94, 60, 34) 0px 4px 5px;
+	-o-box-shadow:rgb(94, 60, 34) 0px 4px 5px;
+	-moz-box-shadow:rgb(94, 60, 34) 0px 4px 5px;
+	height:116px;
+	margin-top:19px;
+	margin-left:14px;
+}
+
+.more {
+	position:relative;
+	width:27px;
+	height:27px;
+	margin-bottom:40px;
+	margin-left:6px;
 }
 
 #by_author_header {

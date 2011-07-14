@@ -85,11 +85,24 @@
 			for (var i = 0; i < pubs.length; i++) {
 				var pub = pubs[i];
 				if(pub){
-					thumb = pub.getCoverThumb();
-					pubId = shelf.getPubID(pub);
-					clog(pubId);
+					if(i < 5){
+						thumb = pub.getCoverThumb();
+						pubId = shelf.getPubID(pub);
+						applySimilarBook(thumb, pubId, i)
+					}else if( i == 5){
+						$('#rel_more .more').show();
+						break;
+					}
 				}
 			}//for
+		}
+		
+		function applySimilarBook(thumb, id, index) {
+			var i = index;
+			i++;
+			$('#rel_' + i + ' img').show().attr('src', thumb);
+			var link = 'http://books.chec.kr/' + args.cpType + '/' + id;
+			$('#rel_' + i).show().attr('href', link);
 		}
 		
 
@@ -182,7 +195,7 @@
 
 		google.setOnLoadCallback(onLoad);
 	</script>
-	<script type="text/javascript">
+	<script type="text/javascript" >
 	  var _gaq = _gaq || [];
 	  _gaq.push(['_setAccount', 'UA-23322948-1']);
 	  _gaq.push(['_trackPageview']);
@@ -283,27 +296,22 @@
 				<script src="http://connect.facebook.net/en_US/all.js#xfbml=1" ></script>
 				<fb:comments href="http://books.chec.kr/<?=$cpType?>/<?=$id?>" num_posts="2" width="480" ></fb:comments>
 		</div>
-		<!-- <div id="by_author_header" >
-		</div>
-		<div class="relate_books_left_bar" >
-			
-		</div>
-		<div class="relate_books" >
-			
-		</div>
-		<div class="relate_books_right_bar" >
-			
-		</div> -->
+
 		<div id="people_also_downloaded_header" >
 			<h3>People also downloaded</h3>
 		</div>
 
 		<div class="relate_books" >
-	
+			<a id="rel_1" ><img class="relate_book unvisible" ></a>
+			<a id="rel_2" ><img class="relate_book unvisible " ></a>
+			<a id="rel_3" ><img class="relate_book unvisible " ></a>
+			<a id="rel_4" ><img class="relate_book unvisible " ></a>
+			<a id="rel_5" ><img class="relate_book unvisible " ></a>
+			<a id="rel_more" ><img class="more unvisible " src="/images/arrow_right.png" > </a></div>
 		</div>
 	</div>
 </div> <!-- container -->
-</div> <!-- container_bg -->
+ <!-- container_bg -->
 
 <div id="footer" >
 	<a href="http://www.facebook.com/pages/CheckrBooks/168948329834305" >
