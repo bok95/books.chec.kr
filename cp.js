@@ -212,9 +212,7 @@ IAPublication.prototype.setEntry = function(entry) {
 IAPublication.prototype.hasAudioFile = function(){
     return false;
 }
-IAPublication.prototype.getID = function(){
-    return null;
-}
+
 IAPublication.prototype.getAudio = function(){
 }
 IAPublication.prototype.sameAuthor = function(){
@@ -348,22 +346,28 @@ var Shelf = function(args, callback){
 Shelf.prototype.getPubTotalCount = function(){
     return 0;
 };
-Shelf.prototype.getPubID = function(){
+Shelf.prototype.getPubID = function(arg){
     return null;
 }
 
 var FBShelf = function(args, callback){
-    this.setup(args);
     Shelf.call(this, args, callback);
 }
 FBShelf.prototype = new Shelf();
 FBShelf.prototype.constructor = FBShelf;
 FBShelf.prototype.setup = function(args){
-    var page = parseInt(args['page']);
-    page++;
-    arg = 'query=' + args['query'] + '&page=' + page;
-    this.url = 'http://www.feedbooks.com/books/search.atom?' + arg;
+	var type = args['type'];
+	if(type == 'search'){
+	    var page = parseInt(args['page']);
+	    page++;
+	    arg = 'query=' + args['query'] + '&page=' + page;
+	    this.url = 'http://www.feedbooks.com/books/search.atom?' + arg;
+	}else if(type == 'info'){
+		var id = parseInt(args['id']);
+	    this.url = 'http://www.feedbooks.com/book/' + id + '/similar.atom';
+	}
 }
+
 FBShelf.prototype.getPubTotalCount = function(result){
     xmlDocument = result.xmlDocument;
     

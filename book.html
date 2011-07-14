@@ -33,6 +33,7 @@
 		var pubFB;
 		var pubIA;
 		var pubPG;
+		var shelf;
 
 		var Argument = function() {
 	    	this.id;
@@ -73,8 +74,24 @@
 			var rights = pub.getRights();
 			applyRights(rights);
 			clog("summary = " + rights);
-
 		}
+		
+		function onSimilarShelf(data) {
+			pubs = data['pubs'];
+			result = data['result'];
+			if (pubs == null || pubs.length == 0) {
+
+			}
+			for (var i = 0; i < pubs.length; i++) {
+				var pub = pubs[i];
+				if(pub){
+					thumb = pub.getCoverThumb();
+					pubId = shelf.getPubID(pub);
+					clog(pubId);
+				}
+			}//for
+		}
+		
 
 		function applyCover(src) {
 			$('img#main_cover').attr('src', src);
@@ -138,11 +155,19 @@
 	  		args = new Argument();
 			args.id = "<?=$id?>";
 			args.cpType = parseInt("<?=$cpType?>");
-
+			var values = {
+				type: 'info',
+				id:	args.id
+			}
+			
 			switch(args.cpType){
 				case BS_TYPE.FB:
 					pubFB = new FBFeeder(args.id);
 					pubFB.feedLoad(onPubResult);
+
+					shelf = new FBShelf(values, onSimilarShelf);
+					shelf.setup(values);
+					shelf.feedLoad();
 				break;
 				case BS_TYPE.IA:
 					pubIA = new IAFeeder(args.id);

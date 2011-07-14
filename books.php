@@ -48,6 +48,7 @@
 			clog("fbShelfLoad(0)");
 			var values = makeArgs(BS_TYPE.FB);
 			this.shelf = new FBShelf(values, onFbShelfResult);
+			this.shelf.setup(values);
 			this.shelf.feedLoad();
 			clog("fbShelfLoad(1)");
 		}
@@ -108,6 +109,7 @@
 			page = args.page;
 		}
 		var values = {
+			type: 'search',
 			query:	args.q,
 			page:	page
 		}
