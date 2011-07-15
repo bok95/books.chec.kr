@@ -1,13 +1,27 @@
 <!DOCTYPE HTML>
+<?
+	if(!empty($_GET['cpType'])){
+		$cpType = $_GET['cpType'];
+  	}else{
+		$q = -1;
+	}
+    if(!empty($_GET['id'])){
+		$id = $_GET['id'];
+	}else{
+		$id = -1;
+	}
+?>
 <html><head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
-	<meta name="author" content="Flux User" >
-	<meta name="description" content="My Website" >
-	<meta name="keywords" content="Flux, Mac" >
+	<meta name="author" content="Youngbok Yoon" >
+	<meta name="description" content="" >
+	<meta name="keywords" content="ebook, book, free book, books, epub, pdf" >
+	<meta page_img="fb" property="og:image" content="http://covers.feedbooks.net/book/<?=$id?>.jpg">
 	<title>checkr</title>
 	<link href="/style/reset.css" rel="stylesheet" media="screen" type="text/css" >
 	<link href="/style/color.css" rel="stylesheet" media="screen" type="text/css" >
 	<link href="/style/typography.css" rel="stylesheet" media="screen" type="text/css" >
+	<link rel="image_src" >
 	
 	<script src="http://code.jquery.com/jquery-1.5.2.min.js" ></script>
 	<script src="/cutil.js" ></script>
@@ -16,18 +30,7 @@
 	</script>
 	
 	<script type="text/javascript" >
-	<?
-		if(!empty($_GET['cpType'])){
-			$cpType = $_GET['cpType'];
-	  	}else{
-			$q = -1;
-		}
-	    if(!empty($_GET['id'])){
-			$id = $_GET['id'];
-		}else{
-			$id = -1;
-		}
-	?> 
+
 		google.load("feeds", "1");
 
 		var pubFB;
@@ -90,12 +93,19 @@
 						pubId = shelf.getPubID(pub);
 						applySimilarBook(thumb, pubId, i)
 					}else if( i == 5){
-						$('#rel_more .more').show();
+						$('#rel_more .more').show().attr('src', "/images/arrow_right.png");
 						break;
 					}
 				}
 			}//for
 		}
+		
+		function applyPageImage(url) {
+			// $('meta[page_img="fb"]').attr('content', 'http://books.chec.kr/images/arrow_right.png');
+			$('link[rel="image_src"]').attr('href', url);
+		}
+		
+		
 		
 		function applySimilarBook(thumb, id, index) {
 			var i = index;
@@ -107,6 +117,7 @@
 		
 
 		function applyCover(src) {
+			applyPageImage(src);
 			$('img#main_cover').attr('src', src);
 			$('img#main_cover').attr('alt', src);
 		}
@@ -245,7 +256,7 @@
 			<img id="main_cover" >
 		</div>
 		<div id="fb_like" >
-			<div id="fb-root" ></div><script src="http://connect.facebook.net/en_US/all.js#appId=120648378027116&xfbml=1" ></script><fb:like href="http://books.chec.kr/<?=$cpType?>/<?=$id?>" send="true" layout="button_count" width="250" show_faces="true" font="" ></fb:like>
+			<div id="fb-root" ></div><script src="http://connect.facebook.net/en_US/all.js#appId=120648378027116&xfbml=1" ></script><fb:like href="http://books.chec.kr/<?=$cpType?>/<?=$id?>" send="true" layout="button_count" width="250" show_faces="false" font="" ></fb:like>
 		</div>
 		<div class="lnsep" ></div>
 		<div id="download" >
@@ -307,7 +318,7 @@
 			<a id="rel_3" ><img class="relate_book unvisible " ></a>
 			<a id="rel_4" ><img class="relate_book unvisible " ></a>
 			<a id="rel_5" ><img class="relate_book unvisible " ></a>
-			<a id="rel_more" ><img class="more unvisible " src="/images/arrow_right.png" > </a></div>
+			<a id="rel_more" ><img class="more unvisible " > </a></div>
 		</div>
 	</div>
 </div> <!-- container -->
