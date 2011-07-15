@@ -329,7 +329,7 @@
 		
 		var result = data['result'];
 		
-		bsPG.pubIDs = data['pubs'];
+		bsPG.pubIDs = data['pubIDs'];
 		if(bsPG.pubIDs){
 			if(bsPG.pubIDs.length > 0){
 				var count = bsPG.getPubCount();

@@ -351,6 +351,7 @@ Shelf.prototype.getPubID = function(arg){
 }
 
 var FBShelf = function(args, callback){
+	this.setup(args);
     Shelf.call(this, args, callback);
 }
 FBShelf.prototype = new Shelf();
@@ -449,12 +450,18 @@ var Catalog = function(args, callback){
     this.onCatalog = function(result){
         var values = new Array();
         var pubIDs = new Array();
+		var pubs = new Array();
         
         if (!result.error) {
             entries = result.feed.entries;
             for (var i = 0; i < entries.length; i++) {
                 var entry = entries[i];
                 xmlNode = entry.xmlNode;
+
+                pub = new PGPublication();
+				pub.setEntry(xmlNode);
+				pubs.push(pub);
+
                 var id = $(xmlNode).find('id').text();
                 if (id) {
                     if (id.length > 0) {
@@ -466,7 +473,8 @@ var Catalog = function(args, callback){
                     }
                 }
             }
-            values['pubs'] = pubIDs;
+            values['pubIDs'] = pubIDs;
+            values['pubs'] = pubs;
             values['result'] = result;
             callback(values);
         }
@@ -484,10 +492,16 @@ var PGCatalog = function(args, callback){
 PGCatalog.prototype = new Catalog();
 PGCatalog.prototype.constructor = PGCatalog;
 PGCatalog.prototype.setup = function(args){
-    var page = parseInt(args['page']);
-    page = (page * 25) + 1;
-    arg = 'default_prefix=all' + '&sort_order=downloads' + '&query=' + args['query'] + '&start_index=' + page;
-    this.url = 'http://www.gutenberg.org/ebooks/search.opds/?' + arg;
+	var type = args['type'];
+	if(type == 'search'){
+	    var page = parseInt(args['page']);
+	    page = (page * 25) + 1;
+	    arg = 'default_prefix=all' + '&sort_order=downloads' + '&query=' + args['query'] + '&start_index=' + page;
+	    this.url = 'http://www.gutenberg.org/ebooks/search.opds/?' + arg;
+	}else if(type == 'info'){
+		var id = parseInt(args['id']);
+	    this.url = 'http://www.gutenberg.org/ebooks/search.opds/?default_prefix=also_downloaded&query=' + id;
+	}
 }
 
 
@@ -531,6 +545,7 @@ var PGShelf = function(pubID, callback){
         }
         callback(pub);
     }
+
 }
 
 PGShelf.prototype = new PGShelf();

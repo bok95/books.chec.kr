@@ -10,13 +10,24 @@
 	}else{
 		$id = -1;
 	}
+	switch($cpType){
+		case 1:
+			$pageImg = "http://covers.feedbooks.net/book/" . $id . ".jpg";
+			break;
+		case 2:
+			$pageImg = "";
+			break;
+		case 3:
+			$pageImg = "";
+			break;
+	}
 ?>
 <html><head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
 	<meta name="author" content="Youngbok Yoon" >
 	<meta name="description" content="" >
 	<meta name="keywords" content="ebook, book, free book, books, epub, pdf" >
-	<meta page_img="fb" property="og:image" content="http://covers.feedbooks.net/book/<?=$id?>.jpg">
+	<meta page_img="fb" property="og:image" content="<?=$pageImg?>">
 	<title>checkr</title>
 	<link href="/style/reset.css" rel="stylesheet" media="screen" type="text/css" >
 	<link href="/style/color.css" rel="stylesheet" media="screen" type="text/css" >
@@ -89,9 +100,21 @@
 				var pub = pubs[i];
 				if(pub){
 					if(i < 5){
-						thumb = pub.getCoverThumb();
-						pubId = shelf.getPubID(pub);
-						applySimilarBook(thumb, pubId, i)
+						switch(args.cpType){
+							case BS_TYPE.FB:
+								thumb = pub.getCoverThumb();
+								pubId = shelf.getPubID(pub);
+								applySimilarBook(thumb, pubId, i)
+								break;
+							case BS_TYPE.IA:
+								
+								break;
+							case BS_TYPE.PG:
+								title = pub.getTitle();
+								clog(title);
+								break;
+						}
+						
 					}else if( i == 5){
 						$('#rel_more .more').show().attr('src', "/images/arrow_right.png");
 						break;
@@ -99,13 +122,11 @@
 				}
 			}//for
 		}
-		
+				
 		function applyPageImage(url) {
 			// $('meta[page_img="fb"]').attr('content', 'http://books.chec.kr/images/arrow_right.png');
 			$('link[rel="image_src"]').attr('href', url);
 		}
-		
-		
 		
 		function applySimilarBook(thumb, id, index) {
 			var i = index;
@@ -190,7 +211,6 @@
 					pubFB.feedLoad(onPubResult);
 
 					shelf = new FBShelf(values, onSimilarShelf);
-					shelf.setup(values);
 					shelf.feedLoad();
 				break;
 				case BS_TYPE.IA:
@@ -200,6 +220,9 @@
 				case BS_TYPE.PG:
 					pubPG = new PGFeeder(args.id);
 					pubPG.feedLoad(onPubResult);
+					
+					this.catalog = new PGCatalog(values, onSimilarShelf);
+					this.catalog.getCatalog();
 				break;
 			}
 		}
