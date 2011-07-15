@@ -48,6 +48,7 @@
 		var pubIA;
 		var pubPG;
 		var shelf;
+		var catalog;
 
 		var Argument = function() {
 	    	this.id;
@@ -111,9 +112,9 @@
 								break;
 							case BS_TYPE.PG:
 								title = pub.getTitle();
-								pubId = pub.getID();
-								// pubId = data['pubIDs'][i];
-								applyPGSimilarBook(title, pubId, i)
+								pubId = data['pubIDs'][i];
+								id = generatePGID(pubId);
+								applyPGSimilarBook(title, id, i)
 								clog(title);
 								break;
 						}
@@ -125,7 +126,13 @@
 				}
 			}//for
 		}
-				
+		function generatePGID(val) {
+			var lastPath = val.lastIndexOf('/');
+			var lastDot = val.lastIndexOf("\.opds");
+			var id = val.substring(lastPath + 1, lastDot);
+			return id;
+		}
+		
 		function applyPageImage(url) {
 			// $('meta[page_img="fb"]').attr('content', 'http://books.chec.kr/images/arrow_right.png');
 			$('link[rel="image_src"]').attr('href', url);
@@ -135,18 +142,22 @@
 			var i = index;
 			i++;
 			$('#rel_' + i + ' img').show().attr('src', thumb);
-			var link = 'http://books.chec.kr/' + args.cpType + '/' + id;
-			$('#rel_' + i).show().attr('href', link);
+			applySimilarBookLink(id, i);
 		}
 		
 		function applyPGSimilarBook(title, id, index) {
 			var i = index;
 			i++;
 			$('#rel_' + i + ' img').show().attr('src', "/images/template_book_cover.gif");
-			// var link = 'http://books.chec.kr/' + args.cpType + '/' + id;
-			var link = id;
-			$('#rel_' + i).show().attr('href', link);
+			applySimilarBookLink(id, i);
 		}
+		
+		function applySimilarBookLink(id, index) {
+			var link = 'http://books.chec.kr/' + args.cpType + '/' + id;
+			$('#rel_' + index).show().attr('href', link);
+			
+		}
+		
 
 		function applyCover(src) {
 			applyPageImage(src);
@@ -232,8 +243,8 @@
 					pubPG = new PGFeeder(args.id);
 					pubPG.feedLoad(onPubResult);
 					
-					this.catalog = new PGCatalog(values, onSimilarShelf);
-					this.catalog.getCatalog();
+					catalog = new PGCatalog(values, onSimilarShelf);
+					catalog.getCatalog();
 				break;
 			}
 		}

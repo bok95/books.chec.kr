@@ -458,17 +458,18 @@ var Catalog = function(args, callback){
                 var entry = entries[i];
                 xmlNode = entry.xmlNode;
 
-                pub = new PGPublication();
-				pub.setEntry(xmlNode);
-				pubs.push(pub);
+				
 
                 var id = $(xmlNode).find('id').text();
                 if (id) {
                     if (id.length > 0) {
-                        var tmp = ".opds";
+                        var tmp = "\.opds";
                         var extension = id.substr(-(tmp.length));
                         if (tmp == extension) {
                             pubIDs.push(id);
+			                pub = new PGPublication();
+							pub.setEntry(xmlNode);
+							pubs.push(pub);
                         }
                     }
                 }
