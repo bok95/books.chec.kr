@@ -104,13 +104,16 @@
 							case BS_TYPE.FB:
 								thumb = pub.getCoverThumb();
 								pubId = shelf.getPubID(pub);
-								applySimilarBook(thumb, pubId, i)
+								applyFBSimilarBook(thumb, pubId, i)
 								break;
 							case BS_TYPE.IA:
 								
 								break;
 							case BS_TYPE.PG:
 								title = pub.getTitle();
+								pubId = pub.getID();
+								// pubId = data['pubIDs'][i];
+								applyPGSimilarBook(title, pubId, i)
 								clog(title);
 								break;
 						}
@@ -128,7 +131,7 @@
 			$('link[rel="image_src"]').attr('href', url);
 		}
 		
-		function applySimilarBook(thumb, id, index) {
+		function applyFBSimilarBook(thumb, id, index) {
 			var i = index;
 			i++;
 			$('#rel_' + i + ' img').show().attr('src', thumb);
@@ -136,6 +139,14 @@
 			$('#rel_' + i).show().attr('href', link);
 		}
 		
+		function applyPGSimilarBook(title, id, index) {
+			var i = index;
+			i++;
+			$('#rel_' + i + ' img').show().attr('src', "/images/template_book_cover.gif");
+			// var link = 'http://books.chec.kr/' + args.cpType + '/' + id;
+			var link = id;
+			$('#rel_' + i).show().attr('href', link);
+		}
 
 		function applyCover(src) {
 			applyPageImage(src);
