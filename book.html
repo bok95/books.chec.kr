@@ -57,6 +57,10 @@
 
 		function onPubResult(pub){
 			clog("onPubResult(0)");
+			var title = pub.getTitle();
+			applyTitle(title);
+			clog("title = " + title);
+
 			var epub = applyDownload("epub", pub.getEpub());
 			clog("epub = " + epub);
 			var pdf = applyDownload("pdf", pub.getPdf());
@@ -66,7 +70,12 @@
 			var audio = applyDownload("audio", pub.getAudio());
 			clog("kindle = " + kindle);
 			var cover = pub.getCover();
-			applyCover(cover);
+			if(cover != null && cover != ""){
+				applyCover(cover);
+			}else{
+				applyTemplateCover(title);
+			}
+			
 			clog("cover = " + cover);
 			var categories = pub.getCategories();
 			applyCategory(categories);
@@ -74,9 +83,6 @@
 			var authors = pub.getAuthors();
 			applyAuthor(authors);
 			clog("authors = " + authors);
-			var title = pub.getTitle();
-			applyTitle(title);
-			clog("title = " + title);
 			var publisher = pub.getPublisher();
 			applyPublisher(publisher);
 			clog("publisher = " + publisher);
@@ -148,7 +154,10 @@
 		function applyPGSimilarBook(title, id, index) {
 			var i = index;
 			i++;
-			$('#rel_' + i + ' img').show().attr('src', "/images/template_book_cover.gif");
+			// $('#rel_' + i + ' img').show().attr('src', "/images/template_book_cover.gif");
+			$('#rel_' + i + ' img').remove();
+			var no_cover = '<div class="no_cover no_cover_similar cover_shadow"><p>' + title + '</p></div>';
+			$('#rel_' + i).append(no_cover);
 			applySimilarBookLink(id, i);
 		}
 		
@@ -157,12 +166,17 @@
 			$('#rel_' + index).show().attr('href', link);
 			
 		}
-		
 
 		function applyCover(src) {
 			applyPageImage(src);
-			$('img#main_cover').attr('src', src);
-			$('img#main_cover').attr('alt', src);
+			$('#main_shelf img').show().attr('src', src);
+			$('#main_shelf img').attr('alt', src);
+		}
+
+		function applyTemplateCover(title) {
+			$('#main_shelf img').remove();
+			var no_cover = '<div class="main_cover no_cover cover_shadow"><p>' + title + '</p></div>';
+			$('#main_shelf').append(no_cover);
 		}
 
 		function applyTitle(title) {
@@ -298,7 +312,7 @@
 <div id="container" >	
 	<div id="left_panel" >
 		<div id="main_shelf" >
-			<img id="main_cover" >
+			<img class="main_cover unvisible cover_shadow" >
 		</div>
 		<div id="fb_like" >
 			<div id="fb-root" ></div><script src="http://connect.facebook.net/en_US/all.js#appId=120648378027116&xfbml=1" ></script><fb:like href="http://books.chec.kr/<?=$cpType?>/<?=$id?>" send="true" layout="button_count" width="250" show_faces="false" font="" ></fb:like>
@@ -363,7 +377,7 @@
 			<a id="rel_3" ><img class="relate_book unvisible " ></a>
 			<a id="rel_4" ><img class="relate_book unvisible " ></a>
 			<a id="rel_5" ><img class="relate_book unvisible " ></a>
-			<a id="rel_more" ><img class="more unvisible " > </a></div>
+			<!-- <a id="rel_more" ><img class="more unvisible " > </a></div> -->
 		</div>
 	</div>
 </div> <!-- container -->

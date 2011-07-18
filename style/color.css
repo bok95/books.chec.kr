@@ -124,7 +124,7 @@ p.byline {
 	-o-box-shadow:rgb(94, 60, 34) 0px 2px 7px;
 	-moz-box-shadow:rgb(94, 60, 34) 0px 2px 7px;
 }
-
+/*
 .relate_books_left_bar {
 	position:relative;
 	float:left;
@@ -155,6 +155,13 @@ p.byline {
 	background-repeat-x:no-repeat;
 	background-repeat-y:no-repeat;
 	background-repeat:no-repeat;
+}*/
+
+.cover_shadow {
+	box-shadow:rgb(94, 60, 34) 0px 4px 5px;
+	-webkit-box-shadow:rgb(94, 60, 34) 0px 4px 5px;
+	-o-box-shadow:rgb(94, 60, 34) 0px 4px 5px;
+	-moz-box-shadow:rgb(94, 60, 34) 0px 4px 5px;
 }
 
 .relate_books {
@@ -180,13 +187,31 @@ p.byline {
 	position:relative;
 	background-color:#5E3C22;
 	width:80px;
-	box-shadow:rgb(94, 60, 34) 0px 4px 5px;
-	-webkit-box-shadow:rgb(94, 60, 34) 0px 4px 5px;
-	-o-box-shadow:rgb(94, 60, 34) 0px 4px 5px;
-	-moz-box-shadow:rgb(94, 60, 34) 0px 4px 5px;
 	height:116px;
 	margin-top:19px;
 	margin-left:14px;
+}
+
+.no_cover {
+	position:relative;
+	background-image:url(../images/template_book_cover.gif);
+}
+
+.no_cover_similar {
+	position:relative;
+	float:left;
+	width:80px;
+	height:116px;
+	margin-top:19px;
+	margin-left:14px;
+	padding-left:3px;
+	padding-right:3px;
+}
+
+.no_cover p {
+	color:#3E1D03;
+	font-weight:bold;
+	margin-top: 5px;
 }
 
 .more {
@@ -314,16 +339,19 @@ p.byline {
 	position:relative;
 }
 
-#main_cover {
-	position:relative;
+
+.main_cover {
+	position:absolute;
+	font-size:1.2em;
 	width:107px;
 	height:160px;
 	margin-top:25px;
 	margin-left:28px;
-	box-shadow:rgb(94, 60, 34) 0px 4px 5px;
-	-webkit-box-shadow:rgb(94, 60, 34) 0px 4px 5px;
-	-o-box-shadow:rgb(94, 60, 34) 0px 4px 5px;
-	-moz-box-shadow:rgb(94, 60, 34) 0px 4px 5px;
+}
+
+.main_cover p {
+	margin-left:5px;
+	margin-right:5px;
 }
 
 .cover_large {
