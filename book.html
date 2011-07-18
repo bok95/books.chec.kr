@@ -226,6 +226,16 @@
 				$(q + ' a.' + type).show().attr('href', link);
 			}
 		}
+		
+		function showPeopleAlsoDownloaded(flag) {
+			if (flag) {
+				$('#people_also_downloaded').show();
+			}else{
+				$('#people_also_downloaded').hide();
+			}
+		}
+		
+		
 
 	   	function onLoad() {
 	    	if($.browser.msie==true) {
@@ -248,10 +258,12 @@
 
 					shelf = new FBShelf(values, onSimilarShelf);
 					shelf.feedLoad();
+					showPeopleAlsoDownloaded(true);
 				break;
 				case BS_TYPE.IA:
 					pubIA = new IAFeeder(args.id);
 					pubIA.feedLoad(onPubResult);
+					showPeopleAlsoDownloaded(false);
 				break;
 				case BS_TYPE.PG:
 					pubPG = new PGFeeder(args.id);
@@ -259,6 +271,7 @@
 					
 					catalog = new PGCatalog(values, onSimilarShelf);
 					catalog.getCatalog();
+					showPeopleAlsoDownloaded(true);
 				break;
 			}
 		}
@@ -366,18 +379,20 @@
 				<script src="http://connect.facebook.net/en_US/all.js#xfbml=1" ></script>
 				<fb:comments href="http://books.chec.kr/<?=$cpType?>/<?=$id?>" num_posts="2" width="480" ></fb:comments>
 		</div>
+		
+		<div id="people_also_downloaded" class="unvisible">
+			<div id="people_also_downloaded_header" >
+				<h3>People also downloaded</h3>
+			</div>
 
-		<div id="people_also_downloaded_header" >
-			<h3>People also downloaded</h3>
-		</div>
-
-		<div class="relate_books" >
-			<a id="rel_1" ><img class="relate_book unvisible" ></a>
-			<a id="rel_2" ><img class="relate_book unvisible " ></a>
-			<a id="rel_3" ><img class="relate_book unvisible " ></a>
-			<a id="rel_4" ><img class="relate_book unvisible " ></a>
-			<a id="rel_5" ><img class="relate_book unvisible " ></a>
-			<!-- <a id="rel_more" ><img class="more unvisible " > </a></div> -->
+			<div class="relate_books" >
+				<a id="rel_1" ><img class="relate_book unvisible" ></a>
+				<a id="rel_2" ><img class="relate_book unvisible " ></a>
+				<a id="rel_3" ><img class="relate_book unvisible " ></a>
+				<a id="rel_4" ><img class="relate_book unvisible " ></a>
+				<a id="rel_5" ><img class="relate_book unvisible " ></a>
+				<!-- <a id="rel_more" ><img class="more unvisible " > </a></div> -->
+			</div>
 		</div>
 	</div>
 </div> <!-- container -->
