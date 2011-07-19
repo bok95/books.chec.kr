@@ -3,6 +3,7 @@
 	color:#5E3D23;
 	width:100%;
 	font-size:1.2em;
+	margin-bottom:7px;
 }
 
 .item .meta_data {
@@ -20,12 +21,22 @@
 }
 
 #items ul {
-	list-style-type: none;
-} 
+	list-style-type:none;
+}
 
 #items li:hover {
 	cursor:pointer;
-	background: #ffffcc;
+	background-image:initial;
+	background-repeat-x:initial;
+	background-repeat-y:initial;
+	background-repeat:no-repeat;
+	background-attachment:initial;
+	background-position:initial initial;
+	background-position-x:initial;
+	background-position-y:initial;
+	background-origin:initial;
+	background-clip:initial;
+	background-color:#E7DCC4;
 }
 
 img.thumb {
@@ -38,7 +49,7 @@ img.thumb {
 	position:relative;
 	width:100%;
 	min-height:112px;
-	padding:5px 5px 5px 5px;
+	padding:5px;
 }
 
 #header {
@@ -173,44 +184,11 @@ p.byline {
 	-moz-box-shadow:rgb(94, 60, 34) 0px 2px 7px;
 }
 
-/*
-.relate_books_left_bar {
-	position:relative;
-	float:left;
-	min-height:152px;
-	background-size:100% 100%;
-	width:23px;
-	background-image:url(../images/shelf_left_bar.gif);
-	box-shadow:rgb(94, 61, 35) -3px 5px 5px;
-	-webkit-box-shadow:rgb(94, 61, 35) -3px 5px 5px;
-	-o-box-shadow:rgb(94, 61, 35) -3px 5px 5px;
-	-moz-box-shadow:rgb(94, 61, 35) -3px 5px 5px;
-	background-repeat-x:no-repeat;
-	background-repeat-y:no-repeat;
-	background-repeat:no-repeat;
-}
-
-.relate_books_right_bar {
-	position:relative;
-	float:left;
-	min-height:152px;
-	background-size:100% 100%;
-	width:23px;
-	background-image:url(../images/shelf_right_bar.gif);
-	box-shadow:rgb(94, 61, 35) 3px 5px 5px;
-	-webkit-box-shadow:rgb(94, 61, 35) 3px 5px 5px;
-	-o-box-shadow:rgb(94, 61, 35) 3px 5px 5px;
-	-moz-box-shadow:rgb(94, 61, 35) 3px 5px 5px;
-	background-repeat-x:no-repeat;
-	background-repeat-y:no-repeat;
-	background-repeat:no-repeat;
-}*/
-
 .cover_shadow {
-	box-shadow:rgb(94, 60, 34) 0px 4px 5px;
-	-webkit-box-shadow:rgb(94, 60, 34) 0px 4px 5px;
-	-o-box-shadow:rgb(94, 60, 34) 0px 4px 5px;
-	-moz-box-shadow:rgb(94, 60, 34) 0px 4px 5px;
+	box-shadow:rgb(94, 60, 34) 0px 4px 4px;
+	-webkit-box-shadow:rgb(94, 60, 34) 0px 4px 4px;
+	-o-box-shadow:rgb(94, 60, 34) 0px 4px 4px;
+	-moz-box-shadow:rgb(94, 60, 34) 0px 4px 4px;
 }
 
 .relate_books {

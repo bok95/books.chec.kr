@@ -18,10 +18,10 @@ p {
 	margin:1em auto 0px auto;
 }
 
-p + p {
+/*p + p {
 	margin-top:-1.5em;
 }
-
+*/
 div.content {
 	float:left;
 	margin-right:10px;

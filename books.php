@@ -160,7 +160,7 @@
 		var language = pub.getLanguage();
 		clog("language = " + language);
 		
-		// '<a href="/' + args.cpType + '/' + id + '">' + title + '</a>' +
+		
 		var content_data =
 						'<li ' + 'id=' + id +' class="item">' +
 								'<div class="cover" >';
@@ -170,12 +170,12 @@
 									'<div class="title" >' +
 					  					'<h3 class="title">' + 	title +
 										'</h3>' +
-									'</div>' +
+									'</div>';
+		content_data += makeMetaData("Author", author);
+		content_data += makeMetaData("Language", language);
 								'</div>' +
 						'</li>';
 								
-		// content_data += makeMetaData("Author", author);
-		// content_data += makeMetaData("Language", language);
 		// content_data += makeMetaData("Category", category);
 		// content_data += makeMetaData("Publisher", publisher);
 		// 
@@ -195,9 +195,9 @@
 	
 	function makeMetaData(name, tag) {
 		return (tag) ? 
-			'<p class="mata_tag">' + 
+			'<p class="meta_tag">' + 
 			name + ' : '  +
-			'<span id="" class="meta_data">' + tag + '</a>' +
+			'<span>' + tag + '</span>' +
 		'</p>' : "";
 	}
 	
@@ -274,7 +274,7 @@
 	}
 	
 	function makeCoverTag(cover){
-		return (cover) ? '<img src=' + cover + ' class="thumb"/>' : "";
+		return (cover) ? '<img src=' + cover + ' class="thumb cover_shadow"/>' : "";
 	}
 	function makeDownloadTag(type, link){
 		return (link) ? '<p>' +
@@ -537,7 +537,7 @@
 				<div id="searching" >
 					
 				</div>
-				<ul id="items">
+				<ul id="items" >
 				</ul>
 			<!-- <div class="item" >
 				<div class="cover" >
