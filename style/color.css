@@ -47,6 +47,7 @@ img.thumb {
 .item {
 	clear:both;
 	position:relative;
+	overflow:auto;
 	width:100%;
 	min-height:112px;
 	padding:5px;
