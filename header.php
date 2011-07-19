@@ -1,4 +1,6 @@
+<header id="header" >
 <div class="bar" id="header_bar" >
+
 </div>
 
 <div class="bar" id="main_nav" >
@@ -9,13 +11,17 @@
 	  <li class="menu_item" >Book Apps</li>
 	</ul>
 </div>
+
+<div id="search_box_bg" >
 <div id="search_box" >
 	<div id="search_logo" >
-		
+
 	</div>
 		<form id="search_input_box" action="/" method="get" >
 			<input type="text" value="" id="search_input" name="q" />
 			<button id="search_btn" >
-		</button>
+			</button>
 		</form>
 </div>
+</div>
+</header>

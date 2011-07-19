@@ -1,17 +1,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml" ><head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>books.chec.kr</title>
 <link href="css/books.css" type="text/css" rel="stylesheet" />
-<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
-<script src="jquery.pagination.js"></script>
-<script src="cutil.js"></script>
-<script src="cp.js"></script>
-<script
-	src="http://www.google.com/jsapi?key=ABQIAAAANh1OABxsMaSvl1OTck5I8RRL6ZglLh05n3dnEWnjIUmqeCfcGhRa7yfe_Pf1zInO6RCfBTBOMiWPLQ"
-	type="text/javascript"></script>
-<script type="text/javascript">
+<script src="http://code.jquery.com/jquery-1.5.2.min.js" ></script>
+<script src="jquery.pagination.js" ></script>
+<script src="cutil.js" ></script>
+<script src="cp.js" ></script>
+<link href="/style/reset.css" rel="stylesheet" media="screen" type="text/css" />
+<link href="/style/color.css" rel="stylesheet" media="screen" type="text/css" />
+<link href="/style/typography.css" rel="stylesheet" media="screen" type="text/css" />
+
+<script src="http://www.google.com/jsapi?key=ABQIAAAANh1OABxsMaSvl1OTck5I8RRL6ZglLh05n3dnEWnjIUmqeCfcGhRa7yfe_Pf1zInO6RCfBTBOMiWPLQ" type="text/javascript" ></script>
+<script type="text/javascript" >
 
 	<?
 		if(!empty($_GET['q'])){
@@ -116,6 +117,14 @@
 		return values;
 	}
 	
+	function gotoBookPage(id) {
+		location.href = "/" + args.cpType + "/" + id;
+	}
+	
+	$(".item").live("click", function(){
+	   gotoBookPage(this.id);
+	});
+	
 	function showPub(pub){
 		var shelf;
 		switch(args.cpType){
@@ -151,33 +160,37 @@
 		var language = pub.getLanguage();
 		clog("language = " + language);
 		
+		// '<a href="/' + args.cpType + '/' + id + '">' + title + '</a>' +
 		var content_data =
-						'<div class="cover">' +
-							'<a >';
+						'<li ' + 'id=' + id +' class="item">' +
+								'<div class="cover" >';
 		content_data += cover;
-		content_data += '</a>' +
-						'</div>' +
-						'<div class="content">' +
-				  			'<h3 class="title">' + 
-								'<a href="/' + args.cpType + '/' + id + '">' + title + '</a>' +
-							'</h3>';
-		content_data += makeMetaData("Author", author);
-		content_data += makeMetaData("Language", language);
-		content_data += makeMetaData("Category", category);
-		content_data += makeMetaData("Publisher", publisher);
-
-		content_data +=	'</div>' +
-						'<div class="right_panel">' +
-							'<h4 class="download_header">Download</h4>' +
-							'<div class="format">';
-		content_data += epub;
-		content_data += pdf;
-		content_data += kindle;
-		content_data += audio;
-		content_data += '</div>' +	
-						'</div>' +
-						'<hr class="split">';
-		$('div#list_data').append(content_data);
+		content_data += 		'</div>' +
+								'<div class="meta_data">' +
+									'<div class="title" >' +
+					  					'<h3 class="title">' + 	title +
+										'</h3>' +
+									'</div>' +
+								'</div>' +
+						'</li>';
+								
+		// content_data += makeMetaData("Author", author);
+		// content_data += makeMetaData("Language", language);
+		// content_data += makeMetaData("Category", category);
+		// content_data += makeMetaData("Publisher", publisher);
+		// 
+		// content_data +=	'</div>' +
+		// 				'<div class="right_panel">' +
+		// 					'<h4 class="download_header">Download</h4>' +
+		// 					'<div class="format">';
+		// content_data += epub;
+		// content_data += pdf;
+		// content_data += kindle;
+		// content_data += audio;
+		// content_data += '</div>' +	
+		// 				'</div>' +
+		// 				'<hr class="split">';
+		$('#items').append(content_data);
 	}
 	
 	function makeMetaData(name, tag) {
@@ -459,7 +472,7 @@
     }
     </script>
 
-	<script type="text/javascript">
+	<script type="text/javascript" >
 	  var _gaq = _gaq || [];
 	  _gaq.push(['_setAccount', 'UA-23322948-1']);
 	  _gaq.push(['_trackPageview']);
@@ -471,48 +484,75 @@
 	  })();
 
 	</script>
-</head>
+</head><body id="body" >
 
-<body style="font-family: Arial; border: 0 none;">
-	<div class="search">
-		<div id="home">
-			<a href="/"> <img class="logo_img" src="images/ebook-48.png"
-				border="0" height="48">
-					<h2 class="logo_txt">Checkr</h2>
-			
-			</a>
-		</div>
-		<div style="position: relative; zoom: 1">
-			<input id="searchText" maxlength="2048" name="q" size="50"
-				accesskey="s" id="hpq" style="text-align: left;">
-				<button id="searchBtn">search</button>
-		
-		</div>
+<!-- header start -->
+<header id="header" >
+<div class="bar" id="header_bar" >
+
+</div>
+
+<div class="bar" id="main_nav" >
+	<ul id="main_menu" >
+	  <li class="menu_item" >Home</li>
+	  <li class="menu_item" >Most Downloaded</li>
+	  <li class="menu_item" >New Books</li>
+	  <li class="menu_item" >Book Apps</li>
+	</ul>
+</div>
+
+<div id="search_box_bg" >
+<div id="search_box" >
+	<div id="search_logo" >
+
 	</div>
+		<form id="search_input_box" action="/" method="get" >
+			<input type="text" value="" id="search_input" name="q" />
+			<button id="search_btn" >
+			</button>
+		</form>
+</div>
+</div>
+</header>
+<!-- header end -->
 
-	<hr class="split">
-		<div class="container">
-			<div class="left_panel">
-				<p class="search_in">Search in</p>
-				<p class="server">
-					<a id="fb" href="http://www.feedbooks.com/">feedbooks</a>
-				</p>
-				<p class="server">
-					<a id="ia" href="http://www.archive.org/">Internet Archive</a>
-				</p>
-				<p class="server">
-					<a id="pg" href="http://www.gutenberg.org/">Gutenberg</a>
-				</p>
-				<iframe id="fb_like_btn"
-					src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FCheckrBooks%2F168948329834305&amp;width=190&amp;colorscheme=light&amp;show_faces=true&amp;border_color&amp;stream=false&amp;header=true&amp;height=330"
-					scrolling="no" frameborder="0" allowTransparency="true"></iframe>
-			</div>
-			<div id=list_data class="center_list">
-				<div id=searching></div>
-			</div>
-			<div class="pagination"></div>
-			<div id="feedback"><a href="http://www.facebook.com/pages/CheckrBooks/168948329834305"><img src="/images/feedback.gif" /></a></div>
-		</div>
+<div id="container_bg" >		
+<div id="container" >	
+	<div id="left_panel" >
+		<p class="search_in" >Search in</p>
+		<p class="server" >
+			<a id="fb" href="http://www.feedbooks.com/" >feedbooks</a>
+		</p>
+		<p class="server" >
+			<a id="ia" href="http://www.archive.org/" >Internet Archive</a>
+		</p>
+		<p class="server" >
+			<a id="pg" href="http://www.gutenberg.org/" >Gutenberg</a>
+		</p>
+		<iframe id="fb_like_btn" src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FCheckrBooks%2F168948329834305&width=190&colorscheme=light&show_faces=true&border_color&stream=false&header=true&height=330" scrolling="no" frameborder="0" allowtransparency="true" ></iframe>
+	</div> <!-- left_panel -->
+	
+	<div id="center_panel" >
+			<div id="list_data" >
+				<div id="searching" >
+					
+				</div>
+				<ul id="items">
+				</ul>
+			<!-- <div class="item" >
+				<div class="cover" >
+					
+				</div>
+				<div class="meta_data" >
+					<div class="title" >
+						
+					</div>
+				</div>
+			</div> -->
+	</div> <!-- center_panel -->
+	<div class="pagination" ></div>
+</div> <!-- container -->
+</div> <!-- container_bg -->
 
-</body>
-</html>
+
+</div></body></html>

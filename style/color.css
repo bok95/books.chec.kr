@@ -1,3 +1,46 @@
+.item .title {
+	position:relative;
+	color:#5E3D23;
+	width:100%;
+	font-size:1.2em;
+}
+
+.item .meta_data {
+	position:relative;
+	float:left;
+	width:400px;
+	height:100%;
+	margin-left:10px;
+}
+
+.item .cover {
+	width:75px;
+	min-height:100%;
+	float:left;
+}
+
+#items ul {
+	list-style-type: none;
+} 
+
+#items li:hover {
+	cursor:pointer;
+	background: #ffffcc;
+}
+
+img.thumb {
+	width:75px;
+	height:112px;
+}
+
+.item {
+	clear:both;
+	position:relative;
+	width:100%;
+	min-height:112px;
+	padding:5px 5px 5px 5px;
+}
+
 #header {
 	width:100%;
 }
@@ -19,10 +62,6 @@
 #footer {
 }
 
-#meta_data {
-	padding-right:15px;
-}
-
 a.download {
 	margin-left:0.4em;
 	color:#3A5999;
@@ -37,9 +76,18 @@ a.download:link {
 	text-decoration:none;
 }
 
-.meta_data {
+#meta_data {
+	padding-right:15px;
+}
+
+#meta_data .meta_data {
 	margin-left:1em;
 	color:#A58F76;
+}
+
+.server {
+	margin-left:16px;
+	text-indent:-8px;
 }
 
 #left_panel p {
@@ -124,6 +172,7 @@ p.byline {
 	-o-box-shadow:rgb(94, 60, 34) 0px 2px 7px;
 	-moz-box-shadow:rgb(94, 60, 34) 0px 2px 7px;
 }
+
 /*
 .relate_books_left_bar {
 	position:relative;
@@ -211,7 +260,7 @@ p.byline {
 .no_cover p {
 	color:#3E1D03;
 	font-weight:bold;
-	margin-top: 5px;
+	margin-top:5px;
 }
 
 .more {
@@ -338,7 +387,6 @@ p.byline {
 	margin-left:auto;
 	position:relative;
 }
-
 
 .main_cover {
 	position:absolute;
@@ -545,5 +593,53 @@ p.byline {
 	background-repeat-y:no-repeat;
 	background-repeat:no-repeat;
 	border:1px solid #003300;
+}
+
+.pagination {
+	text-align:center;
+	float:left;
+	margin:1.5em auto 1.5em auto;
+}
+
+.result_msg {
+	font-weight:bold;
+}
+
+.pagination a, .pagination a:visited {
+	text-decoration:none;
+	color:#406EA1;
+	border:1px solid #EEEEEE;
+	padding:0.2em 0.5em 0.2em 0.5em;
+}
+
+.pagination a:hover, .pagination a:active {
+	color:#000000;
+	border:1px solid #406EA1;
+}
+
+.pagination .current {
+	margin-right:0.1em;
+	color:#406EA1;
+	padding:0.2em 0.5em 0.2em 0.5em;
+}
+
+.pagination .disabled {
+	margin-right:0.1em;
+	color:#929292;
+	border:1px solid #EEEEEE;
+	padding:0.2em 0.5em 0.2em 0.5em;
+}
+
+#fb_like_btn {
+	margin-top:50px;
+	border-width:initial;
+	border-top-color:#000000;
+	border-right-color:#000000;
+	border-bottom-color:#000000;
+	border-left-color:#000000;
+	overflow:hidden;
+	width:220px;
+	height:330px;
+	border-style:none;
 }
 
