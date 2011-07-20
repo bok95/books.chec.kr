@@ -683,11 +683,13 @@ var ITShelf = function(args, callback){
 ITShelf.prototype.constructor = ITShelf;
 ITShelf.prototype.setup = function(args){
     arg = 'term=' + args['query'] + '&entity=' + args['entity'];
-    this.url = 'http://itunes.apple.com/search?' + arg + '&limit=1000';
+    this.url = 'http://itunes.apple.com/search?' + arg + '&limit=50';
 }
-
 ITShelf.prototype.getPubID = function(pub){
     return pub.getID();
+}
+ITShelf.prototype.getPubTotalCount = function(val){
+	return val;
 }
 
 var Feeder = function(id){

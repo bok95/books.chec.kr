@@ -247,6 +247,9 @@
 		}//for
 
 		// showResultMsg(result.feed.title);
+		if(args.cpType == BS_TYPE.IT){
+			result = pubs.length;
+		}
 		showPagination(shelf, result, pnType);
 
 	}
@@ -409,7 +412,7 @@
 		var pubs = data['pubs'];
 		if(args.cpType == BS_TYPE.IT){
 			clog("showShelf(0)");
-			args.itemPerPage = 25;
+			args.itemPerPage = 50;
 			showShelf(bsIT.shelf, data, 0);
 			clog("showShelf(1)");
 		}
