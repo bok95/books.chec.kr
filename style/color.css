@@ -79,6 +79,12 @@ img.iTunesThumb {
 #footer {
 }
 
+.priceFree {
+	font-weight:bold;
+	color:#5E3C22;
+}
+
+
 a.download {
 	margin-left:0.4em;
 	color:#3A5999;

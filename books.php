@@ -176,7 +176,6 @@
 		var language = pub.getLanguage();
 		clog("language = " + language);
 		
-		
 		var content_data =
 						'<li ' + 'id=' + id +' class="item">' +
 								'<div class="cover" >';
@@ -189,6 +188,10 @@
 									'</div>';
 		content_data += makeMetaData("Author", author);
 		content_data += makeMetaData("Language", language);
+		content_data += makeMetaData("Category", category);
+		if(args.cpType == BS_TYPE.IT){
+			content_data += makePrice(pub.getPrice());
+		}
 								'</div>' +
 						'</li>';
 								
@@ -207,6 +210,17 @@
 		// 				'</div>' +
 		// 				'<hr class="split">';
 		$('#items').append(content_data);
+	}
+	function makePrice(price) {
+		if(price == 0.0 || price == 0){
+			priceVal = "free";
+			priceClass = 'class="priceFree"';
+		}else{
+			priceVal = "" + price;
+			priceClass = '';
+		}
+		html = '<p class="meta_tag">Price : '  + '<span ' + priceClass + '>' + priceVal + '</span></p>';
+		return html;
 	}
 	
 	function makeMetaData(name, tag) {
@@ -559,7 +573,7 @@
 <div id="container_bg" >		
 <div id="container" >	
 	<div id="left_panel" >
-		<p class="search_in" >Free eBooks</p>
+		<p class="search_in" >Search in</p>
 		<p class="server" >
 			<a id="fb" href="http://www.feedbooks.com/" >feedbooks</a>
 		</p>
@@ -570,7 +584,7 @@
 			<a id="pg" href="http://www.gutenberg.org/" >Gutenberg</a>
 		</p>
 		<p class="server" >
-			<a id="it" href="http://itunes.apple.com" >iTunes</a>
+			<a id="it" href="http://itunes.apple.com" >iTunes (AppStore)</a>
 		</p>
 		
 		<iframe id="fb_like_btn" src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FCheckrBooks%2F168948329834305&width=190&colorscheme=light&show_faces=true&border_color&stream=false&header=true&height=330" scrolling="no" frameborder="0" allowtransparency="true" ></iframe>
