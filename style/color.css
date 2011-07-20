@@ -365,7 +365,6 @@ p.byline {
 
 #main_shelf {
 	width:164px;
-	height:140px;
 	background-image:url(../images/shelf_small.gif);
 	background-size:100% 100%;
 	margin-bottom:0.5em;
@@ -376,6 +375,14 @@ p.byline {
 	margin-right:auto;
 	margin-left:auto;
 	position:relative;
+}
+
+.book_shelf {
+	height:202px;
+}
+
+.iTunes_shelf {
+	height:140px;
 }
 
 .main_cover {

@@ -176,10 +176,12 @@
 			applyPageImage(src);
 			$('#main_shelf img').show().attr('src', src);
 			$('#main_shelf img').attr('alt', src);
-			if(args.cpType = BS_TYPE.IT){
+			if(args.cpType == BS_TYPE.IT){
 				$('#main_shelf img').addClass("main_iTunesCover");
+				$('#main_shelf').addClass("iTunes_shelf");
 			}else{
 				$('#main_shelf img').addClass("main_cover");
+				$('#main_shelf').addClass("book_shelf");
 			}
 		}
 
