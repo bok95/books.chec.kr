@@ -1,7 +1,8 @@
 var BS_TYPE = {
     FB: 1,
     IA: 2,
-    PG: 3
+    PG: 3,
+	IT: 4
 };
 
 var Publication = function(){
@@ -301,6 +302,93 @@ PGPublication.prototype.getRights = function() {
 	return $(this.entry).find(q).text();
 }
 
+var ITPublication = function(){
+    Publication.call(this);
+}
+ITPublication.prototype = new Publication();
+ITPublication.prototype.constructor = ITPublication;
+
+ITPublication.prototype.setEntry = function(entry) {
+	this.entry = entry;
+}
+
+ITPublication.prototype.getEpub = function(){
+    return null;
+};
+
+ITPublication.prototype.getPdf = function(){
+    return null;
+};
+
+ITPublication.prototype.getKindle = function(){
+    return null;
+};
+
+ITPublication.prototype.getCoverThumb = function(){
+	return this.entry.artworkUrl60;
+}
+
+ITPublication.prototype.getCover = function(){
+	return this.entry.artworkUrl100;
+}
+
+ITPublication.prototype.getTitle = function(){
+    return this.entry.trackName;
+}
+
+ITPublication.prototype.getSupportedDevices = function(){
+    return arrayToString(this.entry.supportedDevices);
+}
+
+ITPublication.prototype.getAuthors = function(){
+    return this.entry.artistName;
+}
+
+ITPublication.prototype.getScreenshotUrls = function(){
+	return arrayToString(this.entry.ipadScreenshotUrls);
+}
+
+ITPublication.prototype.getPublisher = function(){
+    return this.entry.sellerName;
+}
+
+ITPublication.prototype.getSummary = function() {
+	return this.entry.description;
+}
+
+ITPublication.prototype.setEntry = function(entry) {
+	this.entry = entry;
+};
+ITPublication.prototype.getCategories = function(){
+    return arrayToString(this.entry.genres);
+}
+ITPublication.prototype.getLanguage = function(){
+    return arrayToString(this.entry.languageCodesISO2A);
+}
+ITPublication.prototype.getPrice = function(){
+	return this.entry.price;
+}
+ITPublication.prototype.getVersion = function(){
+	return this.entry.version;
+}
+ITPublication.prototype.getDownloadUrl = function(){
+	return this.entry.trackViewUrl;
+}
+ITPublication.prototype.getSize = function(){
+	return this.entry.fileSizeBytes;
+}
+
+ITPublication.prototype.getID = function(){
+    return this.entry.trackId;
+}
+
+ITPublication.prototype.sameAuthor = function(){
+	return null;
+}
+
+ITPublication.prototype.alsoDownload = function(){
+	return null;
+}
 
 var Shelf = function(args, callback){
     this.callback = callback;
@@ -560,6 +648,46 @@ PGShelf.prototype.getPubID = function(pub){
         id = idStr.split(':')[2];
     }
     return id;
+}
+
+var ITShelf = function(args, callback){
+   	this.setup(args);
+	// Shelf.call(this, args, callback);
+	this.feedLoad = function(callback){
+		this.callback = callback;
+		$.ajax({
+	        type: "get",
+	        dataType: "jsonp",
+	        url: this.url,
+	        success: function(data){
+				clog(data);
+				if(data){
+					var values = new Array();
+					var pubs = new Array();
+					for( x in data.results ){
+		                var pub = new ITPublication();
+						pub.setEntry(data.results[x]);
+						pubs.push(pub);
+					}
+					values['pubs'] = pubs;
+					callback(values);
+				}
+	        },
+	        error: function(){
+	            clog("error : " + this.url);
+	        }
+	    });
+	}
+}
+
+ITShelf.prototype.constructor = ITShelf;
+ITShelf.prototype.setup = function(args){
+    arg = 'term=' + args['query'] + '&entity=' + args['entity'];
+    this.url = 'http://itunes.apple.com/search?' + arg + '&limit=1000';
+}
+
+ITShelf.prototype.getPubID = function(pub){
+    return pub.getID();
 }
 
 var Feeder = function(id){

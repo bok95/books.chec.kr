@@ -41,6 +41,7 @@
 	    this.page;
 		this.q;
 		this.cpType = 1;
+		this.itemPerPage;
 	}
 	
 	var FB = function(){
@@ -96,12 +97,24 @@
 		}
 	}
 
+	var IT = function(){
+		this.shelf;
+		this.loadShelf = function(args){
+			var values = makeArgs(BS_TYPE.IT);
+			values['entity'] = "iPadSoftware";
+			clog("itShelfLoad(0)");
+			this.shelf = new ITShelf(values);
+			this.shelf.feedLoad(onItShelfResult);
+			clog("itShelfLoad(1)");
+		}
+	}
+	
 	var bsPG;
 	var bsFB;
 	var bsIA;
+	var bsIT;
 	var args;
 
-	var itemPerPage;
 
 	function makeArgs(type){
 		if(args.cpType != type){
@@ -136,6 +149,9 @@
 				break;
 			case BS_TYPE.PG:
 				shelf = bsPG.shelf;
+				break;
+			case BS_TYPE.IT:
+				shelf = bsIT.shelf;
 				break;
 		}
 		var id = shelf.getPubID(pub);
@@ -209,14 +225,14 @@
 			showNotFoundMsg();
 			return false;
 		}
-		for (var i = 0; i < pubs.length; i++) {
-			var pub = pubs[i];
+		for( x in pubs){
+			var pub = pubs[x];
 			if(pub){
 				showPub(pub);
 			}
 		}//for
 
-		showResultMsg(result.feed.title);
+		// showResultMsg(result.feed.title);
 		showPagination(shelf, result, pnType);
 
 	}
@@ -240,7 +256,7 @@
 				current_page: args.page,
 				num_edge_entries:numEdgeEntries, 
 				num_display_entries:numDisplayEntries, 
-				items_per_page: itemPerPage,
+				items_per_page: args.itemPerPage,
 				link_to: '/?q=' + args.q + '&cpType=' + args.cpType + '&page=__id__',
 				next_text:">>", 
 				prev_text: "<<"
@@ -253,10 +269,6 @@
 		$("div.pagination").pagination(pubTotalCount, optInit);
 	}
 
-	function showResultMsg(msg){
-		$('h3.result_msg').text();
-	}
-
 	function showSearchingMsg(){
 		$('#searching').append('<h3 class="title">Searching ...</h3>');
 	}
@@ -266,7 +278,7 @@
 	}
 
 	function showNotFoundMsg(){
-		$('#searching').append('<h3 class="title">Not found "' + q + '"</h3>');
+		$('#searching').append('<h3 class="title">Not found "' + args.q + '"</h3>');
 	}
 
 	function makeCountTag(count){
@@ -274,7 +286,12 @@
 	}
 	
 	function makeCoverTag(cover){
-		return (cover) ? '<img src=' + cover + ' class="thumb cover_shadow"/>' : "";
+		if(args.cpType == BS_TYPE.IT){
+			coverClass = ' class= "iTunesThumb "';
+		}else{
+			coverClass = ' class= "thumb cover_shadow"';
+		}
+		return (cover) ? '<img src=' + cover + coverClass + '/>' : "";
 	}
 	function makeDownloadTag(type, link){
 		return (link) ? '<p>' +
@@ -286,7 +303,7 @@
 		result = data['result'];
 		if(args.cpType == BS_TYPE.FB){
 			clog("showShelf(0)");
-			itemPerPage = 20;
+			args.itemPerPage = 20;
 			showShelf(bsFB.shelf, data, 0);
 			clog("showShelf(1)");
 		}
@@ -301,7 +318,7 @@
 		result = data['result'];
 		if(args.cpType == BS_TYPE.IA){
 			clog("showShelf(0)");
-			itemPerPage = 50;
+			args.itemPerPage = 50;
 			showShelf(bsIA.shelf, data, 0);
 			clog("showShelf(1)");
 		}
@@ -310,6 +327,7 @@
 		clog("onIaShelfResult(1)");
 		clog("ia : count " + resultCount);
 	}
+
 
 	function onPgShelfResult(data) {
 		clog("onPgShelfResult(0)");
@@ -371,6 +389,21 @@
 		
 		clog("onPgCatalogResult(1)");
 	}
+
+	function onItShelfResult(data) {
+		clog("onItShelfResult(0)");
+		var pubs = data['pubs'];
+		if(args.cpType == BS_TYPE.IT){
+			clog("showShelf(0)");
+			args.itemPerPage = 25;
+			showShelf(bsIT.shelf, data, 0);
+			clog("showShelf(1)");
+		}
+		var resultCount = pubs.length;
+		$('p.server a#it').append(makeCountTag(resultCount));
+		clog("onItShelfResult(1)");
+		clog("it : count " + resultCount);
+	}	
 	    
     function onLoad() {
 		if($.browser.msie==true) {
@@ -392,9 +425,11 @@
 			bsFB = new FB();
 			bsIA = new IA();
 			bsPG = new PG();
+			bsIT = new IT();
 			bsFB.loadShelf();
 			bsIA.loadShelf();
 			bsPG.loadShelf();
+			bsIT.loadShelf();
 			
 			setupServers();
 			//showLeftPanel();
@@ -439,6 +474,7 @@
 		$('p.server a#fb').attr('href', url + '1');
 		$('p.server a#ia').attr('href', url + '2');
 		$('p.server a#pg').attr('href', url + '3');
+		$('p.server a#it').attr('href', url + '4');
 	}
 	
 	$('p.server a#fb').live('click', function (e){
@@ -452,6 +488,10 @@
 	
 	$('p.server a#pg').live('click', function (e){
 		args.cpType = 3;
+	});
+
+	$('p.server a#it').live('click', function (e){
+		args.cpType = 4;
 	});
 	
 	$('#searchBtn').live('click', function (e){
@@ -519,7 +559,7 @@
 <div id="container_bg" >		
 <div id="container" >	
 	<div id="left_panel" >
-		<p class="search_in" >Search in</p>
+		<p class="search_in" >Free eBooks</p>
 		<p class="server" >
 			<a id="fb" href="http://www.feedbooks.com/" >feedbooks</a>
 		</p>
@@ -529,6 +569,10 @@
 		<p class="server" >
 			<a id="pg" href="http://www.gutenberg.org/" >Gutenberg</a>
 		</p>
+		<p class="server" >
+			<a id="it" href="http://itunes.apple.com" >iTunes</a>
+		</p>
+		
 		<iframe id="fb_like_btn" src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FCheckrBooks%2F168948329834305&width=190&colorscheme=light&show_faces=true&border_color&stream=false&header=true&height=330" scrolling="no" frameborder="0" allowtransparency="true" ></iframe>
 	</div> <!-- left_panel -->
 	
