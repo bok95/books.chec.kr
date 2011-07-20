@@ -87,7 +87,7 @@ a.download:hover {
 	color:#5E3C22;
 }
 
-a.download:link {
+.menu_item a, a.download:link {
 	text-transform:inherit;
 	text-decoration:none;
 }
@@ -521,6 +521,10 @@ p.byline {
 .menu_item:hover {
 	color:#5E3C22;
 	background-color:#F0E8D1;
+}
+
+.menu_item a{
+	color:inherit;
 }
 
 #main_menu {

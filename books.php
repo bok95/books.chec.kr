@@ -544,7 +544,8 @@
 </head><body id="body" >
 
 <!-- header start -->
-<header id="header" >
+<? include 'header.php'; ?>
+<!-- <header id="header" >
 <div class="bar" id="header_bar" >
 
 </div>
@@ -570,7 +571,7 @@
 		</form>
 </div>
 </div>
-</header>
+</header> -->
 <!-- header end -->
 
 <div id="container_bg" >		
