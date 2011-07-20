@@ -776,8 +776,6 @@ PGFeeder.prototype.feedLoad = function(callback){
     feed.load($.proxy(this, this.feedLoaded));
 }
 
-
-
 PGFeeder.prototype.feedLoaded = function(result){
 	var pub;
     if (!result.error) {
@@ -790,4 +788,32 @@ PGFeeder.prototype.feedLoaded = function(result){
          }
     }
     PGFeeder.callback(pub);
+}
+
+var ITFeeder = function(id){
+    Feeder.call(this, id);
+    
+}
+ITFeeder.prototype = new Feeder();
+ITFeeder.prototype.constructor = Feeder;
+ITFeeder.prototype.setUrl = function(id){
+    this.url = "http://itunes.apple.com/lookup?id=" + id;
+}
+ITFeeder.prototype.feedLoad = function(callback){
+	$.ajax({
+        type: "get",
+        dataType: "jsonp",
+        url: this.url,
+        success: function(data){
+			clog(data);
+			if(data){
+                var pub = new ITPublication();
+				pub.setEntry(data.results[0]);
+				callback(pub);
+			}
+        },
+        error: function(){
+            clog("error : " + this.url);
+        }
+    });
 }

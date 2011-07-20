@@ -69,6 +69,9 @@
 			clog("kindle = " + kindle);
 			var audio = applyDownload("audio", pub.getAudio());
 			clog("kindle = " + kindle);
+			if(args.cpType == BS_TYPE.IT){
+				var iTunes = applyDownload("iTunes", pub.getDownloadUrl());
+			}
 			var cover = pub.getCover();
 			if(cover != null && cover != ""){
 				applyCover(cover);
@@ -77,6 +80,8 @@
 			}
 			
 			clog("cover = " + cover);
+			var price = pub.getPrice();
+			applyPrice(price);
 			var categories = pub.getCategories();
 			applyCategory(categories);
 			clog("categories = " + categories);
@@ -171,6 +176,11 @@
 			applyPageImage(src);
 			$('#main_shelf img').show().attr('src', src);
 			$('#main_shelf img').attr('alt', src);
+			if(args.cpType = BS_TYPE.IT){
+				$('#main_shelf img').addClass("main_iTunesCover");
+			}else{
+				$('#main_shelf img').addClass("main_cover");
+			}
 		}
 
 		function applyTemplateCover(title) {
@@ -196,6 +206,19 @@
 			}
 		}
 
+		function applyPrice(price) {
+			$('#meta_data p.price').show();
+			if(price == 0.0 || price == 0){
+				priceVal = "free";
+				$('span#price').addClass("priceFree");
+			}else{
+				priceVal = "" + price;
+			}
+			
+			$('span#price').show().text(priceVal);
+			
+		}
+
 		function applyLanguage(language) {
 			if(language){
 				$('span#language').show().text(language);
@@ -216,6 +239,7 @@
 
 		function applyRights(rights) {
 			if(rights){
+				$('#meta_data p.rights').show();
 				$('span#rights').show().text(rights);
 			}
 		}
@@ -273,6 +297,11 @@
 					catalog.getCatalog();
 					showPeopleAlsoDownloaded(true);
 				break;
+				case BS_TYPE.IT:
+					pubIT = new ITFeeder(args.id);
+					pubIT.feedLoad(onPubResult);
+					showPeopleAlsoDownloaded(false);
+				break;
 			}
 		}
 
@@ -298,7 +327,7 @@
 <div id="container" >	
 	<div id="left_panel" >
 		<div id="main_shelf" >
-			<img class="main_cover unvisible cover_shadow" >
+			<img class="unvisible cover_shadow" >
 		</div>
 		<div id="fb_like" >
 			<div id="fb-root" ></div><script src="http://connect.facebook.net/en_US/all.js#appId=120648378027116&xfbml=1" ></script><fb:like href="http://books.chec.kr/<?=$cpType?>/<?=$id?>" send="true" layout="button_count" width="250" show_faces="false" font="" ></fb:like>
@@ -311,9 +340,14 @@
 				<a class="kindle unvisible download" ><span id="kindle" >kindle</span></a>
 				<a class="html unvisible download" ><span id="html" >html</span></a>
 				<a class="audio unvisible download" ><span id="audio" >audio</span></a>
+				<a class="iTunes unvisible download" ><span id="iTunes" >View In iTunes</span></a>
 			</p>
 		</div>
 		<div id="meta_data" >
+			<p class="price unvisible" >
+				Price :
+				<span id="price" class="unvisible meta_data" ></span>
+			</p>
 			<p class="language" >
 				Language :
 				<span id="language" class="unvisible meta_data" ></span>
@@ -326,7 +360,7 @@
 				Publisher :
 				<span id="publisher" class="unvisible meta_data" ></span>
 			</p>
-			<p class="rights" >
+			<p class="rights unvisible" >
 				Rights :
 				<span id="rights" class="unvisible meta_data" ></span>
 			</p>

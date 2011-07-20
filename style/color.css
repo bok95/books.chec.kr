@@ -54,7 +54,6 @@ img.iTunesThumb {
 	position:relative;
 	overflow:auto;
 	width:100%;
-/*	min-height:112px;*/
 	padding:5px;
 }
 
@@ -79,12 +78,6 @@ img.iTunesThumb {
 #footer {
 }
 
-.priceFree {
-	font-weight:bold;
-	color:#5E3C22;
-}
-
-
 a.download {
 	margin-left:0.4em;
 	color:#3A5999;
@@ -106,6 +99,12 @@ a.download:link {
 #meta_data .meta_data {
 	margin-left:1em;
 	color:#A58F76;
+}
+
+.priceFree {
+	font-weight:bold;
+	font-size:1.3em;
+	color:#5E3C22;
 }
 
 .server {
@@ -387,6 +386,15 @@ p.byline {
 	margin-left:28px;
 }
 
+.main_iTunesCover {
+	position:absolute;
+	font-size:1.2em;
+	width:107px;
+	height:107px;
+	margin-top:79px;
+	margin-left:28px;
+}
+
 .main_cover p {
 	margin-left:5px;
 	margin-right:5px;
@@ -413,6 +421,7 @@ p.byline {
 	position:relative;
 	min-height:100%;
 }
+
 
 #search_input_box {
 	position:inherit;
