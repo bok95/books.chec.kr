@@ -365,8 +365,9 @@ p.byline {
 
 #main_shelf {
 	width:164px;
-	height:202px;
+	height:140px;
 	background-image:url(../images/shelf_small.gif);
+	background-size:100% 100%;
 	margin-bottom:0.5em;
 	box-shadow:rgb(94, 60, 34) 0px 5px 7px;
 	-webkit-box-shadow:rgb(94, 60, 34) 0px 5px 7px;
@@ -391,7 +392,7 @@ p.byline {
 	font-size:1.2em;
 	width:107px;
 	height:107px;
-	margin-top:79px;
+	margin-top:20px;
 	margin-left:28px;
 }
 

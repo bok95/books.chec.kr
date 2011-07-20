@@ -53,6 +53,7 @@ body, ol, ul, td, th {
 
 body, h1, p, ol, ul, td, th {
     font-family: georgia,serif;
+	text-shadow:0px 1px 0px #fff;
     padding: 0;
 	line-height:1.3em;
 }
