@@ -1,28 +1,7 @@
-a {
-	color:#406EA1;
-	text-decoration:none;
-}
-
-a.selected {
-	font-style:italic;
-	text-decoration:underline;
-	color:#999999;
-}
-
 p {
 	margin:0px 0px 1.5em 0px;
 }
 
-
-.container {
-	width:990px;
-	margin:1em auto 0px auto;
-}
-
-/*p + p {
-	margin-top:-1.5em;
-}
-*/
 div.content {
 	float:left;
 	margin-right:10px;

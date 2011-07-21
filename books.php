@@ -474,6 +474,9 @@
 			case 3:
 				$('p.server a#pg').addClass("selected");
 				break;					
+			case 4:
+				$('p.server a#it').addClass("selected");
+				break;					
 			default: 
 				break;
 		}

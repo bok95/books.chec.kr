@@ -39,6 +39,17 @@
 	background-color:#E7DCC4;
 }
 
+a {
+	color:#406EA1;
+	text-decoration:none;
+}
+
+a.selected {
+	font-style:italic;
+	font-weight:bold;
+	color:#5E3C22;
+}
+
 img.thumb {
 	width:75px;
 	height:112px;
@@ -670,3 +681,4 @@ p.byline {
 	height:330px;
 	border-style:none;
 }
+
