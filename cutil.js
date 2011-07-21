@@ -30,3 +30,10 @@ function arrayToString(array){
 	}
 	return str;
 }
+
+function checkBrowser() {
+	if($.browser.msie==true) {
+ 		alert('Internet Explorer is not supported. Please use others(Chrome, Firefox, Safari, Opera ...)');
+		window.location = "/";
+	}
+}

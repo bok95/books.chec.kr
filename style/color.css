@@ -136,6 +136,10 @@ a.download:hover {
 	border-style:none;
 }
 
+#gplus {
+	margin-top:5px;
+}
+
 #description {
 	margin-top:1em;
 }
@@ -514,7 +518,8 @@ p.byline {
 	-moz-border-radius-topright:2px 2px;
 	font-size:1em;
 	margin-left:5px;
-	margin-top:5px;
+	margin-top:auto;
+	margin-bottom:auto;
 	padding:5px;
 }
 
@@ -533,8 +538,9 @@ p.byline {
 
 .bar {
 	background-color:#5E3C22;
-	height:31px;
+	height:26px;
 }
+
 
 #container {
 	margin-left:auto;
@@ -653,4 +659,3 @@ p.byline {
 	height:330px;
 	border-style:none;
 }
-

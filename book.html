@@ -20,15 +20,29 @@
 		case 3:
 			$pageImg = "";
 			break;
+		case 4:
+			$url = "http://itunes.apple.com/lookup?id=" . $id;
+			$response = get_json($url);
+			$results = $response->results;
+			$pageImg = $results[0]->artworkUrl60;
+			$pageTitle = $results[0]->trackName;
+			break;
 	}
+	
+function get_json($url) {
+	$contents    = file_get_contents($url);
+    return json_decode($contents);
+}
+
 ?>
 <html><head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
 	<meta name="author" content="Youngbok Yoon" >
 	<meta name="description" content="" >
 	<meta name="keywords" content="ebook, book, free book, books, epub, pdf" >
-	<!-- <meta page_img="fb" property="og:image" content="<?=$pageImg?>"> -->
-	<meta page_img="fb" property="og:image" content="http://books.chec.kr/images/ebook-48.png">
+	<meta property="og:image" content="<?=$pageImg?>">
+	<meta property="og:title" content="<?=$pageTitle?>">
+	<!-- <meta page_img="fb" property="og:image" content="http://books.chec.kr/images/ebook-48.png"> -->
 	<title>checkr</title>
 	<link href="/style/reset.css" rel="stylesheet" media="screen" type="text/css" >
 	<link href="/style/color.css" rel="stylesheet" media="screen" type="text/css" >
@@ -43,6 +57,7 @@
 	
 	<script type="text/javascript" >
 
+		checkBrowser();
 		google.load("feeds", "1");
 
 		var pubFB;
@@ -265,11 +280,6 @@
 		
 
 	   	function onLoad() {
-	    	if($.browser.msie==true) {
-				alert('IE is not supported. Please use other browsers(Chrome, Firefox, Safari, Opera ...)');
-				return false;
-	  		}
-
 	  		args = new Argument();
 			args.id = "<?=$id?>";
 			args.cpType = parseInt("<?=$cpType?>");
@@ -334,6 +344,9 @@
 		</div>
 		<div id="fb_like" >
 			<div id="fb-root" ></div><script src="http://connect.facebook.net/en_US/all.js#appId=120648378027116&xfbml=1" ></script><fb:like href="http://books.chec.kr/<?=$cpType?>/<?=$id?>" send="true" layout="button_count" width="250" show_faces="false" font="" ></fb:like>
+		</div>
+		<div id="gplus" >
+			<g:plusone size="medium"></g:plusone>
 		</div>
 		<div class="lnsep" ></div>
 		<div id="download" >
@@ -413,4 +426,5 @@
 		<img id="feedback" >
 	</a>
 <div style="position:relative; width:100px; height:100px; " ></div></div>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
 </body></html>

@@ -33,7 +33,9 @@
 			$cpType = -1;
 		}
 	?> 
-
+	
+	checkBrowser();
+	
 	google.load("feeds", "1");
 
 
@@ -423,10 +425,6 @@
 	}	
 	    
     function onLoad() {
-		if($.browser.msie==true) {
-   	 		alert('IE is not supported. Please use other browsers(Chrome, Firefox, Safari, Opera ...)');
-			return false;
-  		}
   		args = new Argument();
   		
 		args.q = "<?=$q?>";
