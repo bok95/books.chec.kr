@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" ><head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
 <title>books.chec.kr</title>
 <link href="css/books.css" type="text/css" rel="stylesheet" />
 <script src="http://code.jquery.com/jquery-1.5.2.min.js" ></script>
