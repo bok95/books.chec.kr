@@ -78,6 +78,11 @@ img.iTunesThumb {
 #footer {
 }
 
+
+#iTunes {
+	font-size:1.2em;
+}
+
 a.download {
 	margin-left:0.4em;
 	color:#3A5999;
