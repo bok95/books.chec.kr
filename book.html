@@ -13,6 +13,9 @@
 	switch($cpType){
 		case 1:
 			$pageImg = "http://covers.feedbooks.net/book/" . $id . ".jpg";
+			$url = "http://www.feedbooks.com/book/" . $id . ".atom";
+			$response = get_xml($url);
+			$pageTitle = $response->title;
 			break;
 		case 2:
 			$pageImg = "";
@@ -34,6 +37,11 @@ function get_json($url) {
     return json_decode($contents);
 }
 
+function get_xml($url) {
+    $contents    = file_get_contents($url);
+	return simplexml_load_string($contents);
+}
+
 ?>
 <html><head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
@@ -43,8 +51,7 @@ function get_json($url) {
 	<meta name="keywords" content="ebook, book, free book, books, epub, pdf" >
 	<meta property="og:image" content="<?=$pageImg?>">
 	<meta property="og:title" content="<?=$pageTitle?>">
-	<!-- <meta page_img="fb" property="og:image" content="http://books.chec.kr/images/ebook-48.png"> -->
-	<title>checkr</title>
+	<title>[<?=$pageTitle?>]</title>
 	<link href="/style/reset.css" rel="stylesheet" media="screen" type="text/css" >
 	<link href="/style/color.css" rel="stylesheet" media="screen" type="text/css" >
 	<link href="/style/typography.css" rel="stylesheet" media="screen" type="text/css" >
@@ -87,6 +94,8 @@ function get_json($url) {
 			var audio = applyDownload("audio", pub.getAudio());
 			clog("kindle = " + kindle);
 			if(args.cpType == BS_TYPE.IT){
+				var price = pub.getPrice();
+				applyPrice(price);
 				var iTunes = applyDownload("iTunes", pub.getDownloadUrl());
 			}
 			var cover = pub.getCover();
@@ -97,8 +106,7 @@ function get_json($url) {
 			}
 			
 			clog("cover = " + cover);
-			var price = pub.getPrice();
-			applyPrice(price);
+
 			var categories = pub.getCategories();
 			applyCategory(categories);
 			clog("categories = " + categories);
@@ -204,6 +212,7 @@ function get_json($url) {
 
 		function applyTemplateCover(title) {
 			$('#main_shelf img').remove();
+			$('#main_shelf').addClass("book_shelf");
 			var no_cover = '<div class="main_cover no_cover cover_shadow"><p>' + title + '</p></div>';
 			$('#main_shelf').append(no_cover);
 		}
@@ -343,11 +352,15 @@ function get_json($url) {
 		<div id="main_shelf" >
 			<img class="unvisible cover_shadow" >
 		</div>
+		<div class="lnsep" ></div>
 		<div id="fb_like" >
 			<div id="fb-root" ></div><script src="http://connect.facebook.net/en_US/all.js#appId=120648378027116&xfbml=1" ></script><fb:like href="http://books.chec.kr/<?=$cpType?>/<?=$id?>" send="true" layout="button_count" width="250" show_faces="false" font="" ></fb:like>
 		</div>
 		<div id="gplus" >
 			<g:plusone size="medium"></g:plusone>
+		</div>
+		<div id="tweet" >
+			<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="bok95">Tweet</a>
 		</div>
 		<div class="lnsep" ></div>
 		<div id="download" >
@@ -428,4 +441,5 @@ function get_json($url) {
 	</a>
 <div style="position:relative; width:100px; height:100px; " ></div></div>
 <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 </body></html>
