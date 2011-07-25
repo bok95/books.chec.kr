@@ -2,8 +2,15 @@ var BS_TYPE = {
     FB: 1,
     IA: 2,
     PG: 3,
-	IT: 4
+	IT: 4,
+	AS: 5
 };
+
+var AS_TYPE = {
+	PD: 1,
+	GF: 2,
+	PPD: 3
+}
 
 var Publication = function(){
     this.entry;
@@ -390,6 +397,94 @@ ITPublication.prototype.alsoDownload = function(){
 	return null;
 }
 
+var ASPublication = function(){
+    Publication.call(this);
+}
+ASPublication.prototype = new Publication();
+ASPublication.prototype.constructor = ASPublication;
+
+ASPublication.prototype.setEntry = function(entry) {
+	this.entry = entry;
+}
+
+ASPublication.prototype.getEpub = function(){
+    return null;
+};
+
+ASPublication.prototype.getPdf = function(){
+    return null;
+};
+
+ASPublication.prototype.getKindle = function(){
+    return null;
+};
+
+ASPublication.prototype.getCoverThumb = function(){
+	return "bok";
+}
+
+ASPublication.prototype.getCover = function(){
+	return this.entry.artworkUrl100;
+}
+
+ASPublication.prototype.getTitle = function(){
+    return this.entry.trackName;
+}
+
+ASPublication.prototype.getSupportedDevices = function(){
+    return arrayToString(this.entry.supportedDevices);
+}
+
+ASPublication.prototype.getAuthors = function(){
+    return this.entry.artistName;
+}
+
+ASPublication.prototype.getScreenshotUrls = function(){
+	return arrayToString(this.entry.ipadScreenshotUrls);
+}
+
+ASPublication.prototype.getPublisher = function(){
+    return this.entry.sellerName;
+}
+
+ASPublication.prototype.getSummary = function() {
+	return this.entry.description;
+}
+
+ASPublication.prototype.setEntry = function(entry) {
+	this.entry = entry;
+};
+ASPublication.prototype.getCategories = function(){
+    return arrayToString(this.entry.genres);
+}
+ASPublication.prototype.getLanguage = function(){
+    return arrayToString(this.entry.languageCodesISO2A);
+}
+ASPublication.prototype.getPrice = function(){
+	return this.entry.price;
+}
+ASPublication.prototype.getVersion = function(){
+	return this.entry.version;
+}
+ASPublication.prototype.getDownloadUrl = function(){
+	return this.entry.trackViewUrl;
+}
+ASPublication.prototype.getSize = function(){
+	return this.entry.fileSizeBytes;
+}
+
+ASPublication.prototype.getID = function(){
+    return "bok";
+}
+
+ASPublication.prototype.sameAuthor = function(){
+	return null;
+}
+
+ASPublication.prototype.alsoDownload = function(){
+	return null;
+}
+
 var Shelf = function(args, callback){
     this.callback = callback;
     this.url;
@@ -692,12 +787,68 @@ ITShelf.prototype.getPubTotalCount = function(val){
 	return val;
 }
 
-var Feeder = function(id){
-    this.url;
-    this.setUrl(id);
+// AppShopper
+var ASShelf = function(args, callback){
+	this.callback = callback;
+   	this.setup(args);
+	this.feedLoad = function(){
+        var feed = new google.feeds.Feed(this.url);
+        feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
+        
+        feed.includeHistoricalEntries();
+        feed.setNumEntries(250);
+        feed.load($.proxy(this, this.feedLoaded));
+	}  
+	this.feedLoaded = function(result){
+        var values = new Array();
+        var pubs = new Array();
+        
+        if (result) {
+			var entries = result.feed.entries;
+			for( i=0; i<entries.length; i++){
+				x = jQuery.inArray("Books", entries[i].categories);
+				y = jQuery.inArray("Education", entries[i].categories);
+				if(x > -1 || y > -1){
+				    pub = new ASPublication();
+					pub.setEntry(entries[i].content);
+				    pubs.push(pub);
+				}
+			}
+			values['pubs'] = pubs;
+			values['result'] = result;
+			callback(values);
+        }
+        else {
+            values['result'] = result;
+            callback(values);
+        }
+    }
+}
+ASShelf.prototype.constructor = ASShelf;
+ASShelf.prototype.setup = function(args){
+	var type = args['type'];
+	switch(type){
+		case AS_TYPE.PD:
+			this.url = 'http://appshopper.com/feed/?device=iPad&filter=price';
+			break;
+		case AS_TYPE.GF:
+			this.url = 'http://appshopper.com/feed/paidtofree/?device=iPad';
+			break;
+		case AS_TYPE.PPD:
+			this.url = 'http://appshopper.com/feed/?device=iPad&mode=featured&filter=price';
+			break;
+	}
+}
+ASShelf.prototype.getPubID = function(pub){
+    return "bok";
 }
 
-Feeder.prototype.setUrl = function(id){
+var Feeder = function(val){
+    this.url;
+    this.setUrl(val);
+}
+
+Feeder.prototype.setUrl = function(val){
 
 }
 
@@ -790,6 +941,7 @@ PGFeeder.prototype.feedLoaded = function(result){
     PGFeeder.callback(pub);
 }
 
+// iTunes
 var ITFeeder = function(id){
     Feeder.call(this, id);
     
@@ -817,3 +969,6 @@ ITFeeder.prototype.feedLoad = function(callback){
         }
     });
 }
+
+
+

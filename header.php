@@ -6,9 +6,9 @@
 <div class="bar" id="main_nav" >
 	<ul id="main_menu" >
 	  <li class="menu_item" ><a href="/">Home</a></li>
-	  <!-- <li class="menu_item" >Most Downloaded</li>
-	  <li class="menu_item" >New Books</li>
-	  <li class="menu_item" >Book Apps</li> -->
+	  <!-- <li class="menu_item" >Most Downloaded</li> -->
+	  <!-- <li class="menu_item" >New Books</li> -->
+	  <li class="menu_item" ><a href="/apps.php">Book Apps</li>
 	</ul>
 </div>
 

@@ -1,44 +1,32 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" ><head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
-<title>books.chec.kr</title>
-<link href="css/books.css" type="text/css" rel="stylesheet" />
-<script src="http://code.jquery.com/jquery-1.5.2.min.js" ></script>
-<script src="jquery.pagination.js" ></script>
-<script src="cutil.js" ></script>
-<script src="cp.js" ></script>
-<link href="/style/reset.css" rel="stylesheet" media="screen" type="text/css" />
-<link href="/style/color.css" rel="stylesheet" media="screen" type="text/css" />
-<link href="/style/typography.css" rel="stylesheet" media="screen" type="text/css" />
+<!DOCTYPE HTML>
+<html><head>
+<? include 'head.php'; ?>
 
-<script src="http://www.google.com/jsapi?key=ABQIAAAANh1OABxsMaSvl1OTck5I8RRL6ZglLh05n3dnEWnjIUmqeCfcGhRa7yfe_Pf1zInO6RCfBTBOMiWPLQ" type="text/javascript" ></script>
+<?
+	if(!empty($_GET['q'])){
+		$q = $_GET['q'];
+	}else{
+		$q = -1;
+	}
+	
+	if(!empty($_GET['page'])){
+		$page = $_GET['page'];
+	}else{
+		$page = -1;
+	}
+	
+	if(!empty($_GET['cpType'])){
+		$cpType = $_GET['cpType'];
+	}else{
+		$cpType = -1;
+	}
+?>
+
 <script type="text/javascript" >
 
-	<?
-		if(!empty($_GET['q'])){
-			$q = $_GET['q'];
-		}else{
-			$q = -1;
-		}
-		
-		if(!empty($_GET['page'])){
-			$page = $_GET['page'];
-		}else{
-			$page = -1;
-		}
-		
-		if(!empty($_GET['cpType'])){
-			$cpType = $_GET['cpType'];
-		}else{
-			$cpType = -1;
-		}
-	?> 
-	
 	checkBrowser();
 	
 	google.load("feeds", "1");
-
 
 	var Argument = function() {
 	    this.page;
@@ -531,50 +519,10 @@
     }
     </script>
 
-	<script type="text/javascript" >
-	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-23322948-1']);
-	  _gaq.push(['_trackPageview']);
-
-	  (function() {
-	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
-
-	</script>
+	<? include 'ga.php'?>
 </head><body id="body" >
 
-<!-- header start -->
 <? include 'header.php'; ?>
-<!-- <header id="header" >
-<div class="bar" id="header_bar" >
-
-</div>
-
-<div class="bar" id="main_nav" >
-	<ul id="main_menu" >
-	  <li class="menu_item" >Home</li>
-	  <li class="menu_item" >Most Downloaded</li>
-	  <li class="menu_item" >New Books</li>
-	  <li class="menu_item" >Book Apps</li>
-	</ul>
-</div>
-
-<div id="search_box_bg" >
-<div id="search_box" >
-	<div id="search_logo" >
-
-	</div>
-		<form id="search_input_box" action="/" method="get" >
-			<input type="text" value="" id="search_input" name="q" />
-			<button id="search_btn" >
-			</button>
-		</form>
-</div>
-</div>
-</header> -->
-<!-- header end -->
 
 <div id="container_bg" >		
 <div id="container" >	
@@ -603,16 +551,7 @@
 				</div>
 				<ul id="items" >
 				</ul>
-			<!-- <div class="item" >
-				<div class="cover" >
-					
-				</div>
-				<div class="meta_data" >
-					<div class="title" >
-						
-					</div>
-				</div>
-			</div> -->
+			</div>			
 	</div> <!-- center_panel -->
 	<div class="pagination" ></div>
 </div> <!-- container -->
