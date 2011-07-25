@@ -60,6 +60,11 @@ img.iTunesThumb {
 	height:72px;
 }
 
+img.asThumb {
+	width:65px;
+	height:65px;
+}
+
 .item {
 	clear:both;
 	position:relative;
@@ -464,7 +469,7 @@ p.byline {
 	width:550px;
 }
 
-#search_input {
+#searchText {
 	border-top-left-radius:2px 2px;
 	-webkit-border-top-left-radius:2px 2px;
 	-o-border-top-left-radius:2px 2px;
@@ -522,7 +527,7 @@ p.byline {
 	font-weight:bold;
 	height:auto;
 	text-align:center;
-	border-bottom-left-radius:2px 2px;
+/*	border-bottom-left-radius:2px 2px;
 	-webkit-border-bottom-left-radius:2px 2px;
 	-o-border-bottom-left-radius:2px 2px;
 	-moz-border-radius-bottomleft:2px 2px;
@@ -538,14 +543,13 @@ p.byline {
 	-webkit-border-top-right-radius:2px 2px;
 	-o-border-top-right-radius:2px 2px;
 	-moz-border-radius-topright:2px 2px;
-	font-size:1em;
+*/	font-size:1em;
 	margin-left:5px;
 	margin-top:auto;
 	margin-bottom:auto;
 	padding:5px;
 }
-
-.menu_item:hover {
+.menu_item:hover, .menu_item:active, .menu_selected{
 	color:#5E3C22;
 	background-color:#F0E8D1;
 }
@@ -678,7 +682,7 @@ p.byline {
 	border-left-color:#000000;
 	overflow:hidden;
 	width:220px;
-	height:330px;
+	height:335px;
 	border-style:none;
 }
 

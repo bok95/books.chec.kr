@@ -439,6 +439,7 @@
 			//showLeftPanel();
 			showSearchingMsg();
 		}
+		applySearchText(args.q);
     }
     
     google.setOnLoadCallback(onLoad);
@@ -476,6 +477,7 @@
 	
 	function setupServers() {
 		clog("setupServers()");
+		$('#search').addClass('menu_selected');
 		serverSelected();
 		url = '/?' + 'q=' + args.q + '&page=0' + '&cpType=';
 		$('p.server a#fb').attr('href', url + '1');
@@ -511,6 +513,10 @@
 	    }
     });
 
+	function applySearchText(text) {
+		$('#searchText').val(text);
+	}
+	
     function _search(){
     	var str = $('#searchText').val();
 		if(str != null){

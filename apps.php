@@ -14,26 +14,24 @@
 	checkBrowser();
 	google.load("feeds", "1");
 	
+	var as;
+	var shelf;
+	var args;
+	
 	var Argument = function() {
 		this.type = 1;
 	}
 
 	var AS = function(type){
-		this.shelf;
 		this.type = type;
 		this.loadShelf = function(){
 			var values = makeArgs(this.type);
 			clog("asShelfLoad(0)");
-			this.shelf = new ASShelf(values, onShelfResult);
-			this.shelf.feedLoad();
+			shelf = new ASShelf(values, onShelfResult);
+			shelf.feedLoad();
 			clog("asShelfLoad(1)");
 		}
 	}
-	
-	var asPD;
-	var asGF;
-	var asPPD;
-	var args;
 
 	function makeArgs(type){
 		var values = {
@@ -51,19 +49,6 @@
 	});
 	
 	function showPub(pub){
-		var shelf;
-		switch(args.type){
-			case AS_TYPE.PD:
-				shelf = asPD.shelf;
-				break;
-			case AS_TYPE.GF:
-				shelf = asGF.shelf;
-				break;
-			case AS_TYPE.PPD:
-				shelf = asPPD.shelf;
-				break;
-		}
-
 		var id = shelf.getPubID(pub);
 		var cover = makeCoverTag(pub.getCoverThumb());
 		clog("cover = " + cover);
@@ -75,8 +60,7 @@
 		clog("title = " + title);
 		var publisher = pub.getPublisher();
 		clog("publisher = " + publisher);
-		var language = pub.getLanguage();
-		clog("language = " + language);
+		var pubDate = pub.getPubDate();
 		
 		var content_data =
 						'<li ' + 'id=' + id +' class="item">' +
@@ -88,9 +72,8 @@
 					  					'<h3 class="title">' + 	title +
 										'</h3>' +
 									'</div>';
-		content_data += makeMetaData("Author", author);
-		content_data += makeMetaData("Language", language);
 		content_data += makeMetaData("Category", category);
+		content_data += makeMetaData("Date", pubDate);
 		content_data += makePrice(pub.getPrice());
 
 								'</div>' +
@@ -100,8 +83,8 @@
 	}
 	
 	function makePrice(price) {
-		if(price == 0.0 || price == 0){
-			priceVal = "free";
+		if(price.indexOf("Free") != -1){
+			priceVal = price;
 			priceClass = 'class="priceFree"';
 		}else{
 			priceVal = "" + price;
@@ -149,23 +132,16 @@
 	}
 	
 	function makeCoverTag(cover){
-		if(args.type == BS_TYPE.IT){
-			coverClass = ' class= "iTunesThumb "';
-		}else{
-			coverClass = ' class= "thumb cover_shadow"';
-		}
+		coverClass = ' class= "asThumb"';
 		return (cover) ? '<img src=' + cover + coverClass + '/>' : "";
 	}
-
 
 	function onShelfResult(data) {
 		clog("onShelfResult(0)");
 		var pubs = data['pubs'];
-		if(args.type == AS_TYPE.PD){
-			clog("showShelf(0)");
-			showShelf(asPD.shelf, data, 0);
-			clog("showShelf(1)");
-		}
+		clog("showShelf(0)");
+		showShelf(shelf, data, 0);
+		clog("showShelf(1)");
 		clog("onShelfResult(1)");
 	}	
 	    
@@ -177,12 +153,8 @@
 			args.type = 1;
 		}
 
-		asPD = new AS(AS_TYPE.PD);
-		asPD.loadShelf();
-		asGF = new AS(AS_TYPE.GF);
-		asGF.loadShelf();
-		asPPD = new AS(AS_TYPE.PPD);
-		asPPD.loadShelf();
+		as = new AS(args.type);
+		as.loadShelf();
 			
 		setupServers();
 		showSearchingMsg();
@@ -218,8 +190,9 @@
 	
 	function setupServers() {
 		clog("setupServers()");
+		$('#book_apps').addClass('menu_selected');
 		serverSelected();
-		url = '/?' + 'cpType=';
+		url = '/apps.php?' + 'type=';
 		$('p.server a#pd').attr('href', url + '1');
 		$('p.server a#gf').attr('href', url + '2');
 		$('p.server a#ppd').attr('href', url + '3');
@@ -288,6 +261,8 @@
 				</div>
 				<ul id="items" >
 				</ul>
+				<div id="dummy" class="unvisible">
+				</div>
 			</div>			
 	</div> <!-- center_panel -->
 	<!-- <div class="pagination" ></div> -->

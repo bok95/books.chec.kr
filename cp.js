@@ -406,75 +406,54 @@ ASPublication.prototype.constructor = ASPublication;
 ASPublication.prototype.setEntry = function(entry) {
 	this.entry = entry;
 }
-
-ASPublication.prototype.getEpub = function(){
-    return null;
-};
-
-ASPublication.prototype.getPdf = function(){
-    return null;
-};
-
-ASPublication.prototype.getKindle = function(){
-    return null;
-};
-
 ASPublication.prototype.getCoverThumb = function(){
-	return "bok";
+	return $('#dummy').html(this.entry.content).find('img[align*="left"]').attr('src');
 }
 
 ASPublication.prototype.getCover = function(){
-	return this.entry.artworkUrl100;
+	return null;
 }
 
 ASPublication.prototype.getTitle = function(){
-    return this.entry.trackName;
+    return $('#dummy').html(this.entry.content).find('h3').text();
 }
 
-ASPublication.prototype.getSupportedDevices = function(){
-    return arrayToString(this.entry.supportedDevices);
-}
-
-ASPublication.prototype.getAuthors = function(){
-    return this.entry.artistName;
-}
-
-ASPublication.prototype.getScreenshotUrls = function(){
-	return arrayToString(this.entry.ipadScreenshotUrls);
-}
-
-ASPublication.prototype.getPublisher = function(){
-    return this.entry.sellerName;
-}
-
-ASPublication.prototype.getSummary = function() {
-	return this.entry.description;
-}
-
-ASPublication.prototype.setEntry = function(entry) {
-	this.entry = entry;
-};
 ASPublication.prototype.getCategories = function(){
-    return arrayToString(this.entry.genres);
-}
-ASPublication.prototype.getLanguage = function(){
-    return arrayToString(this.entry.languageCodesISO2A);
+    return arrayToString(this.entry.categories);
 }
 ASPublication.prototype.getPrice = function(){
-	return this.entry.price;
+	var price;
+	$('#dummy').html(this.entry.content).find('*').each(function(){
+		var tmp = $(this);
+		if($(this).text() == "Price:"){
+			var next = $(this)[0].nextSibling;
+			price = next.textContent;
+			return;
+		}
+	});
+	return price;
 }
+
 ASPublication.prototype.getVersion = function(){
 	return this.entry.version;
 }
-ASPublication.prototype.getDownloadUrl = function(){
-	return this.entry.trackViewUrl;
-}
-ASPublication.prototype.getSize = function(){
-	return this.entry.fileSizeBytes;
+ASPublication.prototype.getPubDate = function(){
+	return this.entry.publishedDate;
 }
 
 ASPublication.prototype.getID = function(){
-    return "bok";
+	var tmp = $('#dummy').html(this.entry.content).find('img[align*="left"]').attr('src');
+	var array = getNumberStringArray(tmp);
+	var str = '';
+	if(array){
+		$.each(array, function(index, value){
+			if(value != '.'){
+				str += value;
+			}
+		});
+	}
+    var id = parseInt(str);
+	return id;    
 }
 
 ASPublication.prototype.sameAuthor = function(){
@@ -807,10 +786,10 @@ var ASShelf = function(args, callback){
 			var entries = result.feed.entries;
 			for( i=0; i<entries.length; i++){
 				x = jQuery.inArray("Books", entries[i].categories);
-				y = jQuery.inArray("Education", entries[i].categories);
-				if(x > -1 || y > -1){
+				// y = jQuery.inArray("Education", entries[i].categories);
+				if(x > -1){
 				    pub = new ASPublication();
-					pub.setEntry(entries[i].content);
+					pub.setEntry(entries[i]);
 				    pubs.push(pub);
 				}
 			}
@@ -840,7 +819,7 @@ ASShelf.prototype.setup = function(args){
 	}
 }
 ASShelf.prototype.getPubID = function(pub){
-    return "bok";
+    return pub.getID();
 }
 
 var Feeder = function(val){
