@@ -508,10 +508,10 @@
     });
 
     $('#searchText').live('keyup', function(e){
-	    if (e.keyCode==13) {
-	        _search();
-	    }
-    });
+     	    if (e.keyCode==13) {
+     	        _search();
+     	    }
+     });
 
 	function applySearchText(text) {
 		$('#searchText').val(text);
