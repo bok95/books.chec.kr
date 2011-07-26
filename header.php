@@ -13,7 +13,6 @@
 	</ul>
 </div>
 
-
 <div id="search_box_bg" >
 <div id="search_box" >
 	<div id="search_logo" >
