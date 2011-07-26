@@ -548,10 +548,12 @@ p.byline {
 	margin-top:auto;
 	margin-bottom:auto;
 	padding:5px;
+	text-shadow:0px 1px 0px #black;
 }
 .menu_item:hover, .menu_item:active, .menu_selected{
 	color:#5E3C22;
 	background-color:#F0E8D1;
+	text-shadow:0px 1px 0px #white;
 }
 
 .menu_item a{
