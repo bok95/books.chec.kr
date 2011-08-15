@@ -352,7 +352,7 @@ ITPublication.prototype.getAuthors = function(){
 }
 
 ITPublication.prototype.getScreenshotUrls = function(){
-	return arrayToString(this.entry.ipadScreenshotUrls);
+	return this.entry.ipadScreenshotUrls;
 }
 
 ITPublication.prototype.getPublisher = function(){

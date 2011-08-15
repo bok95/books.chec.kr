@@ -194,6 +194,23 @@ p.byline {
 	color:#A28E76;
 }
 
+.theme-default #slider {
+    margin:20px auto 0 auto;
+    width:768px; /* Make sure your images are the same size */
+    height:1024px; /* Make sure your images are the same size */
+}
+
+.theme-pascal.slider-wrapper,
+.theme-orman.slider-wrapper {
+    margin-top:20px;
+}
+
+.screenshot {
+	width:512px;
+	height:384px;
+}
+
+
 #people_also_downloaded_header {
 	clear:both;
 	font-weight:bold;

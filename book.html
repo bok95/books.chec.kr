@@ -57,7 +57,13 @@ function get_xml($url) {
 	<link href="/style/typography.css" rel="stylesheet" media="screen" type="text/css" >
 	<link rel="image_src" >
 	
+	<link rel="stylesheet" href="../themes/default/default.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../themes/pascal/pascal.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../themes/orman/orman.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../nivo-slider.css" type="text/css" media="screen" />
+	
 	<script src="http://code.jquery.com/jquery-1.5.2.min.js" ></script>
+    <script type="text/javascript" src="../jquery.nivo.slider.pack.js"></script>
 	<script src="/cutil.js" ></script>
 	<script src="/cp.js" ></script>	
 	<script src="http://www.google.com/jsapi?key=ABQIAAAANh1OABxsMaSvl1OTck5I8RRL6ZglLh05n3dnEWnjIUmqeCfcGhRa7yfe_Pf1zInO6RCfBTBOMiWPLQ" type="text/javascript" >
@@ -104,6 +110,8 @@ function get_xml($url) {
 			}else{
 				applyTemplateCover(title);
 			}
+			
+			applyScreenShots(pub.getScreenshotUrls());
 			
 			clog("cover = " + cover);
 
@@ -209,6 +217,20 @@ function get_xml($url) {
 				$('#main_shelf').addClass("book_shelf");
 			}
 		}
+		
+		function applyScreenShots(images) {
+			if(args.cpType == BS_TYPE.IT){
+				$('#slider').show();
+				for (var i = 0; i < images.length; i++) {
+					var image = '<img class="screenshot" src=' + images[i] + ' alt="" />';
+					$('#slider').append(image);
+				}
+		
+	        	$('#slider').nivoSlider();
+			}
+		}
+		
+		
 
 		function applyTemplateCover(title) {
 			$('#main_shelf img').remove();
@@ -411,6 +433,12 @@ function get_xml($url) {
 			<p>
 			</p>
 		</div>
+		<div class="slider-wrapper theme-default">
+            <div class="ribbon"></div>
+            <div id="slider" class="nivoSlider unvisible">
+
+            </div>
+        </div>
 		<div id="comments" >
 			<div id="fb-root" ></div>
 				<script src="http://connect.facebook.net/en_US/all.js#xfbml=1" ></script>
