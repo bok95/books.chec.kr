@@ -220,12 +220,30 @@ function get_xml($url) {
 		
 		function applyScreenShots(images) {
 			if(args.cpType == BS_TYPE.IT){
+				// $('#tmpImg').show();
 				$('#slider').show();
 				for (var i = 0; i < images.length; i++) {
-					var image = '<img class="screenshot" src=' + images[i] + ' alt="" />';
+					var tmpImg = '<img class="dummy" src=' + images[i] + ' />';
+					var imgwidth = $('#tmpImg').append(tmpImg).width();
+					if (imgwidth > 1000) { //Landscape
+						isLanscape = true;
+						newWidth = 512;
+						newHeight = 384;
+				    }else{ //Portrait
+						isLanscape = false;
+						newWidth = 384;
+						newHeight = 512;
+					}
+										
+		            var image = '<img src=/script/timthumb.php?src=' + images[i] + '&h=' + newHeight + '&w=' + newWidth + '&zc=1 alt=""/>';
 					$('#slider').append(image);
 				}
-		
+
+				if(isLanscape){
+					$('#slider').addClass("landscape");
+				}else{
+					$('#slider').addClass("portrait");
+				}
 	        	$('#slider').nivoSlider();
 			}
 		}
@@ -439,6 +457,7 @@ function get_xml($url) {
 
             </div>
         </div>
+		<div id="tmpImg" class="unvisible"></div>
 		<div id="comments" >
 			<div id="fb-root" ></div>
 				<script src="http://connect.facebook.net/en_US/all.js#xfbml=1" ></script>

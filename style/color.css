@@ -196,8 +196,6 @@ p.byline {
 
 .theme-default #slider {
     margin:20px auto 0 auto;
-    width:768px; /* Make sure your images are the same size */
-    height:1024px; /* Make sure your images are the same size */
 }
 
 .theme-pascal.slider-wrapper,
@@ -205,11 +203,15 @@ p.byline {
     margin-top:20px;
 }
 
-.screenshot {
-	width:512px;
-	height:384px;
+.landscape {
+	width:512px; /* Make sure your images are the same size */
+    height:384px; /* Make sure your images are the same size */
 }
 
+.portrait {
+	width:384px; /* Make sure your images are the same size */
+    height:512px; /* Make sure your images are the same size */
+}
 
 #people_also_downloaded_header {
 	clear:both;
