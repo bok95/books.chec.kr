@@ -547,9 +547,8 @@
 			<a id="it" href="http://itunes.apple.com" >iTunes (AppStore)</a>
 		</p>
 		
-		<iframe id="fb_like_btn" src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FCheckrBooks%2F168948329834305&width=190&colorscheme=light&show_faces=true&border_color&stream=false&header=true&height=330" scrolling="no" frameborder="0" allowtransparency="true" ></iframe>
+		<iframe id="fb_like_btn" src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FCheckrBooks%2F168948329834305&width=190&colorscheme=light&show_faces=true&border_color&stream=false&header=true&height=340" scrolling="no" frameborder="0" allowtransparency="true" ></iframe>
 	</div> <!-- left_panel -->
-	
 	<div id="center_panel" >
 			<div id="list_data" >
 				<div id="searching" >

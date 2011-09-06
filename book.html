@@ -224,7 +224,8 @@ function get_xml($url) {
 				$('#slider').show();
 				for (var i = 0; i < images.length; i++) {
 					var tmpImg = '<img class="dummy" src=' + images[i] + ' />';
-					var imgwidth = $('#tmpImg').append(tmpImg).width();
+					$('#tmpImg').append(tmpImg);
+					var imgwidth = $('#tmpImg').width();
 					if (imgwidth > 1000) { //Landscape
 						isLanscape = true;
 						newWidth = 512;
