@@ -575,8 +575,14 @@ var IAShelf = function(args, callback){
 IAShelf.prototype = new Shelf();
 IAShelf.prototype.constructor = IAShelf;
 IAShelf.prototype.setup = function(args){
-    arg = 'q=' + args['query'] + '&start=' + args['page'];
-    this.url = 'http://bookserver.archive.org/catalog/opensearch?' + arg;
+	var type = args['type'];
+	if(type == 'search'){
+	    arg = 'q=' + args['query'] + '&start=' + args['page'];
+	    this.url = 'http://bookserver.archive.org/catalog/opensearch?' + arg;
+	}else if(type == 'info'){
+	}else if(type == 'top'){
+	    this.url = 'http://bookserver.archive.org/catalog/downloads.xml';
+	}	
 }
 IAShelf.prototype.getPubTotalCount = function(result){
     title = result.feed.title;
@@ -671,6 +677,11 @@ PGCatalog.prototype.setup = function(args){
 	}else if(type == 'info'){
 		var id = parseInt(args['id']);
 	    this.url = 'http://www.gutenberg.org/ebooks/search.opds/?default_prefix=also_downloaded&query=' + id;
+	}else if(type == 'top'){
+	    var page = parseInt(args['page']);
+	    page = (page * 25) + 1;
+	    arg = 'default_prefix=all' + '&sort_order=downloads' + '&start_index=' + page;
+	    this.url = 'http://www.gutenberg.org/ebooks/search.opds/?' + arg;
 	}
 }
 

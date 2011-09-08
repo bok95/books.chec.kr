@@ -145,6 +145,10 @@ a.download:hover {
 	border-bottom:1px solid rgba(94,60,34,0.36);
 }
 
+#twitter_follow{
+	margin-top:20px;
+}
+
 #fb_like {
 	border-width:initial;
 	border-top-color:#000000;
@@ -696,7 +700,7 @@ p.byline {
 }
 
 #fb_like_btn {
-	margin-top:50px;
+	margin-top:5px;
 	border-width:initial;
 	border-top-color:#000000;
 	border-right-color:#000000;

@@ -281,10 +281,6 @@
 		$('#searching').append('<h3 class="title">Not found "' + args.q + '"</h3>');
 	}
 
-	function makeCountTag(count){
-		return '<span class="resultCount"> (' + count + ')</span>';
-	}
-	
 	function makeCoverTag(cover){
 		if(args.cpType == BS_TYPE.IT){
 			coverClass = ' class= "iTunesThumb "';
@@ -308,7 +304,7 @@
 			clog("showShelf(1)");
 		}
 		var resultCount = bsFB.shelf.getPubTotalCount(result);
-		$('p.server a#fb').append(makeCountTag(resultCount));
+		// $('p.server a#fb').append(makeCountTag(resultCount));
 		clog("onFbShelfResult(1)");
 		clog("fb : count " + resultCount);
 	}
@@ -323,7 +319,7 @@
 			clog("showShelf(1)");
 		}
 		var resultCount = bsIA.shelf.getPubTotalCount(result);
-		$('p.server a#ia').append(makeCountTag(resultCount));
+		// $('p.server a#ia').append(makeCountTag(resultCount));
 		clog("onIaShelfResult(1)");
 		clog("ia : count " + resultCount);
 	}
@@ -365,7 +361,7 @@
 			if(bsPG.pubIDs.length > 0){
 				var count = bsPG.getPubCount();
 				count += "+";
-				$('p.server a#pg').append(makeCountTag(count));
+				// $('p.server a#pg').append(makeCountTag(count));
 				
 				var id = bsPG.pubIDs.pop();
 				bsPG.shelf = new PGShelf(id, onPgShelfResult);
@@ -400,7 +396,7 @@
 			clog("showShelf(1)");
 		}
 		var resultCount = pubs.length;
-		$('p.server a#it').append(makeCountTag(resultCount));
+		// $('p.server a#it').append(makeCountTag(resultCount));
 		clog("onItShelfResult(1)");
 		clog("it : count " + resultCount);
 	}	
@@ -471,7 +467,7 @@
 		clog("setupServers()");
 		// $('#search').addClass('menu_selected');
 		serverSelected();
-		url = '/?' + 'q=' + args.q + '&page=0' + '&cpType=';
+		url = '/top.php?page=0' + '&cpType=';
 		$('p.server a#fb').attr('href', url + '1');
 		$('p.server a#ia').attr('href', url + '2');
 		$('p.server a#pg').attr('href', url + '3');
@@ -529,15 +525,20 @@
 		<p class="server" >
 			<a id="fb" href="http://www.feedbooks.com/" >feedbooks</a>
 		</p>
-		<!-- <p class="server" >
+		<p class="server" >
 			<a id="ia" href="http://www.archive.org/" >Internet Archive</a>
 		</p>
 		<p class="server" >
 			<a id="pg" href="http://www.gutenberg.org/" >Gutenberg</a>
 		</p>
-		<p class="server" >
+		<!-- <p class="server" >
 			<a id="it" href="http://itunes.apple.com" >iTunes (AppStore)</a>
 		</p> -->
+		<div id="twitter_follow">
+			<iframe allowtransparency="true" frameborder="0" scrolling="no"
+			  src="http://platform.twitter.com/widgets/follow_button.html?screen_name=CheckrBooks&show_count=false"
+			  style="width:300px; height:20px;"></iframe>
+		</div>
 		
 		<iframe id="fb_like_btn" src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FCheckrBooks%2F168948329834305&width=190&colorscheme=light&show_faces=true&border_color&stream=false&header=true&height=340" scrolling="no" frameborder="0" allowtransparency="true" ></iframe>
 	</div> <!-- left_panel -->
