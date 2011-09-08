@@ -7,6 +7,7 @@
 	<ul id="main_menu" >
 	  <li id="home" class="menu_item" ><a href="/">Home</a></li>
 	  <li id="search" class="menu_item" ><a href="/">Search (free books)</a></li>
+	  <li id="top" class="menu_item" ><a href="/top.php">Top Downloaded</a></li>
 	  <!-- <li class="menu_item" >Most Downloaded</li> -->
 	  <!-- <li class="menu_item" >New Books</li> -->
 	  <li id="book_apps" class="menu_item" ><a href="/apps.php">Book Apps</a></li>

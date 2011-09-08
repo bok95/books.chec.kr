@@ -97,6 +97,8 @@ Publication.prototype.getAudio = function(){
 }
 Publication.prototype.sameAuthor = function(){
 }
+Publication.prototype.getScreenshotUrls = function(){
+}
 Publication.prototype.getCategories = function(){
     var categories = '';
     var parent = this;
@@ -528,6 +530,11 @@ FBShelf.prototype.setup = function(args){
 	}else if(type == 'info'){
 		var id = parseInt(args['id']);
 	    this.url = 'http://www.feedbooks.com/book/' + id + '/similar.atom';
+	}else if(type == 'top'){
+	    var page = parseInt(args['page']);
+	    page++;
+	    arg = 'page=' + page;
+	    this.url = 'http://www.feedbooks.com/books/top.atom?' + arg;
 	}
 }
 

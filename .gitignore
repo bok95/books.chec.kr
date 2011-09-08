@@ -2,3 +2,4 @@
 .project
 .settings
 *.tmproj
+.DS_Store

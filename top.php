@@ -2,13 +2,7 @@
 <html><head>
 <? include 'head.php'; ?>
 
-<?
-	if(!empty($_GET['q'])){
-		$q = $_GET['q'];
-	}else{
-		$q = -1;
-	}
-	
+<?	
 	if(!empty($_GET['page'])){
 		$page = $_GET['page'];
 	}else{
@@ -30,7 +24,6 @@
 
 	var Argument = function() {
 	    this.page;
-		this.q;
 		this.cpType = 1;
 		this.itemPerPage;
 	}
@@ -114,8 +107,7 @@
 			page = args.page;
 		}
 		var values = {
-			type: 'search',
-			query:	args.q,
+			type: 'top',
 			page:	page
 		}
 		return values;
@@ -265,7 +257,7 @@
 				num_edge_entries:numEdgeEntries, 
 				num_display_entries:numDisplayEntries, 
 				items_per_page: args.itemPerPage,
-				link_to: '/?q=' + args.q + '&cpType=' + args.cpType + '&page=__id__',
+				link_to: '/top.php?cpType=' + args.cpType + '&page=__id__',
 				next_text:">>", 
 				prev_text: "<<"
 				};
@@ -533,11 +525,11 @@
 <div id="container_bg" >		
 <div id="container" >	
 	<div id="left_panel" >
-		<p class="search_in" >Search in</p>
+		<p class="search_in" >Top Downloaded</p>
 		<p class="server" >
 			<a id="fb" href="http://www.feedbooks.com/" >feedbooks</a>
 		</p>
-		<p class="server" >
+		<!-- <p class="server" >
 			<a id="ia" href="http://www.archive.org/" >Internet Archive</a>
 		</p>
 		<p class="server" >
@@ -545,7 +537,7 @@
 		</p>
 		<p class="server" >
 			<a id="it" href="http://itunes.apple.com" >iTunes (AppStore)</a>
-		</p>
+		</p> -->
 		
 		<iframe id="fb_like_btn" src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FCheckrBooks%2F168948329834305&width=190&colorscheme=light&show_faces=true&border_color&stream=false&header=true&height=340" scrolling="no" frameborder="0" allowtransparency="true" ></iframe>
 	</div> <!-- left_panel -->
