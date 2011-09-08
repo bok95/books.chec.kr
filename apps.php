@@ -190,7 +190,7 @@
 	
 	function setupServers() {
 		clog("setupServers()");
-		$('#book_apps').addClass('menu_selected');
+		// $('#book_apps').addClass('menu_selected');
 		serverSelected();
 		url = '/apps.php?' + 'type=';
 		$('p.server a#pd').attr('href', url + '1');
