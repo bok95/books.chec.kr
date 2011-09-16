@@ -185,11 +185,15 @@ IAPublication.prototype.getFiles = function(){
 };
 
 IAPublication.prototype.getEpub = function(){
-    return "http://www.archive.org/download/" + this.entry.metadata.identifier + ".epub";
+	var id = this.entry.metadata.identifier;
+    return "http://www.archive.org/download/" + id + "/" + id + ".epub";
 };
 
 IAPublication.prototype.getPdf = function(){
-    return $(this.entry).find('link[type*="application/pdf"]').attr('href');
+	var id = this.entry.metadata.identifier;
+    return "http://www.archive.org/download/" + id + "/" + id + ".pdf";
+	
+    // return $(this.entry).find('link[type*="application/pdf"]').attr('href');
 };
 
 IAPublication.prototype.getKindle = function(){
